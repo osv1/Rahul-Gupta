@@ -1,0 +1,2312 @@
+swagger: "2.0"
+info:
+  version: "0.0.1"
+  title: API Integration
+# during dev, should point to your local machine
+host: localhost:5040
+# host: 52.39.212.226:5040
+# basePath prefixes all resource paths 
+basePath: /
+# 
+schemes:
+  # tip: remove http to make production-grade
+  - http
+  - https
+# format of bodies a client can send (Content-Type)
+consumes:
+  - application/json
+# format of the responses to the client (Accepts)
+produces:
+  - application/json
+paths:
+  /api/dashboardCount:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: users_ctrl
+    get:
+      tags: ['Admin Module']
+      description: User Sign Up
+      summary:  User Sign Up
+      # used as the method name of the controller
+      operationId: dashboardCount      
+      parameters:
+        - name: Authorization
+          in: header
+          description: Authorization
+          required: true
+          type: string                     
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/appResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"      
+  /api/getUserByIdAdmin/{id}:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: admin_ctrl
+    get:
+      tags: ['Admin Module']
+      description: Get User By Id 
+      summary:  Get User By Id 
+      # used as the method name of the controller
+      operationId: getUserByIdAdmin      
+      parameters:
+        - name: id
+          in: path
+          description: User Id
+          required: true
+          type: string        
+        - name: Authorization
+          in: header
+          description: Authorization
+          required: true
+          type: string                         
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/appResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"                  
+  /api/productStatusChange:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: admin_ctrl
+    post:
+      tags: ['Admin Module']
+      description: Product status change
+      summary: Product status change
+      # used as the method name of the controller
+      operationId: productStatusChange
+      parameters:
+        - name: body
+          in: body
+          description: Product status change
+          schema:
+           $ref: '#/definitions/productStatusChange'
+          required: true    
+        - name: Authorization
+          in: header
+          description: Authorization
+          required: true
+          type: string                          
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/appResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"           
+  /api/getAllCmsList:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: cms_ctrl
+    post:
+      tags: ['Admin Module']
+      description: Get All Cms Page
+      summary: Get All Cms Page
+      # used as the method name of the controller
+      operationId: getAllCmsList
+      parameters:
+        - name: body
+          in: body
+          description: Get All cms
+          schema:
+           $ref: '#/definitions/getAllCmsList'
+          required: true    
+        - name: Authorization
+          in: header
+          description: Authorization
+          required: true
+          type: string                          
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/appResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"                                   
+  /api/updateCms:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: cms_ctrl
+    post:
+      tags: ['Admin Module']
+      description: Update Cms Page
+      summary: Update Cms Page
+      # used as the method name of the controller
+      operationId: updateCms
+      parameters:
+        - name: body
+          in: body
+          description: Update Cms
+          schema:
+           $ref: '#/definitions/updateCms'
+          required: true    
+        - name: Authorization
+          in: header
+          description: Authorization
+          required: true
+          type: string                          
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/appResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"                   
+  /api/getCmsByID:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: cms_ctrl
+    post:
+      tags: ['Admin Module']
+      description: Get Cms By ID
+      summary: Get Cms By ID
+      # used as the method name of the controller
+      operationId: getCmsByID
+      parameters:
+        - name: body
+          in: body
+          description: Get Cms By ID
+          schema:
+           $ref: '#/definitions/getCmsByID'
+          required: true    
+        - name: Authorization
+          in: header
+          description: Authorization
+          required: true
+          type: string                          
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/appResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"                     
+  /api/getCmsPageByName:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: cms_ctrl
+    post:
+      tags: ['Admin Module']
+      description: Get Cms By name
+      summary: Get Cms By name
+      # used as the method name of the controller
+      operationId: getCmsPageByName
+      parameters:
+        - name: body
+          in: body
+          description: Get Cms By name
+          schema:
+           $ref: '#/definitions/getCmsPageByName'
+          required: true                 
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/appResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"                                                                                        
+  /api/deleteProduct:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: admin_ctrl
+    post:
+      tags: ['Admin Module']
+      description: Product Delete
+      summary: Product Delete
+      # used as the method name of the controller
+      operationId: deleteProduct
+      parameters:
+        - name: body
+          in: body
+          description: Product Delete
+          schema:
+           $ref: '#/definitions/deleteProduct'
+          required: true    
+        - name: Authorization
+          in: header
+          description: Authorization
+          required: true
+          type: string                          
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/appResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"                                     
+  /api/getProductListAdmin:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: product_ctrl
+    post:
+      tags: ['Admin Module']
+      description: Get Product List
+      summary: Get Product List
+      # used as the method name of the controller
+      operationId: getProductListAdmin
+      parameters:
+        - name: body
+          in: body
+          description: get Product By Id
+          schema:
+           $ref: '#/definitions/getProductList'
+          required: true           
+        - name: Authorization
+          in: header
+          description: Authorization
+          required: true
+          type: string                          
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/appResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"              
+  /api/createChat:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: chat_ctrl
+    post:
+      tags: ['Chat Module']
+      description: Create chat
+      summary: Create chat
+      # used as the method name of the controller
+      operationId: createChat
+      parameters:
+        - name: body
+          in: body
+          description: Create Chat
+          schema:
+           $ref: '#/definitions/createChat'
+          required: true    
+        - name: Authorization
+          in: header
+          description: Authorization
+          required: true
+          type: string                          
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/appResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"               
+  /api/getChatList:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: chat_ctrl
+    post:
+      tags: ['Chat Module']
+      description: Get Chat List
+      summary: Get Chat List
+      # used as the method name of the controller
+      operationId: getChatList
+      parameters:
+        - name: body
+          in: body
+          description: Get Chat List
+          schema:
+           $ref: '#/definitions/getChatList'
+          required: true    
+        - name: Authorization
+          in: header
+          description: Authorization
+          required: true
+          type: string                          
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/appResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"                             
+  /api/getUserBidListAdmin:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: admin_ctrl
+    post:
+      tags: ['Bid Module']
+      description: Get User Placed Bid List
+      summary: Get User Placed Bid List
+      # used as the method name of the controller
+      operationId: getUserBidListAdmin
+      parameters:
+        - name: body
+          in: body
+          description: Bid Information
+          schema:
+           $ref: '#/definitions/getUserBidList'
+          required: true        
+        - name: Authorization
+          in: header
+          description: Authorization
+          required: true
+          type: string                 
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/appResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"              
+  /api/userRegister:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: auth_ctrl
+    post:
+      tags: ['Auth Module']
+      description: User Sign Up
+      summary:  User Sign Up
+      # used as the method name of the controller
+      operationId: userRegister
+      parameters:
+        - name: body
+          in: body
+          description:  User Sign Up
+          schema:
+           $ref: '#/definitions/userRegister'
+          required: true        
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/appResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"    
+  /api/facebookLogin:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: auth_ctrl
+    post:
+      tags: ['Auth Module']
+      description: Facebook Login
+      summary:  Facebook Login
+      # used as the method name of the controller
+      operationId: facebookLogin
+      parameters:
+        - name: body
+          in: body
+          description:  Facebook Login
+          schema:
+           $ref: '#/definitions/facebookLogin'
+          required: true        
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/appResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"                 
+  /api/userLogin:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: auth_ctrl
+    post:
+      tags: ['Auth Module']
+      description: User Sign In
+      summary: User Sign In
+      # used as the method name of the controller
+      operationId: userLogin
+      parameters:
+        - name: body
+          in: body
+          description: User Sign In
+          schema:
+           $ref: '#/definitions/userLogin'
+          required: true        
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/appResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"   
+  /api/forgotPassword:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: auth_ctrl
+    post:
+      tags: ['Auth Module']
+      description: Forgot Password
+      summary: Forgot Password
+      # used as the method name of the controller
+      operationId: forgotPassword
+      parameters:
+        - name: body
+          in: body
+          description: Forgot Password
+          schema:
+           $ref: '#/definitions/forgotPassword'
+          required: true        
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/appResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"                
+  /api/adminLogin:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: auth_ctrl
+    post:
+      tags: ['Admin Module']
+      description: Admin Sign In
+      summary:  Admin Sign In
+      # used as the method name of the controller
+      operationId: adminLogin
+      parameters:
+        - name: body
+          in: body
+          description:  Admin Sign In
+          schema:
+           $ref: '#/definitions/adminLogin'
+          required: true        
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/appResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"                 
+  /api/userLogOut:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: auth_ctrl
+    post:
+      tags: ['Auth Module']
+      description: User Log Out
+      summary: User Log Out
+      # used as the method name of the controller
+      operationId: userLogOut
+      parameters:
+        - name: body
+          in: body
+          description:  User Log Out
+          schema:
+           $ref: '#/definitions/userLogOut'
+          required: true        
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/appResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"      
+  /api/loggedin:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: auth_ctrl
+    get:
+      tags: ['Admin Module']
+      description: To check admin loggedin or not
+      summary: To check admin loggedin or not
+      # used as the method name of the controller
+      operationId: loggedin   
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/appResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"                 
+  /api/getOrderList:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: admin_ctrl
+    post:
+      tags: ['Admin Module']
+      description: Get Order List
+      summary: Get Order List
+      # used as the method name of the controller
+      operationId: getOrderList
+      parameters:
+        - name: body
+          in: body
+          description: Order body
+          schema:
+           $ref: '#/definitions/getOrderList'
+          required: true        
+        - name: Authorization
+          in: header
+          description: Authorization
+          required: true
+          type: string                                    
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/appResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"                                                               
+  /api/addUpdateUser:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: users_ctrl
+    post:
+      tags: ['User Module']
+      description: Add New User
+      summary:  Add New User
+      # used as the method name of the controller
+      operationId: addUpdateUser
+      parameters:
+        - name: body
+          in: body
+          description:  Add New User
+          schema:
+           $ref: '#/definitions/addUser'
+          required: true       
+        - name: Authorization
+          in: header
+          description: Authorization
+          required: true
+          type: string               
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/appResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /api/updateQuickBloxDetails:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: users_ctrl
+    post:
+      tags: ['Auth Module']
+      description: Update Quick Blox Details
+      summary:  Update Quick Blox Details
+      # used as the method name of the controller
+      operationId: updateQuickBloxDetails
+      parameters:
+        - name: body
+          in: body
+          description:  Update Quick Blox Details
+          schema:
+           $ref: '#/definitions/updateQuickBloxDetails'
+          required: true                 
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/appResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"            
+  /api/updateUser:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: users_ctrl
+    post:
+      tags: ['User Module']
+      description: Update User
+      summary:  Update User
+      # used as the method name of the controller
+      operationId: updateUser
+      parameters:
+        - name: body
+          in: body
+          description:  Update User
+          schema:
+           $ref: '#/definitions/updateUser'
+          required: true       
+        - name: Authorization
+          in: header
+          description: Authorization
+          required: true
+          type: string               
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/appResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"            
+  /api/adminProfileUpdate:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: users_ctrl
+    post:
+      tags: ['User Module']
+      description: Update Admin Profile
+      summary:  Update Admin Profile
+      # used as the method name of the controller
+      operationId: adminProfileUpdate
+      parameters:
+        - name: body
+          in: body
+          description:  Update Admin Profile
+          schema:
+           $ref: '#/definitions/adminProfileUpdate'
+          required: true     
+        - name: Authorization
+          in: header
+          description: Authorization
+          required: true
+          type: string                 
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/appResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"            
+  /api/getUserById/{id}:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: users_ctrl
+    get:
+      tags: ['User Module']
+      description: Get User By Id
+      summary: Get User By Id
+      # used as the method name of the controller
+      operationId: getUserById
+      parameters:
+        - name: id
+          in: path
+          description: user id
+          required: true
+          type: string
+        - name: Authorization
+          in: header
+          description: Authorization
+          required: true
+          type: string              
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/appResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse" 
+  /api/deleteUserById/{id}:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: users_ctrl
+    delete:
+      tags: ['User Module']
+      description: Delete User By Id
+      summary: Delete User By Id
+      # used as the method name of the controller
+      operationId: deleteUserById
+      parameters:
+        - name: id
+          in: path
+          description: user id
+          required: true
+          type: string
+        - name: Authorization
+          in: header
+          description: Authorization
+          required: true
+          type: string              
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/appResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"                                    
+  /api/getUserList:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: users_ctrl
+    get:
+      tags: ['User Module']
+      description: Get User List
+      summary: Get User List
+      # used as the method name of the controller
+      operationId: getUserList
+      parameters:
+        - name: page
+          in: query
+          description: Get User List
+          required: false
+          type: string      
+        - name: Authorization
+          in: header
+          description: Authorization
+          required: true
+          type: string                
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/appResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"                           
+  /api/updateUserPic:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: users_ctrl
+    post:
+      tags: ['User Module']
+      description: Update User Profile Pic
+      summary: Update User Profile Pic
+      # used as the method name of the controller
+      operationId: updateUserPic
+      consumes:
+        - multipart/form-data
+      parameters:
+        - in: formData
+          name: id
+          description: User id
+          type: string
+          required: true                
+        - in: formData
+          name: file
+          description: Update User Profile Pic
+          type: file
+          required: true                                 
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/appResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"            
+  /api/changePassword:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: users_ctrl
+    post:
+      tags: ['User Module']
+      description: Change User Password
+      summary: Change User Password
+      # used as the method name of the controller
+      operationId: changePassword
+      parameters:
+        - name: body
+          in: body
+          description: Change User Password
+          schema:
+           $ref: '#/definitions/changePassword'
+          required: true      
+        - name: Authorization
+          in: header
+          description: Authorization
+          required: true
+          type: string                
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/appResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"     
+  /api/enableDisableUser:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: users_ctrl
+    post:
+      tags: ['User Module']
+      description: Enable disable user
+      summary: Enable disable user
+      # used as the method name of the controller
+      operationId: enableDisableUser
+      parameters:
+        - name: body
+          in: body
+          description: Enable disable user
+          schema:
+           $ref: '#/definitions/enableDisableUser'
+          required: true     
+        - name: Authorization
+          in: header
+          description: Authorization
+          required: true
+          type: string                 
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/appResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"                                                
+  /api/makeBid:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: bids_ctrl
+    post:
+      tags: ['Bid Module']
+      description: Place Bid On Item also use to update bid just pass _id i.e bid ID in the request
+      summary: Place Bid On Item and update bid API
+      # used as the method name of the controller
+      operationId: makeBid
+      parameters:
+        - name: body
+          in: body
+          description: Place Bid On Item
+          schema:
+           $ref: '#/definitions/makeBid'
+          required: true        
+        - name: Authorization
+          in: header
+          description: Authorization
+          required: true
+          type: string                
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/appResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"    
+  /api/rejectUserBid:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: bids_ctrl
+    post:
+      tags: ['Bid Module']
+      description: Reject User Bid
+      summary: Reject User Bid
+      # used as the method name of the controller
+      operationId: rejectUserBid
+      parameters:
+        - name: body
+          in: body
+          description: Bid Information
+          schema:
+           $ref: '#/definitions/rejectUserBid'
+          required: true     
+        - name: Authorization
+          in: header
+          description: Authorization
+          required: true
+          type: string                  
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/appResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"  
+  /api/acceptUserBid:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: bids_ctrl
+    post:
+      tags: ['Bid Module']
+      description: Accept User Bid
+      summary: Accept User Bid
+      # used as the method name of the controller
+      operationId: acceptUserBid
+      parameters:
+        - name: body
+          in: body
+          description: Bid Information
+          schema:
+           $ref: '#/definitions/acceptUserBid'
+          required: true     
+        - name: Authorization
+          in: header
+          description: Authorization
+          required: true
+          type: string                  
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/appResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"              
+  /api/getUserBidList:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: bids_ctrl
+    post:
+      tags: ['Bid Module']
+      description: Get User Placed Bid List
+      summary: Get User Placed Bid List
+      # used as the method name of the controller
+      operationId: getUserBidList
+      parameters:
+        - name: body
+          in: body
+          description: Bid Information
+          schema:
+           $ref: '#/definitions/getUserBidList'
+          required: true        
+        - name: Authorization
+          in: header
+          description: Authorization
+          required: true
+          type: string                 
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/appResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"  
+  /api/getUserOfferList:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: bids_ctrl
+    post:
+      tags: ['Bid Module']
+      description: Get User Offer List
+      summary: Get User Offer List
+      # used as the method name of the controller
+      operationId: getUserOfferList
+      parameters:
+        - name: body
+          in: body
+          description: User Id
+          schema:
+           $ref: '#/definitions/getUserBidList'
+          required: true        
+        - name: Authorization
+          in: header
+          description: Authorization
+          required: true
+          type: string                 
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/appResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"              
+  /api/getProductOfferCount:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: bids_ctrl
+    post:
+      tags: ['Bid Module']
+      description: Get Product Offer Count
+      summary: Get Product Offer Count
+      # used as the method name of the controller
+      operationId: getProductOfferCount
+      parameters:
+        - name: body
+          in: body
+          description: Product Id
+          schema:
+           $ref: '#/definitions/getProductOfferCount'
+          required: true        
+        - name: Authorization
+          in: header
+          description: Authorization
+          required: true
+          type: string                 
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/appResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"                   
+  /api/addItems:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: product_ctrl
+    post:
+      tags: ['Product Module']
+      description: Add Items
+      summary: Add Items
+      # used as the method name of the controller
+      operationId: addItems
+      parameters:
+        - name: body
+          in: body
+          description: Add Items Information
+          schema:
+           $ref: '#/definitions/addItems'
+          required: true    
+        - name: Authorization
+          in: header
+          description: Authorization
+          required: true
+          type: string                          
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/appResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"       
+               
+   /api/addPatient:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: patient_ctrl
+    post:
+      tags: ['Patient Module']
+      description: Add Patient
+      summary: Add Patient
+      # used as the method name of the controller
+      operationId: addPatient
+      parameters:
+        - name: body
+          in: body
+          description: Add Patient Information
+          schema:
+           $ref: '#/definitions/addPatient'
+          required: true        
+        - name: Authorization
+          in: header
+          description: Authorization
+          required: true
+          type: string                
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/appResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"    
+  /api/addProduct:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: product_ctrl
+    post:
+      tags: ['Product Module']
+      description: Add Product
+      summary: Add Product
+      # used as the method name of the controller
+      operationId: addProduct
+      parameters:
+        - name: body
+          in: body
+          description: Add Product Information
+          schema:
+           $ref: '#/definitions/addProduct'
+          required: true        
+        - name: Authorization
+          in: header
+          description: Authorization
+          required: true
+          type: string                
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/appResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse" 
+  /api/updateItem:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: product_ctrl
+    post:
+      tags: ['Product Module']
+      description: Update Items Info
+      summary: Update Items Info
+      # used as the method name of the controller
+      operationId: updateItem
+      parameters:
+        - name: body
+          in: body
+          description: Update Items Information
+          schema:
+           $ref: '#/definitions/updateItem'
+          required: true        
+        - name: Authorization
+          in: header
+          description: Authorization
+          required: true
+          type: string                                              
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/appResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"   
+  /api/deleteItem:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: product_ctrl
+    post:
+      tags: ['Product Module']
+      description: Delete Items Info
+      summary: Delete Items Info
+      # used as the method name of the controller
+      operationId: deleteItem
+      parameters:
+        - name: body
+          in: body
+          description: Delete Items Info
+          schema:
+           $ref: '#/definitions/deleteItem'
+          required: true        
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/appResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse" 
+  /api/getProductById:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: product_ctrl
+    post:
+      tags: ['Product Module']
+      description: Get Product Details
+      summary: Get Product Details
+      # used as the method name of the controller
+      operationId: getProductById
+      parameters:
+        - name: body
+          in: body
+          description: get Product By Id
+          schema:
+           $ref: '#/definitions/getProductById'
+          required: true              
+        - name: Authorization
+          in: header
+          description: Authorization
+          required: true
+          type: string                                 
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/appResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"  
+  /api/getProductList:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: product_ctrl
+    post:
+      tags: ['Product Module']
+      description: Get Product List
+      summary: Get Product List
+      # used as the method name of the controller
+      operationId: getProductList
+      parameters:
+        - name: body
+          in: body
+          description: get Product By Id
+          schema:
+           $ref: '#/definitions/getProductList'
+          required: true           
+        - name: Authorization
+          in: header
+          description: Authorization
+          required: true
+          type: string                          
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/appResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"  
+  /api/getPendingProductList:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: product_ctrl
+    post:
+      tags: ['Product Module']
+      description: Get Product Pending List
+      summary: Get Product Pending List
+      # used as the method name of the controller
+      operationId: getPendingProductList
+      parameters:
+        - name: body
+          in: body
+          description: get Product Pending
+          schema:
+           $ref: '#/definitions/getProductList'
+          required: true           
+        - name: Authorization
+          in: header
+          description: Authorization
+          required: true
+          type: string                          
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/appResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"              
+  /api/getProductCategoryList:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: product_ctrl
+    get:
+      tags: ['Product Module']
+      description: Get Product Category List
+      summary: Get Product Category List
+      # used as the method name of the controller
+      operationId: getProductCategoryList
+      parameters:
+        - name: Authorization
+          in: header
+          description: Authorization
+          required: true
+          type: string          
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/appResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"  
+  /api/getItemPrice:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: product_ctrl
+    post:
+      tags: ['Product Module']
+      description: Get Items Price
+      summary: Get Items Price
+      # used as the method name of the controller
+      operationId: getItemPrice
+      parameters:
+        - name: body
+          in: body
+          description: Get Items Price
+          schema:
+           $ref: '#/definitions/getItemPrice'
+          required: true        
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/appResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse" 
+  /api/getItemImage:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: product_ctrl
+    post:
+      tags: ['Product Module']
+      description: Get Items Images
+      summary: Get Items Images
+      # used as the method name of the controller
+      operationId: getItemImage
+      parameters:
+        - name: body
+          in: body
+          description: Get Items Images
+          schema:
+           $ref: '#/definitions/getItemImage'
+          required: true        
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/appResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"  
+  /api/addItemImages:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: product_ctrl
+    post:
+      tags: ['Product Module']
+      description: Add Items Images
+      summary: Add Items Images
+      # used as the method name of the controller
+      operationId: addItemImages
+      consumes:
+        - multipart/form-data
+        - application/x-www-form-urlencoded
+        - binary
+      parameters:
+        - in: formData
+          name: id
+          description: Items id
+          type: string
+          required: true                
+        - in: formData
+          name: file
+          description: Add Items Images
+          type: file
+          required: true                      
+        - name: Authorization
+          in: header
+          description: Authorization
+          required: true
+          type: string                                              
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/appResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"        
+  /api/getSoldOutProductListOfUser:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: product_ctrl
+    post:
+      tags: ['Product Module']
+      description: Get All Sold Out Products of user 
+      summary: Get All Sold Out Products of user
+      # used as the method name of the controller
+      operationId: getSoldOutProductListOfUser
+      parameters:
+        - name: body
+          in: body
+          description: Get All Sold Out Products of user Body - {page:1, count:10, searchText:Physics}
+          schema:
+           $ref: '#/definitions/getSoldOutProductListOfUser'
+          required: true        
+        - name: Authorization
+          in: header
+          description: Authorization
+          required: true
+          type: string                                    
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/appResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"                     
+  /api/getPurchasedProductListOfUser:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: product_ctrl
+    post:
+      tags: ['Product Module']
+      description: Get All Purchased Products of user 
+      summary: Get All Purchased Products of user
+      # used as the method name of the controller
+      operationId: getPurchasedProductListOfUser
+      parameters:
+        - name: body
+          in: body
+          description: Get All Purchased Products of user Body - {page:1, count:10, searchText:Physics}
+          schema:
+           $ref: '#/definitions/getPurchasedProductListOfUser'
+          required: true        
+        - name: Authorization
+          in: header
+          description: Authorization
+          required: true
+          type: string                                    
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/appResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"                               
+  /api/addRating:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: rating_ctrl
+    post:
+      tags: ['Product Module']
+      description: Add Rating 
+      summary: Add Rating
+      # used as the method name of the controller
+      operationId: addRating
+      parameters:
+        - name: body
+          in: body
+          description: Add Rating
+          schema:
+           $ref: '#/definitions/addRating'
+          required: true        
+        - name: Authorization
+          in: header
+          description: Authorization
+          required: true
+          type: string                                    
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/appResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"           
+  /api/updateProduct:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: product_ctrl
+    post:
+      tags: ['Product Module']
+      description: Update Product
+      summary: Update Product
+      # used as the method name of the controller
+      operationId: updateProduct
+      parameters:
+        - name: body
+          in: body
+          description: Update Product
+          schema:
+           $ref: '#/definitions/updateProduct'
+          required: true        
+        - name: Authorization
+          in: header
+          description: Authorization
+          required: true
+          type: string                                    
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/appResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"                    
+  /api/removeProductImage:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: product_ctrl
+    post:
+      tags: ['Product Module']
+      description: Remove Product Image
+      summary: Remove Product Image
+      # used as the method name of the controller
+      operationId: removeProductImage
+      parameters:
+        - name: body
+          in: body
+          description: Remove Product Image
+          schema:
+           $ref: '#/definitions/removeProductImage'
+          required: true        
+        - name: Authorization
+          in: header
+          description: Authorization
+          required: true
+          type: string                                    
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/appResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"                                                                              
+  /api/addInstitute:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: institute_ctrl
+    post:
+      tags: ['Institute Module']
+      description: Add New Institute
+      summary: Add New Institute
+      # used as the method name of the controller
+      operationId: addInstitute
+      parameters:
+        - name: body
+          in: body
+          description: Add New Institute
+          schema:
+           $ref: '#/definitions/addInstitute'
+          required: true        
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/appResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /api/getInstituteById/{id}:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: institute_ctrl
+    get:
+      tags: ['Institute Module']
+      description: Get Institute By Id
+      summary: Get Institute By Id
+      # used as the method name of the controller
+      operationId: getInstituteById
+      parameters:
+        - name: id
+          in: path
+          description: institute id
+          required: true
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/appResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"            
+  /api/updateInstitute:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: institute_ctrl
+    post:
+      tags: ['Institute Module']
+      description: Update Institute Info
+      summary: Update Institute Info
+      # used as the method name of the controller
+      operationId: updateInstitute
+      parameters:
+        - name: body
+          in: body
+          description: Update Institute Info
+          schema:
+           $ref: '#/definitions/updateInstitute'
+          required: true        
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/appResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /api/changeInstituteStatus:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: institute_ctrl
+    post:
+      tags: ['Institute Module']
+      description: Update Institute status
+      summary: Update Institute status
+      # used as the method name of the controller
+      operationId: changeInstituteStatus
+      parameters:
+        - name: body
+          in: body
+          description: Update Institute status
+          schema:
+           $ref: '#/definitions/changeInstituteStatus'
+          required: true        
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/appResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"            
+  /api/getInstituteList:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: institute_ctrl
+    get:
+      tags: ['Institute Module']
+      description: Get Institute List
+      summary: Get Institute List
+      # used as the method name of the controller
+      operationId: getInstituteList
+      parameters:
+        - name: page
+          in: query
+          description: Get Institute List
+          required: false
+          type: string        
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/appResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse" 
+  /api/deleteInstitute:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: institute_ctrl
+    post:
+      tags: ['Institute Module']
+      description: Delete Institute Info
+      summary: Delete Institute Info
+      # used as the method name of the controller
+      operationId: deleteInstitute
+      parameters:
+        - name: body
+          in: body
+          description: Delete Institute Info
+          schema:
+           $ref: '#/definitions/deleteInstitute'
+          required: true        
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/appResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"   
+  /api/addToWishlist:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: wishlist_ctrl
+    post:
+      tags: ['Wishlist Module']
+      description: Add ISBN to wishlist. If response code is 202 it means product is available then need to call /api/getProductList API and Pass ISBN number in searching parameter
+      summary: Add ISBN to wishlist
+      # used as the method name of the controller
+      operationId: addToWishlist
+      parameters:
+        - name: body
+          in: body
+          description: Wishlist body
+          schema:
+           $ref: '#/definitions/addToWishlist'
+          required: true        
+        - name: Authorization
+          in: header
+          description: Authorization
+          required: true
+          type: string                                    
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/appResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"       
+  /api/getWishlistItems:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: wishlist_ctrl
+    post:
+      tags: ['Wishlist Module']
+      description: Get All Wishlist Items
+      summary: Get All Wishlist Items
+      # used as the method name of the controller
+      operationId: getWishlistItems
+      parameters:
+        - name: body
+          in: body
+          description: Wishlist body
+          schema:
+           $ref: '#/definitions/getWishlistItems'
+          required: true        
+        - name: Authorization
+          in: header
+          description: Authorization
+          required: true
+          type: string                                    
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/appResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"                           
+  /api/removeFromWishlist:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: wishlist_ctrl
+    post:
+      tags: ['Wishlist Module']
+      description: Item remove from wish list
+      summary: Item remove from wish list
+      # used as the method name of the controller
+      operationId: removeFromWishlist
+      parameters:
+        - name: body
+          in: body
+          description: Wishlist body
+          schema:
+           $ref: '#/definitions/removeFromWishlist'
+          required: true        
+        - name: Authorization
+          in: header
+          description: Authorization
+          required: true
+          type: string                                    
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/appResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"                                       
+  /swagger:
+    x-swagger-pipe: swagger_raw
+# complex objects have schema definitions
+definitions:
+  userRegister:
+    type: object
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+      firstname:
+        type: string
+      lastname:
+        type: string                 
+      institute:
+        type: string        
+  facebookLogin:
+    type: object
+    properties:
+      email:
+        type: string
+      fb_token:
+        type: string
+      firstname:
+        type: string
+      lastname:
+        type: string                 
+      institute:
+        type: string      
+      profile_image:
+        type: string                
+      deviceType:
+        type: string
+      deviceId:
+        type: string
+      deviceToken:
+        type: string                              
+  userLogin:
+    type: object
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+      institute:
+        type: string
+      deviceType:
+        type: string
+      deviceId:
+        type: string
+      deviceToken:
+        type: string                        
+  forgotPassword:
+    type: object
+    properties:
+      email:
+        type: string                
+  adminLogin:
+    type: object
+    properties:
+      email:
+        type: string
+      password:
+        type: string        
+  userLogOut:
+    type: object
+    properties:
+      userId:
+        type: string
+      deviceToken:
+        type: string        
+  userActivation:  
+    type: object
+    properties:
+      userId:
+        type: string 
+  addUser:
+    type: object
+    properties:
+      email:
+        type: string
+      image:
+        type: string
+      firstname:
+        type: string
+      lastname:
+        type: string            
+  updateQuickBloxDetails:
+    type: object
+    properties:
+      QB_username:
+        type: string
+      QB_password:
+        type: string
+      QB_id:
+        type: string
+      user_id:
+        type: string        
+  updateUser:
+    type: object
+    properties:
+      firstname:
+        type: string
+      lastname:
+        type: string                    
+      _id:
+        type: string              
+  adminProfileUpdate:
+    type: object
+    properties:
+      email:
+        type: string        
+  changePassword:
+    type: object
+    properties:
+      userId:
+        type: string
+      oldPassword:
+        type: string
+      newPassword:
+        type: string
+  enableDisableUser:
+    type: object
+    properties:
+      userId:
+        type: string
+      status:
+        type: string                         
+  makeBid:
+    type: object
+    properties:
+      userId:
+        type: string
+      itemId:
+        type: string
+      price:
+        type: string
+      offerprice:
+        type: string
+  rejectUserBid:
+    type: object
+    properties:
+      bidId:
+        type: string  
+      itemId:
+        type: string  
+  acceptUserBid:
+    type: object
+    properties:
+      bidId:
+        type: string  
+      itemId:
+        type: string          
+  getUserBidList:
+    type: object
+    properties:
+      userId:
+        type: string  
+  getProductOfferCount:
+    type: object
+    properties:
+      itemId:
+        type: string          
+  addProduct:
+    type: object
+    properties:
+      title:
+        type: string 
+      author:
+        type: string
+      edition:
+        type: string
+      condition:
+        type: string        
+      isbn_1:
+        type: string
+      isbn_2:
+        type: string        
+      product_id:
+        type: string
+      product_added_by:
+        type: string
+      product_category_id:
+        type: string                            
+  updateProduct:
+    type: object
+    properties:
+      itemId:
+        type: string       
+      title:
+        type: string 
+      author:
+        type: string
+      edition:
+        type: string
+      condition:
+        type: string        
+      isbn_1:
+        type: string
+      isbn_2:
+        type: string        
+      product_id:
+        type: string
+      product_added_by:
+        type: string
+      product_category_id:
+        type: string                                    
+  removeProductImage:
+    type: object
+    properties:
+      productImage:
+        type: string       
+  updateItem:   
+    type: object
+    properties:
+      itemId:
+        type: string
+      name:
+        type: string 
+      price:
+        type: string 
+  deleteItem:   
+    type: object
+    properties:
+      itemId:
+        type: string 
+  getItemCategory:   
+    type: object
+    properties:
+      itemId:
+        type: string  
+  getItemPrice:   
+    type: object
+    properties:
+      itemId:
+        type: string 
+  getItemImage:   
+    type: object
+    properties:
+      itemId:
+        type: string  
+  getSoldOutProductListOfUser:   
+    type: object
+    properties:
+      page:
+        type: string          
+      count:
+        type: string                  
+  getPurchasedProductListOfUser:   
+    type: object
+    properties:
+      page:
+        type: string          
+      count:
+        type: string                          
+  addRating:   
+    type: object
+    properties:
+      itemId:
+        type: string          
+      rating:
+        type: string                                  
+      rating_to:
+        type: string                                          
+  addInstitute:   
+    type: object
+    properties:
+      title:
+        type: string
+  updateInstitute:   
+    type: object
+    properties:
+      title:
+        type: string    
+  changeInstituteStatus:   
+    type: object
+    properties:
+      instituteId:
+        type: string    
+      status:
+        type: number 
+  deleteInstitute:
+    type: object
+    properties:
+      instituteId:
+        type: string 
+  getProductById:
+    type: object
+    properties:
+      product_id:
+        type: string        
+  getCmsByID:
+    type: object
+    properties:
+      id:
+        type: string                
+  getCmsPageByName:
+    type: object
+    properties:
+      name:
+        type: string                     
+  addItems:
+    type: object
+    properties:
+      name:
+        type: string 
+      price:
+        type: string        
+  productStatusChange:
+    type: object
+    properties:
+      product_id:
+        type: string 
+      status:
+        type: string                
+  getAllCmsList:
+    type: object
+    properties:
+      page:
+        type: string 
+      count:
+        type: string                        
+  updateCms:
+    type: object
+    properties:
+      title:
+        type: string 
+      description:
+        type: string                   
+      _id:
+        type: string                           
+  createChat:
+    type: object
+    properties:
+      product_id:
+        type: string 
+      seller_id:
+        type: string                        
+      buyer_id:
+        type: string                        
+      QB_dialog_id:
+        type: string                                        
+  getChatList:
+    type: object
+    properties:
+      page:
+        type: string 
+      count:
+        type: string                        
+  deleteProduct:
+    type: object
+    properties:
+      product_id:
+        type: string                   
+  getProductList:
+    type: object
+    properties:
+      page:
+        type: string         
+      count:
+        type: string                 
+  addToWishlist:
+    type: object
+    properties:
+      title:
+        type: string         
+      author:
+        type: string                         
+      isbn:
+        type: string                                 
+  getWishlistItems:
+    type: object
+    properties:
+      page:
+        type: string         
+      count:
+        type: string                         
+  removeFromWishlist:
+    type: object
+    properties:
+      _id:
+        type: string         
+  getOrderList:
+    type: object
+    properties:
+      page:
+        type: string                 
+      count:
+        type: string                         
+  HelloWorldResponse:
+    required:
+      - message
+    properties:
+      message:
+        type: string
+  appResponse:
+    required:
+      - code
+    properties:
+      code:
+        type: number
+      status:
+        type: string        
+      message:
+        type: string        
+  ErrorResponse:
+    required:
+      - message
+    properties:
+      message:
+        type: string
