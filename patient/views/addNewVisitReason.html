@@ -1,0 +1,108 @@
+<div class="page page-dashboard">
+	<div class="left-menu-top clearfix arrowMenuBg">
+		<a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button"> <span class="sr-only">Toggle navigation</span> </a>
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+				aria-controls="navbar"> <span class="sr-only">Toggle navigation</span> Menu </button>
+		</div>
+		
+	   <div class="topLRMenu">
+        <ul>
+            <li ng-if="(permissionsArray.indexOf('addPatient') != -1)">
+				<a ui-sref="addPatient({ id : patientData._id, showTopNav: 1 })" class="arrowL">
+                    <div class="inner-arrowL">
+						{{ 'Identify' | translate }}
+                    </div>
+                </a>
+            </li>
+            <li ng-if="(permissionsArray.indexOf('addNewVisitReason') != -1)">
+				<a ui-sref="addNewVisitReason({ id : patientData._id })" ui-sref-active="active" class="arrowL">
+                    <div class="inner-arrowL">
+                       	{{ 'Visit Reason' | translate }} 
+                    </div>
+                </a>
+            </li>
+			<!--<li>
+				<a ui-sref="editPayment({ id : visitData._id })" ng-click="addVisitReason(visitData, false)" class="arrowL">
+                    <div class="inner-arrowL">
+                       	{{ 'Payment' | translate }} 
+                    </div>
+                </a>
+            </li>-->
+        </ul>
+        <div class="clearfix"></div>
+    </div>
+
+	</div>
+	<div class="page-inner">
+		<div class="page-title-breadcrumb" id="title-breadcrumb-option-demo">
+			<div class="page-header">
+				<div class="page-title" translate="Visit Reason"></div>
+			</div>
+		</div>
+		<div class="clearfix"></div>
+		<div class="btnTop">
+		   <a title="{{'Save & Next'|translate}}"  class="btn btn-xs btn-primary ng-scope" ng-click="addnewVisitReason(patientData)" ng-disabled="visitReasonForm.$invalid"><i class="fa fa-save"></i>&nbsp;{{'Next'|translate}}</a>
+		  <a title="{{'Back'|translate}}"  class="btn btn-xs btn-primary ng-scope" ui-sref="patientList"><i class="fa fa-mail-forward" translate="Back"></i></a>
+	    </div>
+		<div class="page-in-below-head clearfix" ng-init="currentPage = 'newVisitReason'; getPatientById()">
+			<div class="row ">
+				<div class="col-sm-12">
+					<div class="panel panel-default">
+						<div class="panel-heading">{{patientData.firstname}} {{patientData.lastname}}, {{patientData.age.year == 0 ? patientData.age.month == 0 ? patientData.age.day : patientData.age.month : patientData.age.year}} {{patientData.age.year == 0 ? patientData.age.month == 0 ? 
+                                         'Day' : 'Month' : 'Year'| translate}} , {{patientData.gender | capitalize | translate}}
+							<span class = "allergies" ng-if = "allergies.length > 0" >{{'allergic to'|translate}}: <u> {{ allergies }} </u></span>
+						
+							 <span ng-if = "getStageDateTime('visitReason')" class="cameIn" >{{'Came In'|translate}}: {{currentDate | date : "HH:mm '|' dd.MM.yy" }}</span>
+						</div>
+					
+						<!--<div class="panel-heading">{{patientData.firstname}} {{patientData.lastname}}, {{patientData.age.year == 0 ? patientData.age.month == 0 ? patientData.age.day : patientData.age.month : patientData.age.year}} {{patientData.age.year == 0 ? patientData.age.month == 0 ? 
+                                         'Day' : 'Month' : 'Year' | translate}},{{patientData.gender | capitalize | translate}} {{ allergies.length ? ', allergic to: ' + allergies : "" }}  
+
+							<span> <strong translate="Came In"></strong>: {{currentDate | date : "HH:mm '|' dd.MM.yy" }}</span>
+						</div>-->
+						<div class="panel-body">
+							<form name="visitReasonForm">
+								<div class="row">
+									<div class="col-sm-12">
+											<div class="form-group" ng-class="{ 'has-error' : visitReasonForm.visitReason.$invalid && visitReasonForm.visitReason.$dirty }">
+											<label translate="Visit Reason">
+													
+											</label>
+											<textarea class="form-control" name="visitReason" rows="10" ng-model="patientData.visitReason"  ng-maxlength="100" placeholder="{{'Visit Reason'|translate}}" maxlength="100" required></textarea>
+											<span class="text-danger" ng-show="visitReasonForm.firstname.$invalid && visitReasonForm.firstname.$dirty">
+	                                        <span ng-show="visitReasonForm.visitReason.$error.required && visitReasonForm.visitReason.$dirty" translate="Visit Reason is required."></span>
+											<!--<span ng-show="visitReasonForm.visitReason.$error.pattern" translate="Allowed only alphabets for Visit Reason."></span>-->
+											<span ng-show="visitReasonForm.visitReason.$error.maxlength" translate="Too long. Use 100 characters or less"></span>
+											</span>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-sm-12">
+										<div class="form-group">
+											<label translate="Urgency">
+														
+													</label>
+										</div>
+									</div>
+									<div class="col-sm-12">
+										<!--<label translate="Not Urgent"></label>-->
+										<label class="switch" ng-class="{'switchRed': isUrgent == true}">
+														<input type="checkbox" ng-change="toggle(patientData.isUrgent)" name ="isUrgent" ng-model = 'patientData.isUrgent' >
+														<div class="slider round" ></div>
+												</label>
+										<label ng-if="isUrgent" translate="Urgent"></label>
+										<label ng-if="!isUrgent" translate="Not Urgent"></label>
+									</div>
+								
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+

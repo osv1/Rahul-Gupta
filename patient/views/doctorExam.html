@@ -1,0 +1,216 @@
+<style>
+	
+	.switch.notDone{
+		background-color: red;
+
+	}
+.switch.notDone.switchRed {
+  background-color: #098c48;
+}
+	</style>
+<div class="page page-dashboard">
+	<div class="left-menu-top clearfix arrowMenuBg">
+		<a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button"> <span class="sr-only">Toggle navigation</span> </a>
+		<!--<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+				aria-controls="navbar"> <span class="sr-only">Toggle navigation</span> Menu </button>
+		</div>-->
+		<div class="topLRMenu">
+        <ul>
+            <li ng-if="(permissionsArray.indexOf('doctorSummary') != -1)">
+				<a  ng-click="addDoctorExamDetails(false, 'doctorSummary')" ui-sref-active="active" class="arrowL">
+                    <div class="inner-arrowL">
+						<p translate="Nursery's Summary"></p>
+                    </div>
+                </a>
+            </li>
+            <li ng-if="(permissionsArray.indexOf('editDoctorExam') != -1)">
+				<a ui-sref="editDoctorExam({ id : visitData._id })" ui-sref-active="active" class="arrowL">
+                    <div class="inner-arrowL">
+                       	{{ 'Physical Examination' | translate }} 
+                    </div>
+                </a>
+            </li>
+			<li ng-if="(permissionsArray.indexOf('doctorOrder') != -1)">
+				<a  ng-click="addDoctorExamDetails(false, 'doctorOrder')" ui-sref-active="active" class="arrowL">
+                    <div class="inner-arrowL">
+                       {{ 'Dr.Orders' | translate }} 
+                    </div>
+                </a>
+            </li>
+		
+			<li ng-if="(permissionsArray.indexOf('doctorTreatment') != -1)">
+				<a  ng-click="addDoctorExamDetails(false, 'doctorTreatment')" ui-sref-active="active" class="arrowL">
+                    <div class="inner-arrowL">
+                       	{{ 'Treatment' | translate }} 
+                    </div>
+                </a>
+            </li>
+			<li ng-if="(permissionsArray.indexOf('doctorPrescription') != -1)">
+				<a  ng-click="addDoctorExamDetails(false, 'doctorPrescription')"  ui-sref-active="active" class="arrowL">
+                    <div class="inner-arrowL">
+                       	{{ 'Prescription' | translate }} 
+                    </div>
+                </a>
+            </li>
+			<li ng-if="(permissionsArray.indexOf('doctorResult') != -1)">
+				<a  ng-click="addDoctorExamDetails(false, 'doctorResult')" ui-sref-active="active" class="arrowL">
+                    <div class="inner-arrowL">
+                       	{{ 'Results' | translate }} 
+                    </div>
+                </a>
+            </li>
+			
+        </ul>
+        <div class="clearfix"></div>
+    </div>
+	</div>
+	<div class="page-inner" ng-init="currentPage = 'editDoctorExam';getVisitDoctorExamById(); getNurseTestByCurrentDisease(); getStageInfoById()">
+		<div class="page-title-breadcrumb" id="title-breadcrumb-option-demo">
+			<div class="page-header">
+				<div class="page-title" translate="Physical Examination"></div>
+			</div>
+		</div>
+		<div class="clearfix"></div>
+		<div class="btnTop">
+			  <!--<a title="{{'Save & Next'|translate}}"  class="btn btn-xs btn-primary ng-scope" ng-click="addVisitDetails(visitData, false)"><i class="fa fa-save"></i> {{ 'Next' | translate }}  </a>
+		      <a title="{{'VisitCard'|translate}}"  class="btn btn-xs btn-primary ng-scope" ng-click="exitaddVisitDetails(visitData)" ><i class="fa fa-vcard"></i> {{ 'Exit To Dashboard' | translate }}    </a>-->
+			<a title="{{'Save & Next'|translate}}"  class="btn btn-xs btn-primary ng-scope" ng-click="addDoctorExamDetails(false)" ><i class="fa fa-save"></i> {{ 'Next' | translate }}  </a>
+			<a title="{{'VisitCard'|translate}}"  class="btn btn-xs btn-primary ng-scope" ng-click="addDoctorExamDetails(true)"><i class="fa fa-vcard"></i> {{ 'Exit To Dashboard' | translate }}    </a>
+				<!--<a title="{{'Back'|translate}}"  class="btn btn-xs btn-primary ng-scope" href="#/doctorSummary/{{visitData._id}}"><i class="fa fa-mail-forward" translate="Back"></i></a>-->
+	    </div>
+		<div class="page-in-below-head clearfix" >
+			<div class="row ">
+				<div class="col-sm-12">
+					<div class="panel panel-default">
+						<div class="panel-heading clearfix summary-heading">{{visitData.patientId.firstname}} {{visitData.patientId.lastname}}, {{visitData.patientId.age.year == 0 ? visitData.patientId.age.month == 0 ? visitData
+											.patientId.age.day : visitData.patientId.age.month : visitData.patientId.age.year}} {{visitData.patientId.age.year == 0 ? visitData.patientId.age.month == 0 ? 
+                                         'Day' : 'Month' : 'Year'|translate}} , {{visitData.patientId.gender | capitalize | translate}}
+							<span class = "allergies" ng-if = "allergies.length > 0" >  {{'allergic to'|translate}}: <u> {{ allergies }} </u></span>
+						 <span> {{visitData.currentStatus}}</span>
+							 <span ng-if = "getStageDateTime('dr_exam')" class="cameIn" >{{'Came In'|translate}}: {{ getStageDateTime('dr_exam')| date : "HH:mm '|' dd.MM.yy" }}</span>
+						</div>
+							<div class="panel-body">
+								<div class="row">
+									<div class="col-sm-6">
+										<h5 translate="Current Disease"></h5>
+										<textarea class="form-control"  rows="10" placeholder="{{'Current Disease'|translate}}" ng-model="visitData.currentdisease" ></textarea>
+										<!--<input type="text" class="form-control" ng-model="visitData.currentdisease" placeholder="{{'Current Disease'|translate}}">-->
+									</div>
+									</div>
+									<br>
+									<div class="row">
+								<div class="col-sm-12">
+									<h5 translate="Physical Examination"></h5>
+								</div>
+								<div class="crearfix"></div>
+							</div>
+							<div class="col-sm-12">
+								<form class="form-horizontal tabNav">
+									<tabset class="ui-tab">
+										<tabset>
+											<tab ng-repeat="tab in tabs track by $index" heading="{{tabs[$index].name |translate}}" active="tabs[$index].active" select="onTabSelected(tabs[$index].slug)" >
+												<label class="ui-radio"><input  type="radio" ng-value = '1' ng-model="tabs[$index].checked" ng-click="tabs[$index].finding = ''"><span>{{'Tested and found ok'|translate}}</span></label><br>
+					 							<label class="ui-radio"><input  type="radio" ng-value = '2' ng-model="tabs[$index].checked"><span>{{'Tested and details findings'|translate}}</span></label><br> 
+                                                <label class="ui-radio"><input  type="radio" ng-value = '3' ng-model="tabs[$index].checked"> <span>{{'Not tested'|translate}}</span></label><br>
+													<div class="form-group"> 
+														<textarea class="form-control" rows="10" ng-show = "tabs[$index].checked === 2" ng-model="tabs[$index].finding" placeholder="{{'Enter  Test Details'|translate}}" ></textarea>
+													</div>
+											</tab>
+										</tabset>
+									</tabset>
+								</form>
+							</div>
+                            <div class ="row">
+								<div class="col-sm-6">
+
+								<label></label>
+								</div>
+                            </div>
+                            <div class="row">
+								<div class="col-sm-6">
+									<h5 translate="Treatment Recommendations"></h5>
+								</div>
+								<div class="crearfix"></div>
+							</div>
+							<div class="row">
+								<div class="col-sm-12" ng-if="doctorTest.length > 0">
+									<label translate="According to the triage, please confirm the following tests"></label>
+									<hr>
+								</div>
+								<div class="col-sm-12" ng-if="doctorTest.length == 0">
+											<center><label translate="No Treatment Recommendations"></label></center>
+											<hr>
+								</div>
+								<div class="form-container form-deve">
+									<div class="form-group clearfix" ng-repeat="test in doctorTest track by $index">
+										<div class="col-sm-4">
+											<label class='ui-checkbox'>
+											    <input type="checkbox" class="inCheckbox" ng-model="doctorTest[$index].isChecked"  required>
+											</label>
+											 {{test.name}}
+										</div>
+										<div class="col-sm-8">
+											<input type="text" class="form-control" placeholder="{{'Comments Here'|translate}}" name='comment' ng-model="test.comment">
+										</div>
+									</div>
+								</div>
+								</div>
+								<!--<div class="form-container form-deve">
+									<div class="form-group clearfix" ng-repeat="test in doctorTest track by $index">
+										<div class="col-sm-4">
+											<input type="checkbox" class="inCheckbox" ng-model="doctorTest[$index].isChecked"  required>
+											 {{test.name}}
+										</div>
+										<div class="col-sm-4">
+											<div class="col-sm-8">
+													<label translate="Not Done"></label>
+													<label class="switch notDone" ng-class="{'switchRed': doctorTest[$index].isChecked == true}">
+														
+														<input type="checkbox" ng-change="check(doctorTest[$index].isChecked)" name ="isChecked" ng-model = 'doctorTest[$index].isChecked' required >
+														<div class="slider round" ></div>
+														</label>
+										           <label  ng-if="isChecked" translate="Done"></label>
+												   <label ng-if="!isChecked" translate="Not Done"></label>
+									                </div>
+											
+											 {{test.name}}
+										</div>
+										<div class="col-sm-8">
+											<input type="text" class="form-control" placeholder="{{'Other Comment'|translate}}" name='comment' ng-model="test.comment">
+										</div>
+									</div>
+								</div>-->
+							
+							<!--<div class="row">
+								<div class="col-sm-12">
+									<h4 translate="Physical Examination"></h4>
+								</div>
+								<div class="crearfix"></div>
+							</div>
+							<div class="col-sm-12">
+								<form class="form-horizontal tabNav">
+									<tabset class="ui-tab">
+										<tabset>
+											<tab ng-repeat="tab in tabs track by $index" heading="{{tabs[$index].name}}" active="tabs[$index].active" select="onTabSelected(tabs[$index].slug)" >
+												<input type="radio"  ng-value = "false" ng-model="tabs[$index].checked" ng-click="tabs[$index].finding = ''"> <strong translate=" No Finding"></strong><br>
+												<input type="radio"  ng-value = "true" ng-model="tabs[$index].checked" >	<strong translate="Details Finding"></strong><br><br>
+													<div class="form-group"> 
+														<textarea class="form-control" rows="10" ng-show = "tabs[$index].checked === true" ng-model="tabs[$index].finding" ></textarea>
+													</div>
+											</tab>
+										</tabset>
+									</tabset>
+								</form>
+							</div>-->
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+</div>
+
+
+

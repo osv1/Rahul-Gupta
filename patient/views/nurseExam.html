@@ -1,0 +1,172 @@
+<style>
+	
+	.switch.notDone{
+		background-color: red;
+
+	}
+.switch.notDone.switchRed {
+  background-color: #098c48;
+}
+	</style>
+<div class="page page-dashboard">
+	<div class="left-menu-top clearfix arrowMenuBg">
+		<a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button"> <span class="sr-only">Toggle navigation</span> </a>
+		<!--<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+				aria-controls="navbar"> <span class="sr-only">Toggle navigation</span> Menu </button>
+		</div>-->
+	
+		<div class="topLRMenu">
+        <ul>
+            <li ng-if="(permissionsArray.indexOf('visitDetails') != -1)">
+				<a ui-sref="visitDetails({ id : visitData._id })" ng-click="addNurseExamination(false, 'visitDetails')" class="arrowL">
+                    <div class="inner-arrowL">
+						{{ 'Visit details & Triage' | translate }}
+                    </div>
+                </a>
+            </li>
+            <li ng-if="(permissionsArray.indexOf('editNurseExam') != -1)">
+				<a ui-sref="editNurseExam({ id : visitData._id })" ui-sref-active="active" class="arrowL">
+                    <div class="inner-arrowL">
+                       	{{ 'Nurse Examination' | translate }} 
+                    </div>
+                </a>
+            </li>
+        </ul>
+        <div class="clearfix"></div>
+    </div>
+
+	</div>
+	<div class="page-inner">
+		<div class="page-title-breadcrumb" id="title-breadcrumb-option-demo">
+			<div class="page-header">
+				<div class="page-title" translate="Nurse Examination"></div>
+			</div>
+		</div>
+		<div class="clearfix"></div>
+		<div class="btnTop">
+		  <!--<a title="Save"  class="btn btn-xs btn-primary ng-scope" href="#/visitCard/{{visitData._id}}" ng-click="addNurseExamination()"><i class="fa fa-save"></i> Save </a>href="#/visitDetails-edit/{{visitData._id}}" -->
+		  <a title="{{'Save & finish'|translate}}"  class="btn btn-xs btn-primary ng-scope" ng-click="addNurseExamination(false)"><i class="fa fa-save"></i> {{ 'Finish' | translate }}  </a>
+		  <a title="{{'VisitCard'|translate}}"  class="btn btn-xs btn-primary ng-scope" ng-click="addNurseExamination(true)" ><i class="fa fa-vcard"></i> {{ 'Exit To Dashboard' | translate }}    </a>
+	    </div>
+		<div class="page-in-below-head clearfix" ng-init="currentPage = 'nurseExam-edit'; getVisitById(); getNurseTestByCurrentDisease(); getDoctorList(); getStageInfoById()">
+			<div class="row ">
+				<div class="col-sm-12">
+					<div class="panel panel-default">
+						<div class="panel-heading clearfix summary-heading">{{visitData.patientId.firstname}} {{visitData.patientId.lastname}}, {{visitData.patientId.age.year == 0 ? visitData.patientId.age.month == 0 ? visitData
+											.patientId.age.day : visitData.patientId.age.month : visitData.patientId.age.year}} {{visitData.patientId.age.year == 0 ? visitData.patientId.age.month == 0 ? 
+                                         'Day' : 'Month' : 'Year' | translate }} , {{visitData.patientId.gender | capitalize | translate}}
+							<span class = "allergies" ng-if = "allergies.length > 0" >  {{'allergic to'|translate}}: <u> {{ allergies }} </u></span>
+						 <span> {{visitData.currentStatus}}</span>
+							 <span ng-if = "getStageDateTime('nurse_exam')" class="cameIn" >{{'Came In'|translate}}: {{ getStageDateTime('nurse_exam')| date : "HH:mm '|' dd.MM.yy" }}</span>
+						</div>	
+						<div class="panel-body">
+							<form name="form" ng-submit="addNurseExamination()" role="form" method="post">
+								<div class="row">
+									<div class="col-sm-12" ng-if="nurseTest.length > 0">
+									<h4 translate="According to the triage, please confirm the following tests"></h4>
+									<hr>
+								</div>
+									<div class="form-container form-deve">
+										<div class="form-group clearfix" ng-repeat="test in nurseTest track by $index">
+											<!--<div class="col-sm-4">
+												<input type="checkbox" class="inCheckbox" ng-model="nurseTest[$index].isChecked" ng-checked="test.comment !== ''" required>
+												 {{test.name}}
+											</div>-->
+											<div class="col-sm-4">
+												<div class="col-sm-4">
+													
+													<label class="switch notDone" ng-class="{'switchRed': nurseTest[$index].isChecked == true}">
+														
+														<input type="checkbox" ng-change="check(nurseTest[$index].isChecked)" name ="isChecked" ng-model = 'nurseTest[$index].isChecked' required >
+														<div class="slider round" ></div>
+														</label>
+										           <label ng-if="nurseTest[$index].isChecked" translate="Done"></label>
+												   <label ng-if="!nurseTest[$index].isChecked" translate="Not Done"></label>
+									                </div>
+
+												
+												 <strong> {{test.name}}</strong>
+											</div>
+											<div class="col-sm-8">
+												<input type="text" class="form-control" placeholder="{{'Comments Here'|translate}}" name='comment' ng-model="test.comment">
+											</div>
+
+										</div>
+									  <div class="col-sm-12" ng-if="nurseTest.length == 0">
+											<h4 translate="No test for main complaint"></h4>
+											<hr>
+									  </div>
+									</div>
+								</div>
+								<div class="col-sm-12" >
+									<h4 translate="Refer To"></h4>
+									<hr>
+									<table width="400" class="pull-left">
+									   <colgroup>
+										<col width="0.3%" />
+										<col width="2.0%" />
+										<col width="2.2%" />
+                                       </colgroup>
+										<tbody>
+											
+											<tr ng-repeat="doctor in drlist track by $index">
+												<td>
+												   <input type="radio" name="referTo" class="ui-radio" value="{{doctor._id}}" ng-model="visitData.refferedTo"></td>
+												<td>
+													<label>{{doctor.firstname}}   {{doctor.lastname}}</label></td>
+												<td>
+													<label> <font color="#FFA233"> {{ !doctor.patientWaitingCount ? 0 : doctor.patientWaitingCount}} patients are waiting </font></label></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!--<script> $(function() { $('#cp3').colorpicker({ color: '#AA3399', format: 'rgb' }); }); </script>-->
+<!--<div class="form-group clearfix" ng-repeat="test in nurseTest track by $index">
+										<div class="col-sm-4">
+											<input type="checkbox" class="inCheckbox" ng-model="nurseTest[$index].isChecked">
+											<label>Do: {{test.name}}</label>
+										</div>
+										<div class="col-sm-8">
+											<input type="text" class="form-control" placeholder="Comments here" name='comment' ng-model="nurseTestList[$index].comment">
+										</div>
+									</div>-->
+<!--<div class="form-group clearfix">
+										<div class="col-sm-2">
+											<input type="checkbox" class="inCheckbox">
+											<label>Do Dr.'s test #2</label>
+										</div>
+										<div class="col-sm-8">
+											<input type="text" class="form-control" value="Comments here">
+										</div>
+									</div>
+									<div class="form-group clearfix">
+										<div class="col-sm-2">
+											<input type="checkbox" class="inCheckbox">
+											<label>Do Dr.'s test #3</label>
+										</div>
+										<div class="col-sm-8">
+											<input type="text" class="form-control" value="Comments here">
+										</div>
+									</div>-->
+<!--<div ng-repeat="elemnt in questionelemnt track by $index" class="form-group clearfix">
+												<div class="col-sm-2">
+													<label>Question {{$index + 1}}:</label>
+												</div>
+												<div class="col-sm-8">
+													<input type="text" class="form-control" name='question' ng-model="questionelemnt[$index].question" placeholder="Question"
+														required/>
+												</div>
+												<span ng-hide="elemnt.length == 1">
+														<a href ng-click="questionelemnt.splice($index, 1)">Remove</a>
+												</span>
+                                    </div>-->

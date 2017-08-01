@@ -1,0 +1,380 @@
+ <div class="page page-dashboard" >
+<div class="left-menu-top clearfix" ng-class="showTopNav == 1 ? 'arrowMenuBg' : ''">
+	 <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button"> <span class="sr-only">Toggle navigation</span> </a>
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"> <span class="sr-only">Toggle navigation</span> Menu </button>
+      </div>
+	<div class="topLRMenu" ng-if= "showTopNav == 1">
+        <ul>
+            <li>
+				<a ui-sref="addPatient({ id : patientData._id,  showTopNav: 1 })" ui-sref-active="active" class="arrowL">
+                    <div class="inner-arrowL">
+						{{ 'Identify' | translate }}
+                    </div>
+                </a>
+            </li>
+            <li>
+				<a ui-sref="addNewVisitReason({ id : patientData._id })" ui-sref-active="active" class="arrowL">
+                    <div class="inner-arrowL">
+                       	{{ 'Visit Reason' | translate }} 
+                    </div>
+                </a>
+            </li>
+			<!--<li>
+				<a ui-sref="editPayment({ id : visitData._id })" ng-click="addVisitReason(visitData, false)" class="arrowL">
+                    <div class="inner-arrowL">
+                       	{{ 'Payment' | translate }} 
+                    </div>
+                </a>
+            </li>-->
+        </ul>
+        <div class="clearfix"></div>
+    </div>
+    </div>
+  <div class="page-inner">
+		<div class="page-title-breadcrumb" id="title-breadcrumb-option-demo">
+			<div class="page-header">
+				<div class="page-title" translate="Identify"></div>
+			</div>
+		</div>
+		<div class="clearfix"></div>
+		<div class="btnTop">
+		<a ng-if= "showTopNav != 1" title="{{'Save'|translate}}"  class="btn btn-xs btn-primary ng-scope" href="" ng-click="addPatient(patientData, false)" ng-disabled="form.$invalid"><i class="fa fa-save"></i>&nbsp;{{ 'Save'|translate}}</a>
+		<a ng-if= "showTopNav == 1" title="{{'Save & Next'|translate}}"  class="btn btn-xs btn-primary ng-scope" ng-click="addPatient(patientData, true)" ng-disabled="form.$invalid"><i class="fa fa-save"></i> {{ 'Next' | translate }}  </a>
+	  	<a title="{{'Back'|translate}}"  class="btn btn-xs btn-primary ng-scope" href="#/patientList"><i class="fa fa-mail-forward" translate="Back"></i></a>
+	    </div>
+		<div class="page-in-below-head clearfix" ng-init="getPatientById(); getCities()">
+			<div class="row ">
+				<div class="col-sm-12">
+					<div class="panel panel-default">  
+						
+						<div class="panel-body">
+						<form name="form" novalidate>
+							<div class="row">
+								
+
+								<div class="col-sm-6">
+									<div class="form-group" ng-class="{ 'has-error' : form.patientId.$invalid && form.patientId.$dirty }">
+										<label translate="Patient Id"></label>				
+										<input type="text" name="patientId" class="form-control" ng-model="patientData.patientId" placeholder="{{'Patient Id'|translate}}" maxlength="9" ng-maxlength="9">
+										<span class="text-danger" ng-show="form.patientId.$invalid && form.patientId.$dirty">
+										<span ng-show="form.patientId.$error.maxlength" translate="Too long. Use 9 characters or less"></span>
+									</span>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="col-sm-6">
+										<label translate="Date of Birth">
+										</label><span style="color : red">*</span>
+           								<input type="text" class="form-control" min="minDate" max =currentDate datepicker-popup="ddMMyyyy" ng-change="ageCalculate(patientData.DOB)" ng-model="patientData.DOB"/>
+									</div>
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col-sm-6">
+									<div class="form-group" ng-class="{ 'has-error' : form.firstname.$invalid && form.firstname.$dirty }">
+										<label translate="First Name">
+											
+										</label><span style="color : red">*</span>
+										<input type="text" name="firstname" class="form-control" ng-model="patientData.firstname" placeholder="{{'First Name'|translate}}" ng-maxlength="30" required />
+										<span class="text-danger" ng-show="form.firstname.$invalid && form.firstname.$dirty">
+                                        <span ng-show="form.firstname.$error.required && form.firstname.$dirty" translate="First Name is required"></span>
+										<!--<span ng-show="form.firstname.$error.pattern" translate="Allowed only alphabets for first name."></span>-->
+										<span ng-show="form.firstname.$error.maxlength" translate="Too long. Use 30 characters or less"></span>
+									</span>
+									</div>
+								</div>
+								<div class="col-sm-6">
+									<div class="form-group" ng-class="{ 'has-error' : form.lastname.$invalid && form.lastname.$dirty }">
+										<label translate="Surname">
+										
+										</label><span style="color : red">*</span>
+										<input type="text" name="lastname" class="form-control" ng-model="patientData.lastname" placeholder="{{'Surname'| translate}}" ng-maxlength="30" required />
+										<span class="text-danger" ng-show="form.lastname.$invalid && form.lastname.$dirty">
+                                        <span ng-show="form.lastname.$error.required && form.lastname.$dirty" translate="Surname is required."></span>
+										<!--<span ng-show="form.lastname.$error.pattern" translate="Allowed only alphabets for Surname."></span>-->
+										<span ng-show="form.lastname.$error.maxlength" translate="Too long. Use 30 characters or less"></span>
+									</span>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-6">
+									<div class="form-group" ng-class="{ 'has-error' : form.address.$invalid && form.address.$dirty }">
+										<label translate="Address">
+											
+										</label><span style="color : red">*</span>
+										<input type="text" name="address" class="form-control" ng-model="patientData.address" placeholder="{{'Address'|translate}}" required />
+										<span class="text-danger" ng-show="form.address.$invalid && form.address.$dirty">
+                                        <span ng-show="form.address.$error.required && form.address.$dirty"
+                                        translate="Address is required."></span>
+									</span>
+									</div>
+								</div>
+								<div class="col-sm-6 ">
+									  <div class="form-group" ng-class="{ 'has-error' : form.city.$invalid && form.city.$dirty }">
+										<label translate="City">
+											{{patientData.city}}
+										</label><span style="color : red">*</span>
+										<!--<tags-input ng-model="patientData.city" replace-spaces-with-dashes="false" max-tags="1" placeholder="Add a City" on-tag-adding="forceOneTag(patientData.city)">
+											<auto-complete source="loadCities()" select-first-match="false"
+															load-on-focus="true"
+															load-on-empty="true"
+															>
+											</auto-complete>
+										</tags-input>-->
+										<div class="row custom-select">
+											<div class="col-sm-6">
+										<div class="input-group dosageDrop btn">
+											<div class="input-group">
+												<input type="text" class="form-control" ng-model="patientData.city"  >
+												<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+												<ul id="color-dropdown-menu" class="dropdown-menu dropdown-menu-right" role="menu">
+												<li ng-repeat="citi in cities" class="input-lg"><a href="javascript:void(0)" ng-click="changeCity(citi.name);">{{citi.name}}</a></li>
+												</ul>
+											</div>
+										</div>
+										</div>
+										</div>
+									
+								</div>
+							</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-6">
+									
+									<div  class="col-sm-8" ng-init="getKCforpatientId()" ng-class="{ 'has-error' : form.kupatCholim.$invalid && form.kupatCholim.$dirty }">
+									<div class="form-group">
+											<label translate="Kupat Cholim">
+											
+										</label><span style="color : red">*</span>
+										<div class="select_box">
+											<select class="form-control" name="kupatCholim" ng-model="patientData.kupatCholim" required>
+												<option value="" translate="Select"></option>
+												<option ng-repeat="kupat in kupatCholimlist" ng-selected="patientData.kupatCholim == kupat._id" value="{{kupat._id}}">{{kupat.name}} </option>
+											</select>
+											<span class="dropdown_box"></span>
+												<span class="text-danger" ng-show="form.kupatCholim.$invalid && form.kupatCholim.$dirty">
+                                        <span ng-show="form.kupatCholim.$error.required && form.kupatCholim.$dirty" translate="Kupat Cholim is required"></span>
+									</span>
+										</div>
+									</div>
+								  </div>
+
+								<div class="col-sm-4">
+									<div class="form-group">
+											<label translate="Personnel"></label>
+											<div>
+													<label class='ui-checkbox'>
+										  <input ng-init="patientData.isPersonnel = false" type="checkbox" name ="isPersonnel" ng-model = 'patientData.isPersonnel'  >
+													</label>
+											</div>
+
+										<!--<div class="select_box">
+											<select class="form-control" name="kupatCholim" ng-model="patient.kupatCholim" required>
+												<option value="" translate="Select"></option>
+												<option ng-repeat="kupat in kupatCholimlist" ng-selected="patient.kupatCholim == kupat._id" value="{{kupat._id}}">{{kupat.name}}</option>
+											</select>
+											<span class="dropdown_box"></span>
+												<span class="text-danger" ng-show="form.kupatCholim.$invalid && form.kupatCholim.$dirty">
+                                        <span ng-show="form.kupatCholim.$error.required && form.kupatCholim.$dirty" translate="Kupat Cholim is required"></span>
+									    </span>
+										</div>-->
+									</div>
+								</div>
+									
+								</div>
+								<div class="col-sm-6" ng-init="getFamilyDoctor()">
+									<div class="form-group">
+										<label translate="Family Doctor">
+											
+										</label>
+										<div class="select_box">
+											<select class="form-control" name="familyDoctorId" ng-model="patientData.familyDoctorId">
+												<option value="" translate="Select"></option>
+												<option ng-repeat="x in familydoctor" ng-selected="patientData.familyDoctorId == x._id" value="{{x._id}}">{{x.firstname}} {{x.lastname}}</option>
+											</select>
+											<span class="dropdown_box"></span>
+												
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-6">
+									<div class="form-group" ng-class="{ 'has-error' : form.mobileNo.$invalid && form.mobileNo.$dirty }">
+									<label translate="Mobile Number"></label><span style="color : red">*</span>
+									<div class="form-group">
+										
+										<div class="select_box">
+											<select class="form-control slectLeft col-sm-3" name="mobileNo" ng-model="Mprefix" required>
+												<option value="" translate="Select"></option>
+												<option value="050" >050</option>
+												<option value="050" >051</option>
+												<option value="052" >052</option>
+												<option value="053" >053</option>
+												<option value="050" >054</option>
+												<option value="055" >055</option>
+												<option value="056" >056</option>
+												<option value="057" >057</option>
+												<option value="058" >058</option>
+												<option value="059" >059</option>
+												<option value="050" >064</option>
+												<option value="050" >065</option>
+												<option value="050" >066</option>
+												<option value="050" >067</option>
+												<option value="050" >068</option>	
+											</select>
+										</div>
+										<div class="col-sm-8">
+						                 	<input type="text"  class="form-control" name="mobileNo"  ng-model="Msuffix" placeholder="{{'Mobile Number'|translate}}" ng-pattern="/^[0-9]*$/" ng-maxlength="7" maxlength="7" required>
+										</div>
+									<span class="text-danger" ng-show="form.mobileNo.$invalid && form.mobileNo.$dirty">
+                                        <span ng-show="form.mobileNo.$error.required && form.mobileNo.$dirty" translate="Mobile Number is required."></span>
+										<span ng-show="form.mobileNo.$error.pattern" translate="Allowed only number for mobile number."></span>
+										<span ng-show="form.mobileNo.$error.maxlength" translate="Too long. Use 15 characters or less"></span>
+									</span>
+								</div>
+								</div>
+								</div>
+								
+								<div class="col-sm-6">
+									<div class="form-group" ng-class="{ 'has-error' : form.secondaryNo.$invalid && form.secondaryNo.$dirty }">
+									<label translate="Additional Number"></label>
+									<div class="form-group">
+										
+										<div class="select_box">
+											<select class="form-control slectLeft col-sm-3" name="secondaryNo" ng-model="Sprefix">
+												<option value="" translate="Select"></option>
+												<option value="050" >02</option>
+												<option value="050" >03</option>
+												<option value="050" >04</option>
+												<option value="050" >08</option>
+												<option value="050" >09</option>
+												<option value="050" >070</option>
+                                                <option value="050" >071</option>
+												<option value="050" >072</option>
+												<option value="052" >073</option>
+												<option value="053" >074</option>
+												<option value="055" >075</option>
+												<option value="056" >076</option>
+												<option value="057" >077</option>
+								
+											</select>
+										</div>
+										<div class="col-sm-8">
+									<input type="text" name="secondaryNo" class="form-control" ng-model="Ssuffix" placeholder="{{'Additional Number'|translate}}"  ng-pattern="/^[0-9]*$/" ng-maxlength="7" maxlength="7">
+										</div>
+									<span class="text-danger" ng-show="form.secondaryNo.$invalid && form.secondaryNo.$dirty">
+                                        <span ng-show="form.secondaryNo.$error.required && form.secondaryNo.$dirty" translate="Additional Number is required."></span>
+										<span ng-show="form.secondaryNo.$error.pattern" translate="Allowed only number for Additional Number ."></span>
+										<span ng-show="form.secondaryNo.$error.maxlength" translate="Too long. Use 15 characters or less"></span>
+									</span>
+								</div>
+								</div>
+								</div>
+								
+							</div>
+							<br>
+							<!--<hr>-->
+							<div class="row">
+								<div class="col-sm-6">
+									<div class="form-group">
+								<label translate="Father Name"> 
+								
+							</label>
+								<input type="text" name="fatherName" class="form-control" ng-model="patientData.fatherName" placeholder="{{'Father Name'|translate}}">
+										
+						</div>								</div>
+								<div class="col-sm-6">
+									<div class="form-group">
+								<label translate="Mother Name">
+								
+							</label>
+								<input type="text" name="motherName" class="form-control" ng-model="patientData.motherName" placeholder="{{'Mother Name'|translate}}">
+										
+							</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-6">
+								<div class="form-group" ng-class="{ 'has-error' : form.gender.$invalid && form.gender.$dirty }">
+									
+							<label translate="Gender">
+								
+							</label><span style="color : red">*</span><br>		
+							<div class="col-sm-3">
+							<div class="form-group">
+								<label class="ui-radio"><input type="radio" name="gender" value="Male" ng-model="patientData.gender" autocomplete="off" /><span>{{'Male'|translate}}</span></label>
+							</div>
+							</div>
+							<div class="col-sm-6">
+							<div class="form-group">
+								<label class="ui-radio"><input type="radio" name="gender" value="Female" ng-model="patientData.gender" autocomplete="off" /><span>{{'Female'|translate}}</span></label>
+							</div>
+							</div>
+							</div>
+								</div>
+								<div class="col-sm-6">
+															<div class="form-group">
+																<div class="row">
+																<div class="col-sm-2">
+																	<label translate="Age"></label>
+																	</div>
+																</div>
+										
+																<div class="col-sm-2">
+																	<label translate="Year"></label>
+																	<input class="form-control" ng-model="patientData.age.year" readonly>
+																</div>
+																<div class="col-sm-2">
+																	<label translate="Month"></label>
+																	<input class="form-control" ng-model="patientData.age.month" readonly>
+																</div>
+																<div class="col-sm-2">
+																	<label translate="Day"></label>
+																	<input class="form-control" ng-model="patientData.age.day" readonly>
+																</div>
+															</div>
+														</div>
+								
+								
+							</div>
+							
+							
+							<div class="row">
+								<div class="col-sm-6">
+								<div class="form-group" ng-class="{ 'has-error' : form.email.$invalid && form.email.$dirty }">
+									<label translate="Email">
+									
+								</label><span style="color : red">*</span>
+									<input type="text" name="email" class="form-control" ng-model="patientData.email" placeholder="{{'Email'|translate}}" ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/" maxlength="30" required>
+									<span class="text-danger" ng-show="form.email.$invalid && form.email.$dirty">
+                                        <span ng-show="form.email.$error.required && form.email.$dirty" translate="Email is required."></span>
+										<span ng-show="form.email.$error.pattern" translate="Please enter a valid email address"></span>
+									</span>
+								</div>
+								</div>
+								<div class="col-sm-6">
+									<div class="form-group" ng-class="{ 'has-error' : form.comment.$invalid && form.comment.$dirty }">
+									<label translate="Other Comment">
+									
+								   </label>
+									<textarea class="form-control" name="comment" rows="10" ng-model="patientData.comment" placeholder="{{'Other Comment'|translate}}" ></textarea>
+									<span class="text-danger" ng-show="form.comment.$invalid && form.comment.$dirty">
+                                    <span ng-show="form.comment.$error.required && form.comment.$dirty" translate="Comment is required."></span>
+									</span>
+								</div>
+								</div>
+							</div>
+						
+						</form>
+					</div>
+					</div> 
+				</div>     
+			</div>
+		</div>
+ </div>    
+</div>
+

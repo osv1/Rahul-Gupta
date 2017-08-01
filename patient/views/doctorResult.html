@@ -1,0 +1,234 @@
+ <div class="page page-dashboard" >
+  <!-- <div class="page-title-breadcrumb" id="title-breadcrumb-option-demo"> -->
+    <!-- <ul class="breadcrumb page-breadcrumb">
+      <li><a href="#">Home</a></li>
+      <span> &nbsp; <i class="fa fa-angle-right"></i> &nbsp;</span>
+      <li class="hidden"><a href="#">Dashboard</a></li>
+      <li class="active"><a href="#">Summary</a></li>
+    </ul> -->
+  <!-- </div> -->
+<div class="left-menu-top clearfix arrowMenuBg"> <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button"> <span class="sr-only">Toggle navigation</span> </a>
+      <!--<div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"> <span class="sr-only">Toggle navigation</span> Menu </button>
+      </div>-->
+	  <div class="topLRMenu">
+        <ul>
+            <li ng-if="(permissionsArray.indexOf('doctorSummary') != -1)">
+				<a ng-click="addTreatmentResultDetails(visitData, false, 'doctorSummary')" ui-sref-active="active" class="arrowL">
+                    <div class="inner-arrowL">
+						<p translate="Nursery's Summary"></p>
+                    </div>
+                </a>
+            </li>
+            <li ng-if="(permissionsArray.indexOf('editDoctorExam') != -1)">
+				<a ng-click="addTreatmentResultDetails(visitData, false, 'editDoctorExam')" ui-sref-active="active" class="arrowL">
+                    <div class="inner-arrowL">
+                       	{{ 'Physical Examination' | translate }} 
+                    </div>
+                </a>
+            </li>
+			<li ng-if="(permissionsArray.indexOf('doctorOrder') != -1)">
+				<a  ng-click="addTreatmentResultDetails(visitData, false, 'doctorOrder')" ui-sref-active="active" class="arrowL">
+                    <div class="inner-arrowL">
+                       {{ 'Dr.Orders' | translate }} 
+                    </div>
+                </a>
+            </li>
+		
+			<li ng-if="(permissionsArray.indexOf('doctorTreatment') != -1)">
+				<a ng-click="addTreatmentResultDetails(visitData, false, 'doctorTreatment')" ui-sref-active="active" class="arrowL">
+                    <div class="inner-arrowL">
+                       	{{ 'Treatment' | translate }} 
+                    </div>
+                </a>
+            </li>
+			<li ng-if="(permissionsArray.indexOf('doctorPrescription') != -1)">
+				<a  ng-click="addTreatmentResultDetails(visitData, false, 'doctorPrescription')" ui-sref-active="active" class="arrowL">
+                    <div class="inner-arrowL">
+                       	{{ 'Prescription' | translate }} 
+                    </div>
+                </a>
+            </li>
+			<li ng-if="(permissionsArray.indexOf('doctorResult') != -1)">
+				<a ui-sref="doctorResult({ id : visitData._id })" ui-sref-active="active" class="arrowL">
+                    <div class="inner-arrowL">
+                       	{{ 'Results' | translate }} 
+                    </div>
+                </a>
+            </li>
+			
+        </ul>
+        <div class="clearfix"></div>
+    </div>
+      <!--<div id="navbar" class="navbar-collapse collapse pull-left"> 
+      
+       <ul class="nav navbar-nav">
+				<li><a href="#/doctorSummary/{{visitData._id}}" translate="Doctor's Summary"></a></li>
+				<li><a href="#/doctorExam-edit/{{visitData._id}}" translate="Physical Examination"></a></li>
+				<li><a href="#/doctorTreatment-edit/{{visitData._id}}" translate="Treatment"></a></li>
+				<li><a href="#/doctorResult-edit/{{visitData._id}}" translate="Results"></a></li>
+				
+				<li><a href="#/prescription-edit/{{visitData._id}}" translate="Order"></a></li>
+				
+			</ul>
+      </div>-->
+    </div>
+  <div class="page-inner">
+		<div class="page-title-breadcrumb" id="title-breadcrumb-option-demo">
+			<div class="page-header">
+				<div class="page-title" translate="Results"></div>
+				<!--<span class="back-visitCard"><a title="{{'visitCard Dashboard'|translate}}" href="#/visitCard/{{visitData._id}}"><i class="fa fa-life-ring"></i></a></span>-->
+			</div>
+		</div>
+		<div class="clearfix"></div>
+		<div class="btnTop">
+			<!--<a title="{{'Save & Next'|translate}}"  class="btn btn-xs btn-primary ng-scope" href="#/prescription-edit/{{visitData._id}}" ng-click="addTreatmentResultDetails(visitData)"><i class="fa fa-save" translate="& Next"></i> </a>
+			<a title="{{'Save'|translate}}"  class="btn btn-xs btn-primary ng-scope" href="" ng-click="addTreatmentResultDetails(visitData);getVisitById()"><i class="fa fa-save" translate="Save"></i></a>
+			<a title="{{'Back'|translate}}"  class="btn btn-xs btn-primary ng-scope" href="#/doctorTreatment-edit/{{visitData._id}}"><i class="fa fa-mail-forward" translate="Back" ></i></a>-->
+			<a title="{{'Save & Finish'|translate}}"  class="btn btn-xs btn-primary ng-scope" ng-click="addTreatmentResultDetails(visitData, false)" ><i class="fa fa-save"></i> {{ 'Finish' | translate }}  </a>
+			<a title="{{'VisitCard'|translate}}"  class="btn btn-xs btn-primary ng-scope" ng-click="addTreatmentResultDetails(visitData, true)"><i class="fa fa-vcard"></i> {{ 'Exit To Dashboard' | translate }}    </a>
+	   </div>
+		<div class="page-in-below-head clearfix">
+			<div class="row ">
+				<div class="col-sm-12">
+					<div class="panel panel-default"> 
+						<div class="panel-heading clearfix summary-heading">{{visitData.patientId.firstname}} {{visitData.patientId.lastname}}, {{visitData.patientId.age.year == 0 ? visitData.patientId.age.month == 0 ? visitData
+											.patientId.age.day : visitData.patientId.age.month : visitData.patientId.age.year}} {{visitData.patientId.age.year == 0 ? visitData.patientId.age.month == 0 ? 
+                                         'Day' : 'Month' : 'Year'|translate}} , {{visitData.patientId.gender | capitalize | translate}}
+							<span class = "allergies" ng-if = "allergies.length > 0" >  {{'allergic to'|translate}}: <u> {{ allergies }} </u></span>
+						 <span> {{visitData.currentStatus}}</span>
+							 <span ng-if = "getStageDateTime('dr_result')" class="cameIn" >{{'Came In'|translate}}: {{ getStageDateTime('dr_result')| date : "HH:mm '|' dd.MM.yy" }}</span>
+						</div> 
+					
+							<div class="panel-body" ng-init="currentPage = 'doctorResult';getVisitById(); getStageInfoById()">
+									<form name="form">
+										<div class="row">
+											<div class="col-sm-12">
+												<strong><h4 translate="Treatment Results"></h4></strong>
+														<hr>
+											</div>
+									
+											<div class="col-sm-6">
+												<div class="form-group">
+													<label class="ui-radio"><input type="radio" name ="treatmentResultType" ng-click="extreferral=false;visitData.doctorResultCommentOrOrder='';" ng-model="visitData.treatmentResultType" value="Continue at EMC"><span>{{'Continue treatment at the EMC' | translate}}</span></label>
+												</div>
+												<div class="form-group">
+													<label class="ui-radio"><input type="radio" name ="treatmentResultType" ng-click="extreferral=false;visitData.doctorResultCommentOrOrder=''" ng-model="visitData.treatmentResultType" value="Release"><span>{{'Release' | translate}}</span></label>
+												</div>
+												<div class="form-group">
+													<label class="ui-radio"><input type="radio" name ="treatmentResultType" ng-click="extreferral=true;visitData.doctorResultCommentOrOrder=''" ng-model="visitData.treatmentResultType" value="External Referral"><span>{{'External Referral' | translate}}</span></label> 
+												</div>
+												<div class="form-group">
+													<label class="ui-radio"><input type="radio" name ="treatmentResultType" ng-click="extreferral=false;visitData.doctorResultCommentOrOrder=''" ng-model="visitData.treatmentResultType" value="Other"><span>{{'Other' | translate}}</span></label>
+												</div>
+											</div>
+												<div class="col-sm-6">
+												<div class="form-group">
+													<label translate="Staff Comments(Internal)">
+														
+													</label>
+													<textarea class="form-control" name="doctorResultCommentOrOrder" rows="10" placeholder="{{'Comments Here'|translate}}" ng-model="visitData.doctorResultCommentOrOrder" ></textarea>
+												</div>
+												</div>
+										</div>
+										<hr>
+										
+										<div ng-if="extreferral==true">
+										<div class="row">
+											<div class="col-sm-6">
+												<div class="form-group">
+													<label translate="Refer To">
+														
+													</label>
+												<div class="clearfix"></div>
+												<div class="select_box">
+											<!--<select class="col-sm-3 form-control" name="externalRefferedTo" ng-model="visitData.externalRefferedTo" required>-->
+											<select class="col-sm-3 form-control" name="RefferedTo" ng-model="RefferedTo" required>
+												<option value="" translate="Select"></option>
+												<option value ="ER">ER</option>
+											</select>
+										</div>
+												<div class="col-sm-9" ng-if="RefferedTo=='ER'">
+										     <div class="form-group">
+											<input type="text" name="referTo" class="form-control" ng-model="visitData.externalRefferedTo" placeholder="{{'Refer To'|translate}}"/>
+										</div>
+									   </div>
+													
+													
+												</div>
+													
+												</div>
+							
+											<div class="col-sm-6">
+												<div class="form-group">
+													<!--<label class="ui-radio"><input name="radio1" type="radio" value="option1" ><span>Recent hour</span></label> <strong translate="Self Evacuation"></strong>-->
+													<label translate="Referred by">
+														
+													</label><br/>
+													<label class="ui-radio"><input type="radio" name ="refferedBy" ng-model="visitData.refferedBy" value="Self"><span>{{'Self Evacuation' | translate}}</span> </label> 
+													<label class="ui-radio"><input type="radio" name ="refferedBy" ng-model="visitData.refferedBy" value="RegularAmbulace"> <span>{{'Regular Ambulance' | translate}}</span></label> 
+													<label class="ui-radio"><input type="radio" name ="refferedBy" ng-model="visitData.refferedBy" value="ICAmulance"> <span>{{'IC Ambulance' | translate}}</span></label> 
+												</div>
+											</div>
+										</div>	
+										</div>
+										<!--<div class="col-sm-6">-->
+								<div class="row">
+									<div class="col-sm-12">
+										<div class="form-group">
+											<label translate="Dr.Follow Up">
+														
+											</label>
+											<input type="text" name="drfollowup" class="form-control" ng-model="visitData.drfollowup" placeholder="{{'Dr.Follow Up'|translate}}"/>
+											
+											
+										</div>
+									</div>
+									<div class="col-sm-12">
+										<div class="form-group">
+											<label translate="Treatment">
+														
+											</label>
+											
+											<input type="text" name="treatmentResultComment" class="form-control" ng-model="visitData.treatmentResultComment" placeholder="{{'Treatment'|translate}}"/>	
+									
+										</div>
+									</div>
+									<div class="col-sm-12">
+										<div class="form-group">
+											<label translate="Go to ER if">
+												
+											</label>
+											
+											<input type="text" name="goToERIf" class="form-control" ng-model="visitData.goToERIf" placeholder="{{'Go to ER if'|translate}}"/>	
+											
+										</div>
+									</div>
+									
+								</div>
+                          
+
+						 
+								<!--</div>-->
+										<div class="row">
+											<div class="col-sm-9">
+											</div>
+										
+										<div class="col-sm-3">
+												<div class="form-group">
+												<button class="btn_green" ng-click="issueDocument('External Referral')" ng-disabled="visitData.treatmentResultType != 'External Referral'" >{{'Issue a referral' | translate}}<i class="fa fa-spinner fa-spin" ng-if="loader"></i></button>
+										</div>	
+											</div>
+										</div>
+									</form>
+							</div>
+							</div> 
+					</div> 
+				</div>     
+			</div>
+		</div>
+ </div>    
+									
+							
+
+<!--<script> $(function() { $('#cp3').colorpicker({ color: '#AA3399', format: 'rgb' }); }); </script>-->

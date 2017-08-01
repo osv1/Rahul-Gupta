@@ -1,0 +1,225 @@
+<div class="page page-dashboard">
+	<div class="left-menu-top clearfix">
+		<a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button"> <span class="sr-only">Toggle navigation</span> </a>
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+				aria-controls="navbar"> <span class="sr-only">Toggle navigation</span> Menu </button>
+		</div>
+		<div id="navbar" class="navbar-collapse collapse pull-left">
+			 <ul class="nav navbar-nav">
+                <li ng-if="(permissionsArray.indexOf('patientDebt') != -1)"><a ui-sref="patientDebt" ui-sref-active="active" translate="In Debt" ></a></li>
+                <li ng-if="(permissionsArray.indexOf('visitHistory') != -1)"><a ui-sref="visitHistory" ui-sref-active="active" translate="Visit History"></a></li>
+                <li ng-if="(permissionsArray.indexOf('activePatient') != -1)"><a ui-sref="activePatient" ui-sref-active="active" translate="Active"></a></li>
+				<li ng-if="(permissionsArray.indexOf('activePatientByDr') != -1)"><a ui-sref="activePatientByDr" ui-sref-active="active" translate="Waiting patient"></a></li>
+            </ul>
+		</div>
+	</div>
+	<div class="page-inner ">
+		<div class="page-title-breadcrumb" id="title-breadcrumb-option-demo">
+			<div class="page-header">
+				<div class="page-title" translate="Visit Card"></div>
+			</div>
+		</div>
+		<div class="clearfix"></div>
+		<div class="page-in-below-head clearfix" ng-init="getVisitById(); getStageInfoById();">
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="topbtn-box">
+						<a ng-if="(permissionsArray.indexOf('patientVisitHistory') != -1)" href="#/patientVisitHistory/{{visitData._id}}"><button class="btn_green" translate="Patient History"></button></a> 
+						<a ng-if="(permissionsArray.indexOf('visitDocument') != -1)" href="#/visitDocument/{{visitData._id}}"><button class="btn_black"><i class="fa fa-upload" aria-hidden="true"></i> {{'Documents'|translate}}</button></a>
+					</div>
+				</div>
+			</div>
+			<div class="row ">
+				<div class="col-sm-12">
+					<div class="panel panel-default visitCard">
+						<div class="panel-heading clearfix">
+							<div class="col-sm-4">
+								<div class="urgentR" ng-if="visitData.isUrgent==1" translate="Urgent">
+									
+								</div>
+							</div>
+							<div class="col-sm-4 text-center">
+								{{visitData.patientId.firstname}} {{visitData.patientId.lastname}}, {{visitData.patientId.age.year == 0 ? visitData.patientId.age.month == 0 ? visitData
+											.patientId.age.day : visitData.patientId.age.month : visitData.patientId.age.year}} {{visitData.patientId.age.year == 0 ? visitData.patientId.age.month == 0 ? 
+                                         'Day' : 'Month' : 'Year'|translate}} , {{visitData.patientId.gender | capitalize | translate}}
+										 <span class = "allergies" ng-if = "allergies.length > 0" >  {{'allergic to'|translate}}: <u> {{ allergies }} </u></span>
+								
+							</div>
+							<div class="col-sm-4">
+								 <span> {{visitData.currentStatus}} </span>
+								 <span class="cameIn" >{{'Came In'|translate}}:	{{ getMainStageDateTime('1') | date : "dd.MM.yy '|' HH:mm" }}</span>
+							</div>
+						</div>
+						<div class="panel-body">
+							<form>
+								<div class="row">
+									<div class="col-sm-6 col-md-4 col-lg-3">
+										<div class="receptionBg" 
+										translate="Reception"></div>
+										<div class="receptionInfo" >
+											<a ng-if="(permissionsArray.indexOf('editPatientIdentification') != -1) && visitData.visitIsClosed == 0" href="#/patientIdentification-edit/{{visitData._id}}" class="iconLink"><i class="fa fa-edit" aria-hidden="true"></i></a>
+											<strong translate="Identify"></strong>
+											<div class="receptionView">
+
+												<div class="btnView">
+													<a href="" class="iconLink"><i class="fa fa-eye" ng-click="openDilogue('identify',visitData._id)" aria-hidden="true"></i></a>
+												</div>
+
+												{{ getStageDateTime('identify') | date : "HH:mm '|' dd.MM.yy" }}
+												<div class="loadView" ng-if="isStageCompleted('identify')"><a href="" class="iconLink"><i class="fa fa-check" aria-hidden="true"></i></a></div>
+
+											</div>
+											<div class="clearfix"></div>
+										</div>
+										<div class="receptionInfo" >
+											<a ng-if="(permissionsArray.indexOf('addVisitReason') != -1) && visitData.visitIsClosed == 0" href="#/visitReason-edit/{{visitData._id}}" class="iconLink"><i class="fa fa-edit" aria-hidden="true"></i></a>
+											<strong translate="Visit Reason"></strong>
+											<div class="receptionView">
+												<div class="btnView">
+													<a href="" class="iconLink"><i class="fa fa-eye"  ng-click="openDilogue('visitReason',visitData._id)" aria-hidden="true"></i></a>
+												</div>
+												{{ getStageDateTime('visitReason') | date : "HH:mm '|' dd.MM.yy" }}
+                                                <div class="loadView" ng-if="isStageCompleted('visitReason')" ><a href="" class="iconLink"><i class="fa fa-check" aria-hidden="true"></i></a></div>
+
+											</div>
+											<div class="clearfix"></div>
+										</div>
+										<div class="receptionInfo">
+											<a ng-if="(permissionsArray.indexOf('editPayment') != -1) && visitData.visitIsClosed == 0" href="#/payment-edit/{{visitData._id}}" class="iconLink"><i class="fa fa-edit" aria-hidden="true"></i></a>
+											<strong translate="Payment"></strong>		
+											<div class="receptionView">
+												<div class="btnView">
+													<a href="" class="iconLink"><i class="fa fa-eye" ng-click="openDilogue('payment',visitData._id)" aria-hidden="true"></i></a>
+												</div>
+												{{ getStageDateTime('payment') | date : "HH:mm '|' dd.MM.yy" }}
+											<div class="loadView" ng-if="isStageCompleted('payment') "><a href="" class="iconLink"><i class="fa fa-check" aria-hidden="true"></i></a></div>
+											</div>
+											<div class="clearfix"></div>
+										</div>
+									</div>
+									<div class="col-sm-6 col-md-4 col-lg-3">
+										<div class="nurseBg" translate="Nurse"></div>
+										<!--<div class="nurseInfo" >
+										<a ng-if="(permissionsArray.indexOf('editTriage') != -1) && visitData.visitIsClosed == 0" ng-click="updateStatus(visitData._id, 'At Nurse', 'triage-edit')"  href="javascript:void(0)" class="iconLink"><i class="fa fa-edit" aria-hidden="true"></i></a>
+											<strong translate="Triage"></strong>
+											<div class="nurseView">
+												<div class="btnView">
+										            <a href="" class="iconLink"><i class="fa fa-eye" ng-click="openDilogue('triage',visitData._id)" aria-hidden="true"></i></a>
+												</div>
+
+												{{ getStageDateTime('nurse_triage') | date : "HH:mm '|' dd.MM.yy" }}
+												<div class="loadView" ng-if="isStageCompleted('nurse_triage')"><a href="" class="iconLink"><i class="fa fa-check" aria-hidden="true"></i></a></div>
+											</div>-->
+										<!--</div>-->
+										<div class="nurseInfo">                                                                     
+											<a ng-if="(permissionsArray.indexOf('visitDetails') != -1) && visitData.visitIsClosed == 0" ng-click="updateStatus(visitData._id, '3', 'visitDetails-edit')"  href="javascript:void(0)" class="iconLink" ><i class="fa fa-edit" aria-hidden="true"></i></a>
+											<strong translate="Visit details & Triage"></strong>
+											<div class="nurseView">
+												<div class="btnView">
+													<a href="" class="iconLink"><i class="fa fa-eye" ng-click="openDilogue('visitDetails',visitData._id)" aria-hidden="true"></i></a>
+												</div>
+
+												<span> {{ getStageDateTime('nurse_visitDetails') | date : "HH:mm '|' dd.MM.yy" }}</span>
+												<div class="loadView" ng-if="isStageCompleted('nurse_visitDetails')"><a href="" class="iconLink"><i class="fa fa-check" aria-hidden="true"></i></a></div>
+											</div>
+										</div>
+										<div class="nurseInfo" >
+											<a ng-if="(permissionsArray.indexOf('editNurseExam') != -1) && visitData.visitIsClosed == 0" href="#/nurseExam-edit/{{visitData._id}}" class="iconLink"><i class="fa fa-edit" aria-hidden="true"></i></a>
+											<strong translate="Nurse Examination"></strong>
+											<div class="nurseView">
+												<div class="btnView">
+													<a href="" class="iconLink"><i class="fa fa-eye" ng-click="openDilogue('nurseExam',visitData._id)" aria-hidden="true"></i></a>
+												</div>
+
+												{{ getStageDateTime('nurse_exam') | date : "HH:mm '|' dd.MM.yy" }}
+												<div class="loadView" ng-if="isStageCompleted('nurse_exam')"><a href="" class="iconLink"><i class="fa fa-check" aria-hidden="true"></i></a></div>
+											</div>
+										</div>
+									</div>
+									
+									<div class="col-sm-6 col-md-4 col-lg-3">
+										<div class="doctorBg" translate="Doctor"></div>
+										<div class="doctorInfo"><strong translate="Nursery's Summary"></strong>
+											<div class="doctorView" ng-if="(permissionsArray.indexOf('doctorSummary') != -1)">
+												<div class="btnView">
+													<a ng-click="updateStatus(visitData._id, '5', 'doctorSummary'); disableAlert(visitData._id); decrementPatientWaitCount(visitData._id)"  href="javascript:void(0)"  class="iconLink"><i class="fa fa-eye" aria-hidden="true"></i></a>
+												</div>
+											</div>
+										</div>
+										<div class="doctorInfo">
+											<a ng-if="(permissionsArray.indexOf('editDoctorExam') != -1) && visitData.visitIsClosed == 0" href="#/doctorExam-edit/{{visitData._id}}" class="iconLink"><i class="fa fa-edit" aria-hidden="true"></i></a>
+											<strong translate="Diagnostic"></strong>
+											<div class="doctorView">
+												<div class="btnView">
+													<a href="" class="iconLink"><i class="fa fa-eye" ng-click="openDilogue('physicalExamination',visitData._id)" aria-hidden="true"></i></a>
+												</div>
+												{{ getStageDateTime('dr_exam') | date : "HH:mm '|' dd.MM.yy" }}
+												<div class="loadView" ng-if="isStageCompleted('dr_exam')" ><a href="" class="iconLink"><i class="fa fa-check" aria-hidden="true"></i></a></div>
+											</div>
+										</div>
+										<div class="doctorInfo">
+										<a ng-if="(permissionsArray.indexOf('doctorPrescription') != -1) && visitData.visitIsClosed == 0" href="#/prescription-edit/{{visitData._id}}" class="iconLink"><i class="fa fa-edit" aria-hidden="true"></i></a>
+											<strong translate="Prescription"></strong>
+											<div class="doctorView">
+												<div class="btnView">
+													<a href="" class="iconLink"><i class="fa fa-eye" ng-click="openDilogue('prescriptions',visitData._id)" aria-hidden="true"></i></a>
+												</div>
+
+												{{ getStageDateTime('dr_prescriptions') | date : "HH:mm '|' dd.MM.yy" }}
+												<div class="loadView" ng-if="isStageCompleted('dr_prescriptions')"><a href="" class="iconLink"><i class="fa fa-check" aria-hidden="true"></i></a></div>
+											</div>
+										</div>
+										<div class="doctorInfo">
+											<a ng-if="(permissionsArray.indexOf('doctorResult') != -1) && visitData.visitIsClosed == 0" href="#/doctorResult-edit/{{visitData._id}}" class="iconLink"><i class="fa fa-edit" aria-hidden="true"></i></a>
+											<strong translate="Results"></strong>
+										 
+											<div class="doctorView">
+												<div class="btnView">
+													<a href="" class="iconLink"><i class="fa fa-eye" ng-click="openDilogue('results',visitData._id)" aria-hidden="true"></i></a>
+												</div>
+
+												{{ getStageDateTime('dr_result') | date : "HH:mm '|' dd.MM.yy" }}
+								 				<div class="loadView" ng-if="isStageCompleted('dr_result')"><a href="" class="iconLink"><i class="fa fa-check" aria-hidden="true"></i></a></div>
+											</div>
+										</div>
+										
+
+									</div>
+									
+									<div class="col-sm-6 col-md-4 col-lg-3">
+										<div class="closureBg" translate="Closure"></div>
+										<div class="closureInfo">
+											<!--<a ng-if="(permissionsArray.indexOf('visitDetails') != -1) && visitData.visitIsClosed == 0" ng-click="updateStatus(visitData._id, 'At Nurse', 'visitDetails-edit')"  href="javascript:void(0)" class="iconLink" ><i class="fa fa-edit" aria-hidden="true"></i></a>href="#/patientDrugListing/{{visitData._id}}"-->
+											<a ng-if="(permissionsArray.indexOf('patientDrugListing') != -1) && visitData.visitIsClosed == 0"  ng-click="updateStatus(visitData._id, '8', 'patientDrugListing')" class="iconLink"><i class="fa fa-edit" aria-hidden="true"></i></a>
+											<strong translate="Drugs"></strong> 
+											<div class="closuseView">
+												<div class="btnView">
+													<a href="" class="iconLink"><i class="fa fa-eye" ng-click="openDilogue('drugs',visitData._id)" aria-hidden="true"></i></a>
+												</div>
+												{{ getStageDateTime('closure_drug') | date : "HH:mm '|' dd.MM.yy" }}
+												<div class="loadView" ng-if="isStageCompleted('closure_drug')"><a href="" class="iconLink"><i class="fa fa-check" aria-hidden="true"></i></a></div>
+											</div>
+										</div>
+										<div class="closureInfo">
+											<a ng-if="(permissionsArray.indexOf('summary-edit') != -1) && visitData.visitIsClosed == 0" href="#/summary-edit/{{visitData._id}}" class="iconLink"><i class="fa fa-edit" aria-hidden="true"></i></a>
+											<strong translate="Summary"></strong>
+											<div class="closuseView">
+												<div class="btnView">
+													<!--<a href="" class="iconLink"><i class="fa fa-eye" ng-click="openDilogue()" aria-hidden="true"></i></a>-->
+												</div>
+												{{ getStageDateTime('closure_summary') | date : "HH:mm '|' dd.MM.yy" }}
+												<div class="loadView" ng-if="isStageCompleted('closure_summary')"><a href="" class="iconLink"><i class="fa fa-check" aria-hidden="true"></i></a></div>
+											</div>
+										</div>
+									</div>			
+								</div>
+						</div>
+						</form>
+					</div> <a ng-if="(permissionsArray.indexOf('visitcomment') != -1)" href="#/visitcomment/{{visitData._id}}" ><button  class="btn_green" translate="Visit Comment"></button></a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</div>

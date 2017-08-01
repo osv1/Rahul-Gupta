@@ -1,0 +1,79 @@
+<div class="page page-dashboard">
+	<div class="left-menu-top clearfix">
+		<a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button"> <span class="sr-only">Toggle navigation</span> </a>
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+				aria-controls="navbar"> <span class="sr-only">Toggle navigation</span> Menu </button>
+		</div>
+
+	</div>
+	<div class="page-inner">
+		<div class="page-title-breadcrumb" id="title-breadcrumb-option-demo">
+			<div class="page-header">
+				<div class="page-title" translate="Visit comments"></div>
+				<!--<span class="back-visitCard"><a title="visitCard Dashboard" href="#/visitCard/{{visitData._id}}"><i class="fa fa-life-ring"></i></a></span>-->
+			</div>
+		</div>
+		<div class="clearfix"></div>
+	
+		<div class="page-in-below-head clearfix" ng-init="getVisitById()">
+			<div class="row">
+					<div class="btnTop">
+			<a title="{{'Save'|translate}}"  class="btn btn-xs btn-primary ng-scope" ng-click="addVisitComment(false)" ><i class="fa fa-save"></i> {{ 'Save' | translate }}  </a>
+			<a title="{{'VisitCard'|translate}}"  class="btn btn-xs btn-primary ng-scope" ng-click="addVisitComment(true)"><i class="fa fa-vcard"></i> {{ 'Exit To Dashboard' | translate }}    </a>
+		</div>
+			</div>
+
+			<div class="row ">
+					
+				<div class="col-sm-12">
+					<form name="form" ng-submit="addTriageTestform()" role="form" method="post">
+						<div class="panel panel-default">
+						  <div class="panel-heading">{{visitData.patientId.firstname}} {{visitData.patientId.lastname}}, {{visitData.patientId.age.year == 0 ? visitData.patientId.age.month == 0 ? visitData
+											.patientId.age.day : visitData.patientId.age.month : visitData.patientId.age.year}} {{visitData.patientId.age.year == 0 ? visitData.patientId.age.month == 0 ? 
+                                         'Day' : 'Month' : 'Year'}} , {{visitData.patientId.gender | capitalize}}
+							<span class = "allergies" ng-if = "allergies.length > 0" >  allergic to: <u> {{ allergies }} </u></span>
+								 <span> {{visitData.currentStatus}}</span>
+							</div>
+							<div>
+							
+								<accordion close-others="true" class="accordionDiv">
+									<accordion-group ng-repeat="comment in visitCommentList" is-open="comment.open">
+										<accordion-heading>
+										<span class="pull-left" translate="">Comment #{{$index + 1}} </span><i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': comment.open, 'glyphicon-chevron-right': !comment.open}"></i>
+										<span ng-if= "visitCommentList[$index].createdAt"  class="doneAt" >Commented at: {{ visitCommentList[$index].createdAt | date : "HH:mm '|' dd.MM.yy" }} By {{ visitCommentList[$index].submittedBy.firstname }}  {{ visitCommentList[$index].submittedBy.lastname }}</span>
+										</accordion-heading>
+										<div class="panel-body">
+											<div class="col-sm-10">
+												<div class="panel-body">
+													<div class="row">
+														<div class="col-sm-8">
+															<div class="form-group">
+																<label translate="Comment">			
+																</label>
+																<textarea class="form-control" name="treatmentResultComment" rows="10" ng-model="visitCommentList[$index].comment" placeholder="{{'Comments Here'|translate}}">
+																</textarea>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+							</div>
+						</div>
+				</div>
+				</accordion-group>
+				<br/>
+				<div class="col-sm-4 form-group clearfix">
+					<a href="#" ng-click="addBlankVisitComment($event)" ><i class="fa fa-plus-circle plus-cir" aria-hidden="true"> </i> <strong translate="Add Comments"></strong></a>
+				</div>
+				</accordion>
+		    	</div>
+			</form>
+		</div>
+	</div>
+</div>
+</div>
+</div>
+</div>
+</div>

@@ -1,0 +1,213 @@
+	
+	<div class="modal-header">
+		<button class="close" type="button" ng-click="cancel()">X
+		
+		</button>
+	</div>
+	<div class="page page-dashboard">
+		<div class="page-inner">
+			<div class="page-title-breadcrumb" id="title-breadcrumb-option-demo">
+				<div class="page-header">
+					<div class="page-title" translate="Visit details & Triage"></div>
+					
+				</div>
+			</div>
+			<div class="page-in-below-head clearfix" ng-init="getVisitDetailsById(); getStageInfoById(); getVisitById(); getTriageTestByVisitId();getViewVisitDetailsById();">
+			<!--<div class="page-in-below-head clearfix" ng-init="getVisitById(); getViewVisitDetailsById(); getStageInfoById()">-->
+				<div class="row ">
+					<div class="col-sm-12">
+						<div class="panel panel-default">
+							<div class="panel-heading">{{visitData.patientId.firstname}} {{visitData.patientId.lastname}}, {{visitData.patientId.age.year == 0 ? visitData.patientId.age.month == 0 ? visitData
+											.patientId.age.day : visitData.patientId.age.month : visitData.patientId.age.year}} {{visitData.patientId.age.year == 0 ? visitData.patientId.age.month == 0 ? 
+                                         'Day' : 'Month' : 'Year'|translate}} , {{visitData.patientId.gender | capitalize | translate}},{{'allergic to'|translate}}:
+							<span class = "allergi" ng-if = "allergies.length > 0" >  {{ allergies }} </span>
+							<!--<span class = "allergies" ng-if = "allergies.length > 0" >  {{'allergic to'|translate}}: <u> {{ allergies }} </u></span>-->
+						 <span> {{visitData.currentStatus}}</span>
+							 <span ng-if = "getStageDateTime('nurse_visitDetails')" class="cameIn" >{{'Came In'|translate}}: {{ getStageDateTime('nurse_visitDetails')| date : "HH:mm '|' dd.MM.yy" }}</span>
+						</div> 
+							
+							<div class="panel-body">
+								<form>
+									<div class="row">
+						             <label class="col-sm-5" translate="Main Complaint Comments"></label>
+						              
+									   <div class="col-sm-6" ng-bind="visitData.mainComplaint !=undefined ? visitData.mainComplaint : 'NA'"></div>
+									</div>
+									<hr>
+									<div class="row">
+						             <label class="col-sm-5" translate="Past Medical History"></label>
+						 
+									   <div class="col-sm-6" ng-bind="visitData.medicalHistory !=undefined ? visitData.medicalHistory : 'NA'"></div>
+									</div>
+									<hr>
+									
+									<div class="row">
+						             <label class="col-sm-5"  translate="Urgency"></label>
+						               <div class="col-sm-6">{{visitData.isUrgent ? 'Urgent' : 'Not Urgent'}}</div>
+									</div>
+									<hr>
+									<div class="row">
+						             <label class="col-sm-5"  translate="Main Complaint"></label>
+									
+						               <div class="col-sm-6" ng-show="selectedDiseaseList.length!=0" ng-repeat="disease in selectedDiseaseList">
+										   {{disease}}
+										   </div>
+										   <div class="col-sm-6" ng-show="selectedDiseaseList.length==0" translate="NA"></div>
+									</div>
+							
+								
+									<hr>
+									<div class="row">
+						             <label class="col-sm-5"  translate="Staff Comments(Internal)"></label>
+									 <div class="col-sm-6" ng-bind="visitData.nurseComments !=undefined ? visitData.nurseComments : 'NA'"></div>
+									 
+						              
+									</div>
+										<hr>
+		                            <div class="row">
+			                        <label class="col-sm-5" translate="Allergies"></label>
+			                        <div class="col-sm-6" ng-bind="allergies !=undefined ? allergies : 'NA'"></div>
+									</div>
+
+								<hr>
+								<div class="row">
+									
+			                        <label class="col-sm-5" translate="Drugs he/she takes"></label>
+			                        <div class="col-sm-6" ng-bind="visitData.drugTakes != undefined ? visitData.drugTakes : 'NA'"></div>
+									</div>
+									<hr>
+								<div class="row">
+			                        <label class="col-sm-5" translate="Triages"></label>
+			                        
+									</div>
+
+									<accordion close-others="true" class="accordionDiv">
+										<accordion-group ng-repeat="test in triageTestList" is-open="test.open">
+											<accordion-heading>
+										<span class="pull-left">{{'Test' | translate}} #{{$index + 1}} </span><i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': test.open, 'glyphicon-chevron-right': !test.open}"></i>
+										<span ng-if= "triageTestList[$index].created_at">Done at: {{ triageTestList[$index].created_at | date : "HH:mm '|' dd.MM.yy" }} By {{ triageTestList[$index].testTakenBy.firstname }}  {{ triageTestList[$index].testTakenBy.lastname }}</span>
+
+										</accordion-heading>
+											<div class="panel-body">
+												<div class="panel-body">
+													<div class="row">
+														<div class="col-sm-6">
+															<div class="form-group">
+																<div class="col-sm-6">
+																	<label translate="Pulse"</label>
+																</div>&nbsp;
+																<div class="col-sm-3">
+																	{{triageTestList[$index].pulse}}
+																	
+																</div>
+															</div>
+														</div>
+														
+														<div class="col-sm-6">
+															<div class="form-group">
+																<div class="col-sm-8"><label translate="Saturation"</label>
+																
+																
+															</div> &nbsp;
+															<div class="col-sm-3">
+																{{triageTestList[$index].saturation}}
+																
+															</div>
+														</div>
+													</div>
+												</div>
+												<hr>
+												
+												
+												
+												<div class="row">
+													<div class="col-sm-6">
+														<div class="form-group">
+															<div class="col-sm-6"><label translate="Weight"</label>
+															
+															
+														</div>&nbsp;
+														<div class="col-sm-3">
+															
+															{{triageTestList[$index].weight}}
+															
+														</div>
+													</div>
+												</div>
+												<div class="col-sm-6">
+													<div class="form-group">
+														<div class="col-sm-8"><label translate="Temperature"</label>
+														
+														
+													</div>
+													<div class="col-sm-3">
+														{{triageTestList[$index].temperature}}
+														
+														
+													</div>
+												</div>
+											</div>
+										</div>
+										<hr>
+										
+										<div class="row">
+											<div class="col-sm-4">
+												
+												<div class="col-sm-6" >
+													<label translate="Blood Pressure"></label>
+												</div>
+											</div>
+											
+											<div class="col-sm-4">
+												
+												<div class="col-sm-6" >
+													<strong translate="Min:"></strong>
+												</div>
+												<div class="col-sm-6">
+													{{triageTestList[$index].bloodPressure.minValue}}
+												</div>
+											</div>
+											<div class="col-sm-4">
+												<div class="col-sm-6">
+													<strong translate="Max:"></strong>
+												</div>
+												<div class="col-sm-6">
+													{{triageTestList[$index].bloodPressure.maxValue}}
+												</div>
+											</div>
+										</div>
+									</div>
+									
+									
+									
+									<hr>
+									
+									<div class="row">
+										<div class="col-sm-10">
+											<div class="form-group">
+												<div class="col-sm-6"><label translate="Breadth/Minutes"</label>
+											</div>
+											<div class="col-sm-3">&nbsp;
+												{{triageTestList[$index].breadthPerMinute}}
+												
+											</div>
+										</div>
+									</div>
+								</div>
+								</div>
+							</div>
+						</div>
+					
+				</div>
+			</div>
+		</accordion-group>
+	                                
+									
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>

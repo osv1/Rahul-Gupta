@@ -1,0 +1,158 @@
+<!--<section class="animate-fade-up" id="content">-->
+
+ <div class="page page-dashboard">
+<div class="left-menu-top clearfix"> <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button"> <span class="sr-only">Toggle navigation</span> </a>
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"> <span class="sr-only">Toggle navigation</span> Menu </button>
+      </div>
+      <div id="navbar" class="navbar-collapse collapse pull-left">
+			<!-- <ul class="nav navbar-nav navbar-right"> -->
+			  <ul class="nav navbar-nav">
+                <li ng-if="(permissionsArray.indexOf('familyDoctors') != -1)"><a ui-sref="familyDoctors" ui-sref-active="active" translate="FamilyDoctors"></a></li>
+                <li  ng-if="(permissionsArray.indexOf('survey') != -1)"><a ui-sref="survey" ui-sref-active="active" translate="Survey"></a></li>
+                <li ng-if="(permissionsArray.indexOf('statuses') != -1)"><a ui-sref="statuses" ui-sref-active="active" translate="Statuses"></a></li>
+                <li ng-if="(permissionsArray.indexOf('index') != -1)"><a ui-sref="index" ui-sref-active="active" translate="Indexes"></a></li>
+                <li ng-if="(permissionsArray.indexOf('Diseases') != -1)"><a ui-sref="Diseases" ui-sref-active="active" translate="Main Complaint"></a></li>
+                <li ng-if="(permissionsArray.indexOf('users') != -1)"><a ui-sref="users" ui-sref-active="active" translate="Users"></a></li>
+                <li ng-if="(permissionsArray.indexOf('roles') != -1)"><a ui-sref="roles" ui-sref-active="active" translate="Roles & Permission"></a></li>
+                <li ng-if="(permissionsArray.indexOf('kupatCholim_list') != -1)"><a ui-sref="kupatCholim_list" ui-sref-active="active" translate="Kupat Cholim"></a></li>
+				<li ng-if="(permissionsArray.indexOf('ipSettings') != -1)"><a ui-sref-active="active" ui-sref="ipSettings" translate="Settings"></a></li>
+            </ul>
+		</div>
+    </div>
+  <div class="page-inner">
+		<div class="page-title-breadcrumb" id="title-breadcrumb-option-demo">
+			<div class="page-header">
+				<div class="page-title" translate="Add New Index"></div>
+			</div>
+	<!--
+			<ul class="breadcrumb page-breadcrumb">
+				<li><a href="#">Home</a></li>
+				<span> &nbsp; <i class="fa fa-angle-right"></i> &nbsp;</span>
+				<li class="hidden"><a href="#">Dashboard</a></li>
+				<li class="active"><a href="#">Dashboard</a></li>
+			</ul>
+	-->
+		</div>
+		<div class="clearfix"></div>
+		<div class="page-in-below-head clearfix">
+		<!-- <div ng-if="disease==true">
+		<div class="btnTop">
+		  <a title="Save & Next"  class="btn btn-xs btn-primary ng-scope" href="" ng-click="addIndex(index1,index)"><i class="fa fa-save"></i> Save </a>
+		  <a title="Save & Next"  class="btn btn-xs btn-primary ng-scope" href="#/dashboard/indexList"><i class="fa fa-mail-forward" ></i> Back </a>
+		</div>
+		</div>
+		<div ng-if="triage==true">
+		<div class="btnTop">
+		  <a title="Save & Next"  class="btn btn-xs btn-primary ng-scope" href="" ng-click="addIndex(index2,index)"><i class="fa fa-save"></i> Save </a>
+		  <a title="Save & Next"  class="btn btn-xs btn-primary ng-scope" href="#/dashboard/indexList"><i class="fa fa-mail-forward" ></i> Back </a>
+		</div>
+		</div> -->	
+			<div class="form-container form-deve">
+				
+					<div class="row" ng-init="triage=false;disease=false;">
+						<div class="col-sm-12">
+							<h4 translate="Index Type">
+							
+							</h4>
+							<hr/>
+						</div>
+						<div class="col-sm-6">
+							<div class="form-group">
+								<strong><input type="radio" name="indexDisease" ng-click="triage=true;disease=false;getIndexTitleList('Triage')" ng-model="index.indexType" value="Triage"/><strong translate="Numeric Range"></strong></strong>
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="form-group">
+								<strong><input type="radio" name="indexDisease" ng-click="triage=false;disease=true;getIndexTitleList('Disease')" ng-model="index.indexType" value="Disease"/> <strong translate="Yes/No (from “Current main complaint”)"></strong>
+							</div>
+						</div>
+					</div>
+					<div ng-if="triage==true">
+					<form ng-submit="addIndex(index2,index)" name="form">
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label translate="Index Title">
+								
+								</label>
+								<div class="select_box">
+									<select class="form-control" ng-model="index2._id" name="userType">
+										<option value="" translate="Select"></option>
+										<option ng-repeat="x in indexList" value="{{x._id}}">{{x.name}}
+										</option>
+									</select>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label translate="Normal range between">
+									
+								</label><br/>
+								<input type="number" name="minRange" min="0" class="form-control-inline"  ng-model="index2.minRange"> <strong translate="and"></strong>
+								<input type="number" name="maxRange" min="0" class="form-control-inline" ng-model="index2.maxRange">
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label translate="If this Index is out of range, Show alert every">
+									
+								</label><br/>
+								<input type="number" name="alertFreqency" min="0" class="form-control-inline" ng-model="index2.alertFreqency"><strong translate="Minutes"></strong>
+							</div>
+						</div>
+					</div>
+					
+					<div class="col-sm-8">
+					</div>
+					<div class="col-sm-4">
+							<button class="btn_black" ui-sref="index" translate="Back"></button> <button type="submit"  class="btn_green" translate="Add"></button>
+						</div>	
+						</form>
+					</div>
+					    <div ng-if="disease==true">
+					    <form ng-submit="addIndex(index1,index)" name="form">
+						<div class="row">
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label translate="Index Title">
+								</label>
+								<div class="select_box">
+									<select class="form-control" ng-model="index1._id" name="userType">
+										<option value="" translate="Select"></option>
+										<option ng-repeat="x in indexList" value="{{x._id}}">{{x.name}}
+										</option>
+									</select>
+									<span class="dropdown_box"></span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label translate="If this current main complaint is chosen, Show alert every">
+									
+								</label><br/>
+								<input type="number" name="alertFreqency" min="0" class="form-control-inline" ng-model="index1.alertFreqency"> <strong translate="Minutes"></strong>
+							</div>
+						</div>
+					</div>
+				
+					<div class="col-sm-8">
+					</div>
+					 <div class="col-sm-4">
+							<button class="btn_black" ui-sref="index" translate="Back"></button> <button type="submit"  class="btn_green" translate="Add"></button>
+						</div> 
+							</form>
+					</div>
+			</div>
+		</div>
+	 </div>    
+</div>
+</div>
+<!--</section>-->

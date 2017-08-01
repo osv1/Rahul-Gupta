@@ -1,0 +1,104 @@
+
+<div class="page page-dashboard">
+    <div class="left-menu-top clearfix">
+        <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button"> <span class="sr-only">Toggle navigation</span> </a>
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+                aria-controls="navbar"> <span class="sr-only">Toggle navigation</span> Menu </button>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse pull-left">
+            <ul class="nav navbar-nav">
+                <li ng-if="(permissionsArray.indexOf('patientDebt') != -1)"><a ui-sref="patientDebt" ui-sref-active="active">{{'In Debt'|translate}}</a></li>
+                <li ng-if="(permissionsArray.indexOf('visitHistory') != -1)"><a ui-sref="visitHistory" ui-sref-active="active">{{'Visit History'|translate}}</a></li>
+                <li ng-if="(permissionsArray.indexOf('activePatient') != -1)"><a ui-sref="activePatient" ui-sref-active="active">{{'Active'|translate}}</a></li>
+			    <li ng-if="(permissionsArray.indexOf('activePatientByDr') != -1)"><a ui-sref="activePatientByDr" ui-sref-active="active" translate="Waiting patient"></a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="page-inner" ng-init="initializeDatepicker(); getPatientDashboardCount()">
+
+        <div class="page-title-breadcrumb" id="title-breadcrumb-option-demo" >
+            <div class="page-header">
+                <div class="page-title">{{'Patient Dashboard'|translate}}</div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="page-in-below-head clearfix">
+            <div class="row ">
+                <div class="col-sm-12">
+                    <div class="form-group" ng-init= "timeRange = 2">
+                        <label class="ui-radio"><input type="radio" value="1" ng-model = "timeRange" ng-change = "getPatientDashboardCount()" ><span>{{'Recent hour'|translate}}</span></label>
+                        <label class="ui-radio"><input type="radio" value="2" ng-model = "timeRange" ng-change = "getPatientDashboardCount()" ><span>{{'This shift'|translate}}</span></label>
+                        <label class="ui-radio"><input type="radio" value="3" ng-model = "timeRange" ng-change = "getPatientDashboardCount()" ><span>{{'Last shift'|translate}}</span></label>
+                        <label class="ui-radio"><input type="radio" value="4" ng-model = "timeRange" ><span>{{'Choose dates'|translate}}</span></label>
+                    </div>
+                </div>
+                <div class="col-sm-3" ng-show = "timeRange == 4" >
+                    <form>
+                        <div >
+                            <label>{{'Date range'|translate}}</label>
+                            <input placeholder="{{'Date range'|translate}}" ng-model="gameData.dateRange" id="dateRange" type="text" name="dateRange" ng-change = "getPatientDashboardCount()"/>
+                        </div>
+                        <br>
+                    </form>
+                </div>
+               
+
+                <div class="col-sm-12">
+                                <div class="dashboardP">
+                                    <div class="dashboardPB enteredEMC">
+                                        <i class="{{(counts.enteredEmc  == null) ? 'fa fa-spinner fa-spin fa-3x fa-fw' : ''}}"></i>
+                                        <h2>{{'Entered EMC'|translate}}</h2>
+                                        <h3 ng-bind="counts.enteredEmc"></h3>
+                                    </div>
+                                    <div class="dashboardPB doneTriage">
+                                        <i class="{{(counts.triageDone  == null) ? 'fa fa-spinner fa-spin fa-3x fa-fw' : ''}}"></i>
+                                        <h2>{{'Done Triage'|translate}} </h2>
+                                        <h3 ng-bind="counts.triageDone"></h3>
+                                    </div>
+                                    <div class="dashboardPB sawADr">
+                                        <i class="{{(counts.drSaw  == null) ? 'fa fa-spinner fa-spin fa-3x fa-fw' : ''}}"></i>
+                                        <h2>{{'Saw a Dr.'|translate}}</h2>
+                                        <h3 ng-bind="counts.drSaw"></h3>
+                                    </div>
+                                </div>
+                                <div class="dashboardP">
+                                    <div class="dashboardPB averageTime">
+                                        <i class="{{(counts.avgStartToTriageDone  == null) ? 'fa fa-spinner fa-spin fa-3x fa-fw' : ''}}"></i>
+                                        <h2>{{'Average time to see a nurse'|translate}} </h2>
+                                        <h3 ng-bind="counts.avgStartToTriageDone"></h3>
+                                    </div>
+                                    <div class="dashboardPB averageTime">
+                                        <i class="{{(counts.avgNurseExamDoneToDrSaw  == null) ? 'fa fa-spinner fa-spin fa-3x fa-fw' : ''}}"></i>
+                                        <h2>{{'Average time to see a dr.'|translate}} </h2>
+                                        <h3 ng-bind="counts.avgNurseExamDoneToDrSaw"></h3>
+                                    </div>
+                                </div>
+
+                                <div class="dashboardP">
+                                    <div class="dashboardPB totalPatients">
+                                        <!--<i class="{{(counts.enteredEmc  == null) ? 'fa fa-spinner fa-spin fa-3x fa-fw' : ''}}"></i>-->
+                                        <h2>{{'Total patients in EMC'|translate}} </h2>
+                                        <h3 >{{counts.enteredEmc + counts.triageDone + counts.drSaw }}</h3>
+                                    </div>
+                                    <div class="dashboardPB treatmentDone">
+                                        <i class="{{(counts.treatmentDone  == null) ? 'fa fa-spinner fa-spin fa-3x fa-fw' : ''}}"></i>
+                                        <h2>{{'Treatment Done'|translate}}</h2>
+                                        <h3 ng-bind="counts.treatmentDone"></h3>
+                                    </div>
+                                </div>
+                                
+                                <div class="dashboardP ">
+                                    <div class="dashboardPB averageTime lastBox">
+                                        <i class="{{(counts.avgTimeVisitStartToEnd  == null) ? 'fa fa-spinner fa-spin fa-3x fa-fw' : ''}}"></i>
+                                        <h2>{{'Average time to complete visit'|translate}} </h2>
+                                        <h3 ng-bind="counts.avgTimeVisitStartToEnd"></h3>
+                                    </div>
+                                </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--<script> $(function() { $('#cp3').colorpicker({ color: '#AA3399', format: 'rgb' }); }); </script>-->

@@ -1,0 +1,169 @@
+<div class="page page-dashboard">
+	<div class="left-menu-top clearfix arrowMenuBg">
+		<a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button"> <span class="sr-only">Toggle navigation</span> </a>
+		<!--<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+				aria-controls="navbar"> <span class="sr-only">Toggle navigation</span> Menu </button>
+		</div>-->
+	<div class="topLRMenu">
+        <ul>
+            <li ng-if="(permissionsArray.indexOf('doctorSummary') != -1)">
+				<a ui-sref="doctorSummary({ id : visitData._id })" ng-click="addDoctorTreatment(false, 'doctorSummary')" ui-sref-active="active" class="arrowL">
+                    <div class="inner-arrowL">
+						<p translate="Nursery's Summary"></p>
+                    </div>
+                </a>
+            </li>
+            <li ng-if="(permissionsArray.indexOf('editDoctorExam') != -1)">
+				<a ui-sref="editDoctorExam({ id : visitData._id })" ng-click="addDoctorTreatment(false, 'editDoctorExam')" ui-sref-active="active" class="arrowL">
+                    <div class="inner-arrowL">
+                       	{{ 'Physical Examination' | translate }} 
+                    </div>
+                </a>
+            </li>
+			<li ng-if="(permissionsArray.indexOf('doctorOrder') != -1)">
+				<a ui-sref="doctorOrder({ id : visitData._id })" ng-click="addDoctorTreatment(false,'doctorOrder')" ui-sref-active="active" class="arrowL">
+                    <div class="inner-arrowL">
+                       	{{ 'Dr.Orders' | translate }} 
+                    </div>
+                </a>
+            </li>
+		
+			<li ng-if="(permissionsArray.indexOf('doctorTreatment') != -1)">
+				<a ui-sref="doctorTreatment({ id : visitData._id })" ng-click="addDoctorTreatment(false, 'doctorTreatment')" ui-sref-active="active" class="arrowL">
+                    <div class="inner-arrowL">
+                       	{{ 'Treatment' | translate }} 
+                    </div>
+                </a>
+            </li>
+			<li ng-if="(permissionsArray.indexOf('doctorPrescription') != -1)">
+				<a ui-sref="doctorPrescription({ id : visitData._id })" ng-click="addDoctorTreatment(false, 'doctorPrescription')" ui-sref-active="active" class="arrowL">
+                    <div class="inner-arrowL">
+                       	{{ 'Prescription' | translate }} 
+                    </div>
+                </a>
+            </li>
+			<li ng-if="(permissionsArray.indexOf('doctorResult') != -1)">
+				<a ui-sref="doctorResult({ id : visitData._id })" ng-click="addDoctorTreatment(false, 'doctorResult')" ui-sref-active="active" class="arrowL">
+                    <div class="inner-arrowL">
+                       	{{ 'Results' | translate }} 
+                    </div>
+                </a>
+            </li>
+			
+        </ul>
+        <div class="clearfix"></div>
+    </div>
+	</div>
+	<div class="page-inner">
+		<div class="page-title-breadcrumb" id="title-breadcrumb-option-demo">
+			<div class="page-header">
+				<div class="page-title" translate="Treatment"></div>
+			</div>
+		</div>
+		<div class="clearfix"></div>
+		<div class="btnTop">
+			  
+			<a title="{{'Save & Next'|translate}}"  class="btn btn-xs btn-primary ng-scope" ng-click="addDoctorTreatment(false)" ><i class="fa fa-save"></i> {{ 'Next' | translate }}  </a>
+			<a title="{{'VisitCard'|translate}}"  class="btn btn-xs btn-primary ng-scope" ng-click="addDoctorTreatment(true)"><i class="fa fa-vcard"></i> {{ 'Exit To Dashboard' | translate }}    </a>
+	    </div>
+		<div class="page-in-below-head clearfix" ng-init="currentPage = 'doctorTreatment';getVisitById(); getTreatmentDetails(); getStageInfoById()">
+			<div class="row ">
+				<div class="col-sm-12">
+					<div class="panel panel-default">
+						
+						<div class="panel-heading clearfix summary-heading">{{visitData.patientId.firstname}} {{visitData.patientId.lastname}}, {{visitData.patientId.age.year == 0 ? visitData.patientId.age.month == 0 ? visitData
+											.patientId.age.day : visitData.patientId.age.month : visitData.patientId.age.year}} {{visitData.patientId.age.year == 0 ? visitData.patientId.age.month == 0 ? 
+                                         'Day' : 'Month' : 'Year' |translate}} , {{visitData.patientId.gender | capitalize | translate }}
+							<span class = "allergies" ng-if = "allergies.length > 0" >  {{'allergic to'|translate}}: <u> {{ allergies }} </u></span>
+						 <span> {{visitData.currentStatus}}</span>
+							 <span ng-if = "getStageDateTime('doctor_treatment')" class="cameIn" >{{'Came In' | translate }}: {{ getStageDateTime('doctor_treatment')| date : "HH:mm '|' dd.MM.yy" }}</span>
+						</div>
+					
+						<div class="panel-body">
+							<form name="doctorTreatmentForm">
+							    <div class="col-sm-6">
+								<div class="row">
+									<div class="col-sm-12">
+										<div class="form-group">
+											<label translate="Course">
+														
+											</label>
+											<textarea class="form-control" name="course" rows="10" ng-model="visitData.course">
+											</textarea>
+										</div>
+									</div>
+									<div class="col-sm-12">
+										<div class="form-group">
+											<label translate="Diagnosis">
+														
+											</label>
+											<textarea class="form-control" name="diagonosis" rows="10" ng-model="visitData.diagonosis">
+											</textarea>
+										</div>
+									</div>
+									<div class="clearfix"></div>
+									<div class="col-sm-12">
+										<div class="form-group">
+										    <label translate="Comments Here">
+										            
+										    </label>           
+											<textarea class="form-control" name="internalReferralComments"  rows="10" ng-model="visitData.internalReferralComments" placeholder="{{'Comments Here'|translate}}">
+											</textarea>
+										</div>
+									</div>
+									<div class="clearfix"></div>
+								</div>
+								</div>
+								<!--<div class="row">
+									<div class="col-sm-3">
+										<button class="btn_green" ng-disabled = "visitData.internalRefferal.length == 0"  ng-click="issueDocument('Internal Referral')" >{{'Issue a referral' | translate}}<i class="fa fa-spinner fa-spin" ng-if="loader"></i></button>
+									</div>
+									<div class="col-sm-9">
+									</div>
+
+								</div>-->
+
+				</form>
+		</div>
+	
+</div>
+
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+
+<!--<div class="select_box">-->
+<!--<ui-select multiple ng-model="visitData.currentDisease" theme="bootstrap"  ng-disabled="disabled" close-on-select="false" style="width: 300px;" title="Choose a color">
+											<ui-select-match placeholder="Select colors...">{{$item}}</ui-select-match>
+											<ui-select-choices repeat="x in diseaselist | filter:$select.search">
+											{{x.name}}
+											</ui-select-choices>
+										</ui-select>-->
+
+<!--<ui-select multiple  ng-model="visitData.currentDisease" theme="bootstrap" ng-disabled="disabled" style="width: 300px;">
+    <ui-select-match placeholder="Select person...">{{$item.name}}</ui-select-match>
+    <ui-select-choices repeat="x._id as x in diseaselist | filter: {name: $select.search}">
+      <div ng-bind-html="x.name | highlight: $select.search"></div>-->
+<!--<small>
+        email: {{person.email}}
+        age: <span ng-bind-html="''+person.age | highlight: $select.search"></span>
+      </small>-->
+<!--</ui-select-choices>
+  </ui-select>-->
+
+
+<!--<ui-select ng-model="card.id">
+        <ui-select-match>{{$select.selected.name}}</ui-select-match>
+        <ui-select-choices repeat="item.id as item in users | filter: $select.search">
+            <div ng-bind-html="item.name | highlight: $select.search"></div>
+        </ui-select-choices>
+    </ui-select>-->
+
+<!--<div isteven-multi-select input-model="categoryArr" output-model="questionnaire.category_id" button-label="categoryName" item-label="categoryName"
+                                        output-properties="_id" tick-property="ticked" data-toggle="tooltip" data-placement="top"
+                                        title="Select Country" data-trigger="hover" tabindex="6" name="category"></div>-->

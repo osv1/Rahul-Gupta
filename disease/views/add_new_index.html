@@ -1,0 +1,138 @@
+ <!--<section class="animate-fade-up" id="content">-->
+
+ <div class="page page-dashboard" data-ng-controller="homeController">
+<div class="left-menu-top clearfix"> <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button"> <span class="sr-only">Toggle navigation</span> </a>
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"> <span class="sr-only">Toggle navigation</span> Menu </button>
+      </div>
+      <div id="navbar" class="navbar-collapse collapse pull-left"> 
+        <!-- <ul class="nav navbar-nav navbar-right"> -->
+          <ul class="nav navbar-nav">
+                <li ng-if="(permissionsArray.indexOf('familyDoctors') != -1)"><a ui-sref="familyDoctors" ui-sref-active="active" translate="FamilyDoctors"></a></li>
+                <li  ng-if="(permissionsArray.indexOf('survey') != -1)"><a ui-sref="survey" ui-sref-active="active" translate="Survey"></a></li>
+                <li ng-if="(permissionsArray.indexOf('statuses') != -1)"><a ui-sref="statuses" ui-sref-active="active" translate="Statuses"></a></li>
+                <li ng-if="(permissionsArray.indexOf('index') != -1)"><a ui-sref="index" ui-sref-active="active" translate="Indexes"></a></li>
+                <li ng-if="(permissionsArray.indexOf('Diseases') != -1)"><a ui-sref="Diseases" ui-sref-active="active" translate="Diseases"></a></li>
+                <li ng-if="(permissionsArray.indexOf('users') != -1)"><a ui-sref="users" ui-sref-active="active" translate="Users"></a></li>
+                <li ng-if="(permissionsArray.indexOf('roles') != -1)"><a ui-sref="roles" ui-sref-active="active" translate="Roles & Permission"></a></li>
+                <li ng-if="(permissionsArray.indexOf('kupatCholim_list') != -1)"><a ui-sref="kupatCholim_list" ui-sref-active="active" translate="Kupat Cholim"></a></li>
+            </ul>
+      </div>
+    </div>
+  <div class="page-inner">
+		<div class="page-title-breadcrumb" id="title-breadcrumb-option-demo">
+			<div class="page-header">
+				<div class="page-title"> Add New Index</div>
+			</div>
+	<!--
+			<ul class="breadcrumb page-breadcrumb">
+				<li><a href="#">Home</a></li>
+				<span> &nbsp; <i class="fa fa-angle-right"></i> &nbsp;</span>
+				<li class="hidden"><a href="#">Dashboard</a></li>
+				<li class="active"><a href="#">Dashboard</a></li>
+			</ul>
+	-->
+		</div>
+		<div class="clearfix"></div>
+		<div class="page-in-below-head clearfix">
+			<div class="form-container form-deve">
+				<form>
+					<div class="row">
+						<div class="col-sm-12">
+							<h4>
+								Index Type :
+							</h4>
+							<hr/>
+						</div>
+						<div class="col-sm-6">
+							<div class="form-group">
+								<strong><input type="radio" name ="index_type"> Numeric range</strong>
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="form-group">
+								<strong><input type="radio" name ="index_type"> Yes/No (from “Current disease”)</strong>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>
+									Index Title :
+								</label>
+								<div class="select_box">
+									<select class="form-control">
+										<option>Select</option>
+										<option>1</option>
+										<option>2</option>
+									</select>
+									<span class="dropdown_box"></span>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>
+									Normal range between
+								</label><br/>
+								<input type="text" class <!--<section class="animate-fade-up" id="content">-->
+="form-control-inline" value ="80"> and
+								<input type="text" class="form-control-inline" value ="120">
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>
+									If this Index is out of range,
+								</label>
+								<label>
+									Show alert every
+								</label><br/>
+								<input type="text" class="form-control-inline" value ="10"> minutes
+							</div>
+						</div>
+					</div>
+					
+					
+					
+						<div class="row">
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>
+									Index Title :
+								</label>
+								<div class="select_box">
+									<select class="form-control">
+										<option>Select</option>
+										<option>1</option>
+										<option>2</option>
+									</select>
+									<span class="dropdown_box"></span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>
+									If this current disease is chosen
+								</label>
+								<label>
+									Show alert every
+								</label><br/>
+								<input type="text" class="form-control-inline" value ="5"> minutes
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	 </div>    
+</div>
+</div>
+
+ <!--</section>-->

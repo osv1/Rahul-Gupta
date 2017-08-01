@@ -1,0 +1,180 @@
+
+	
+	<div class="modal-header">
+		<button class="close" type="button" ng-click="cancel()">X
+		
+		</button>
+	</div>
+	<div class="page page-dashboard">
+		
+		<div class="page-inner">
+			<div class="page-title-breadcrumb" id="title-breadcrumb-option-demo">
+				<div class="page-header">
+					<div class="page-title" translate="Triage"></div>
+					
+				</div>
+			</div>
+			<div class="page-in-below-head clearfix" ng-init="getVisitById(); getTriageTestByVisitId(); getStageInfoById()">
+				<div class="row ">
+					<div class="col-sm-12">
+						<form name="form">
+							<div class="panel panel-default">
+								<div class="panel-heading">{{visitData.patientId.firstname}} {{visitData.patientId.lastname}}, {{visitData.patientId.age}} {{visitData.patientId.gender | capitalize}}
+							<span class = "allergi" ng-if = "allergies.length > 0" >  allergic to: <u> {{ allergies }} </u></span>
+						 <span> {{visitData.currentStatus}}</span>
+							 <span ng-if = "getStageDateTime('nurse_triage')" class="cameIn" >Came In: {{ getStageDateTime('nurse_triage')| date : "HH:mm '|' dd.MM.yy" }}</span>
+						</div> 
+								<!--<div class="panel-heading">{{visitData.patientId.firstname}} {{visitData.patientId.lastname}}, {{visitData.patientId.age}} {{visitData.patientId.gender | capitalize}}{{ allergies.length ? ', allergic to: ' + allergies : "" }}
+									<span ng-cloak>Came In: {{ getStageDateTime('nurse_triage')| date : "HH:mm '|' dd.MM.yy" }}   {{visitData.currentStatus}}</span>
+								</div>-->
+								<div>
+									
+									
+									<accordion close-others="true" class="accordionDiv">
+										<accordion-group ng-repeat="test in triageTestList" is-open="test.open">
+											<accordion-heading>
+												<span class="pull-left" translate="Test"> #{{$index + 1}} </span><i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': test.open, 'glyphicon-chevron-right': !test.open}"></i>
+												<!--<i ng-class="{'glyphicon glyphicon-chevron-down': test.open, 'glyphicon glyphicon-chevron-right': !test.open}"></i> Test #{{$index + 1}}-->
+											</accordion-heading>
+											<div class="panel-body">
+												<div class="panel-body">
+													<div class="row">
+														<div class="col-sm-6">
+															<div class="form-group">
+																<div class="col-sm-6">
+																	<label translate="Pulse"</label>
+																</div>&nbsp;
+																<div class="col-sm-3">
+																	{{triageTestList[$index].pulse}}
+																	
+																</div>
+															</div>
+														</div>
+														
+														<div class="col-sm-6">
+															<div class="form-group">
+																<div class="col-sm-8"><label translate="Saturation"</label>
+																
+																
+															</div> &nbsp;
+															<div class="col-sm-3">
+																{{triageTestList[$index].saturation}}
+																
+															</div>
+														</div>
+													</div>
+												</div>
+												<hr>
+												
+												
+												
+												<div class="row">
+													<div class="col-sm-6">
+														<div class="form-group">
+															<div class="col-sm-6"><label translate="Weight"</label>
+															
+															
+														</div>&nbsp;
+														<div class="col-sm-3">
+															
+															{{triageTestList[$index].weight}}
+															
+														</div>
+													</div>
+												</div>
+												<div class="col-sm-6">
+													<div class="form-group">
+														<div class="col-sm-8"><label translate="Temperature"</label>
+														
+														
+													</div>
+													<div class="col-sm-3">
+														{{triageTestList[$index].temperature}}
+														
+														
+													</div>
+												</div>
+											</div>
+										</div>
+										<hr>
+										
+										<div class="row">
+											<div class="col-sm-4">
+												
+												<div class="col-sm-6" >
+													<label translate="Blood Pressure"></label>
+												</div>
+											</div>
+											
+											<div class="col-sm-4">
+												
+												<div class="col-sm-6" >
+													<strong translate="Min:"></strong>
+												</div>
+												<div class="col-sm-6">
+													{{triageTestList[$index].bloodPressure.minValue}}
+												</div>
+											</div>
+											<div class="col-sm-4">
+												<div class="col-sm-6">
+													<strong translate="Max:"></strong>
+												</div>
+												<div class="col-sm-6">
+													{{triageTestList[$index].bloodPressure.maxValue}}
+												</div>
+											</div>
+										</div>
+									</div>
+									
+									
+									
+									<hr>
+									
+									<div class="row">
+										<div class="col-sm-10">
+											<div class="form-group">
+												<div class="col-sm-6"><label translate="Breadth/Minutes"</label>
+											</div>
+											<div class="col-sm-3">&nbsp;
+												{{triageTestList[$index].breadthPerMinute}}
+												
+											</div>
+										</div>
+									</div>
+								</div>
+								</div>
+							</div>
+						</div>
+					
+				</div>
+			</div>
+		</accordion-group>
+		<br/>
+		
+	</accordion>
+	<div class="col-sm-6">
+		<div class="form-group row">
+			<label class="col-sm-4" translate="Allergies">
+				
+			</label>
+			<div class="col-sm-8">
+				<p ng-bind="allergies !=undefined ? allergies : 'NA'"></p>
+				<!--{{allergies}}-->
+			</div>
+		</div>
+	</div>
+	
+	
+</div>
+</div>
+
+
+
+</form>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>

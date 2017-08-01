@@ -1,0 +1,132 @@
+<style>
+.input-group.dosageDrop {
+    width: 100%;
+}
+.input-group.dosageDrop .btn.btn-default.dropdown-toggle {
+    height: 40px;
+    width: 33px;
+    z-index: 10;
+    right: 30px;
+}
+</style>
+<div class="page page-dashboard">
+	<div class="left-menu-top clearfix">
+		<a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button"> <span class="sr-only">Toggle navigation</span> </a>
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+				aria-controls="navbar"> <span class="sr-only">Toggle navigation</span> Menu </button>
+		</div>
+	</div>
+	<div class="page-inner">
+		<div class="page-title-breadcrumb" id="title-breadcrumb-option-demo">
+			<div class="page-header">
+				<div class="page-title" translate="Update Quantity"></div>
+			</div>
+		</div>
+		<div class="clearfix"></div>
+		<div class="btnTop">
+		  <a title="{{'Save & Next'|translate}}"  class="btn btn-xs btn-primary ng-scope" href="#/inventoryList" ng-click="addNewDrug(drug)"><i class="fa fa-save" ></i>&nbsp;{{'Save'|translate}}</a>
+		  <a title="{{'Save & Next'|translate}}"  class="btn btn-xs btn-primary ng-scope" href="#/inventoryList"><i class="fa fa-mail-forward" translate="Back"></i></a>
+	    </div>
+		<div class="page-in-below-head clearfix">
+			<div class="panel panel-default">
+			<div class="panel-body">
+			<div class="form-container form-deve">
+				<form name="adduserprofile">
+				    <div class="row">
+					 <div class="col-sm-6">
+						<div class="form-group" ng-init="getDrugs()">
+								<label translate="Drug Name"> 
+								</label>
+							    
+								<angucomplete-alt id="ex5" placeholder="{{ 'Drug Name' | translate }}" pause="500" selected-object="selectedObject" local-data="inventoryList" search-fields="drugName" title-field="drugName" minlength="1" input-class="form-control form-control-small" match-class="highlight" force-list-selection="false" focus-out="drugNameFocusOut()"></angucomplete-alt>
+						</div>
+						</div>
+						<div class="col-sm-6">
+						<div class="form-group">
+								<label translate="Dosage">	
+								</label>	
+								<div class="clearfix"></div>			
+							     <div  ng-if="showPredefinedDosage == 0">
+                                  <div class="col-sm-3" >
+							      <input type="number" min='0' class="form-control" ng-model="drug.dosageNumber" placeholder="Number" >
+                                  </div>
+								  <div class="col-sm-3" >
+								  <input type="text" class="form-control" ng-model="drug.dosageValue" placeholder="Value" >
+								  </div>
+							   </div>
+							   <div class="col-sm-4" ng-if="showPredefinedDosage == 1">
+								<div class="input-group dosageDrop">
+									<div class="input-group-btn" >
+										<input type="text" class="form-control" ng-model="drug.dosage" readonly >
+										<!--<label  class="form-control"> {{drug.dosage}} </label>-->
+										<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+										<ul id="color-dropdown-menu" class="dropdown-menu dropdown-menu-right" role="menu">
+										<li ng-repeat="dosage in selectedObject.originalObject.drugDetails" class="input-lg"><a href="javascript:void(0)" ng-click="changeDosage(dosage);">{{dosage.dosage}}</a></li>
+										</ul>
+									</div>
+        						</div>
+							   </div>	
+							   <div class="clearfix">
+							   <div class="col-sm-6" >
+						               <!--<a href="javascript:void(0)" ng-click="showPredefinedDosagefunc()"> <i ng-class="{'fa fa-plus-circle plus-cir': showPredefinedDosage == 1, 'fa fa-eye plus-cir': showPredefinedDosage == 0}" aria-hidden="true"></i>{{ showPredefinedDosage == 1 ? "Add new dosage" : "Show dosage"}}</a>-->
+
+									    <a href="javascript:void(0)" ng-click="showPredefinedDosagefunc()"> <i ng-class="showPredefinedDosage == 1 ? 'fa fa-plus-circle plus-cir':  'fa fa-eye plus-cir'" aria-hidden="true"></i>{{ showPredefinedDosage == 1 ? "Add new dosage" : "Show dosage"}}</a>
+									   
+							   </div>
+							   </div>
+							   <!--<div class="input-group dosageDrop">
+									<input type="text" class="form-control" ng-model="drug.dosage" >
+									<div class="input-group-btn">
+										<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+										<ul id="color-dropdown-menu" class="dropdown-menu dropdown-menu-right" role="menu">
+										<li ng-repeat="dosage in selectedObject.originalObject.drugDetails" class="input-lg"><a href="javascript:void(0)" ng-click="changeDosage(dosage)">{{dosage.dosage}}</a></li>
+										</ul>
+									</div>
+        						</div>-->
+						</div>
+					 </div>
+					</div>
+					<div class="row">
+							<div class="col-sm-6">
+								<div class="form-group">
+									<label translate="In Stock Now">
+									</label>
+									<input type="number" name="stockNow" class="form-control" ng-model="drug.stockNow" maxlength="7" readonly>
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<div class="form-group">
+									<label translate="Target Quantity"></label>
+									<input type="text" name="stockNow" class="form-control" ng-model="drug.updateQuantity">
+								</div>
+							</div>
+					</div>
+					
+					<div class="row">
+							<div class="col-sm-6">
+								<div class="form-group">
+									<label translate="Add to Stock">	
+									</label>
+									<input type="number" value = '0' name="addToStock" class="form-control" ng-model="drug.addToStock" maxlength="7" required>
+								</div>
+							</div>
+					</div>
+				</form>
+				 </div>
+				</div>
+			  </div>		
+			</div>
+		</div>
+	</div>
+
+
+<!--<div class="col-sm-9">
+	<input ng-model="userData.username" name="username" type="text" class="col-xs-10 col-sm-5" autocomplete="off" placeholder="Username"
+		maxlength="20" id="form-field-1" ng-pattern="/^[a-zA-Z0-9]*$/" required>
+	<span class="alert-danger" ng-show="adduserprofile.username.$dirty && adduserprofile.username.$invalid">
+                                        <span ng-show="adduserprofile.username.$error.required">Username is required.</span>
+	<span ng-show="adduserprofile.username.$error.pattern">Username is not valid.</span>
+	</span>
+</div>-->
+

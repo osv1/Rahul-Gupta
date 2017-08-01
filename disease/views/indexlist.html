@@ -1,0 +1,130 @@
+<!--<section class="animate-fade-up" id="content">-->
+
+<style type="text/css">
+.input-group .search_box button    {
+    min-width: 40px !important;
+    padding: 12px;
+
+}
+.input-group .search_box { position: absolute; }
+.input-group .search_box button{     margin: 0;
+    margin-top: -1px; }
+
+
+
+</style> 
+ <div class="page page-dashboard" >
+<div class="left-menu-top clearfix"> <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button"> <span class="sr-only">Toggle navigation</span> </a>
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"> <span class="sr-only">Toggle navigation</span> Menu </button>
+      </div>
+      <div id="navbar" class="navbar-collapse collapse pull-left"> 
+        <!-- <ul class="nav navbar-nav navbar-right"> -->
+       <ul class="nav navbar-nav">
+                <li ng-if="(permissionsArray.indexOf('familyDoctors') != -1)"><a ui-sref="familyDoctors" ui-sref-active="active" translate="FamilyDoctors"></a></li>
+                <li  ng-if="(permissionsArray.indexOf('survey') != -1)"><a ui-sref="survey" ui-sref-active="active" translate="Survey"></a></li>
+                <li ng-if="(permissionsArray.indexOf('statuses') != -1)"><a ui-sref="statuses" ui-sref-active="active" translate="Statuses"></a></li>
+                <li ng-if="(permissionsArray.indexOf('index') != -1)"><a ui-sref="index" ui-sref-active="active" translate="Indexes"></a></li>
+                <li ng-if="(permissionsArray.indexOf('Diseases') != -1)"><a ui-sref="Diseases" ui-sref-active="active" translate="Main Complaint"></a></li>
+                <li ng-if="(permissionsArray.indexOf('users') != -1)"><a ui-sref="users" ui-sref-active="active" translate="Users"></a></li>
+                <li ng-if="(permissionsArray.indexOf('roles') != -1)"><a ui-sref="roles" ui-sref-active="active" translate="Roles & Permission"></a></li>
+                <li ng-if="(permissionsArray.indexOf('kupatCholim_list') != -1)"><a ui-sref="kupatCholim_list" ui-sref-active="active" translate="Kupat Cholim"></a></li>
+				<li ng-if="(permissionsArray.indexOf('ipSettings') != -1)"><a ui-sref-active="active" ui-sref="ipSettings" translate="Settings"></a></li>
+            </ul>
+      </div>
+    </div>
+  <div class="page-inner" ng-init="getallIndex()">
+		<div class="page-title-breadcrumb" id="title-breadcrumb-option-demo">
+			<div class="page-header">
+				<div class="page-title"></div>
+			</div>
+	<!--
+			<ul class="breadcrumb page-breadcrumb">
+				<li><a href="#">Home</a></li>
+				<span> &nbsp; <i class="fa fa-angle-right"></i> &nbsp;</span>
+				<li class="hidden"><a href="#">Dashboard</a></li>
+				<li class="active"><a href="#">Dashboard</a></li>
+			</ul>
+	-->
+		</div>
+		<div class="clearfix"></div>
+		<div class="page-in-below-head clearfix">
+			<div class="row ">
+				<div class="col-sm-6 col-xs-6">
+					<!-- <div class="input-group">
+						<div class="select_box">
+							<input type="text" class="form-control" placeholder="Search By Index" ng-model="search.name">
+							<span class="search_box">
+							 <button type="button" class="fa fa-search btn_green" type="submit"></button>
+							</span>
+						</div>
+					</div> -->
+					<form name="searchForm" novalidate class="famildr_sear"> 
+						<div class="input-group">
+							<input type="text" class="form-control " placeholder="{{'Search By Index'|translate}}" ng-model="search.name"
+								required />
+							<span class="search_box">
+								<button type="button" class="glyphicon glyphicon-search btn_green" type="submit">
+								</button>
+							</span>
+						</div>
+					</form>
+				</div>
+ 				<div class="col-sm-6 col-xs-6">
+					<button class="btn_green pull-right" ng-if="(permissionsArray.indexOf('index_add') != -1)" ui-sref="index_add" translate="Add New Index"></button>
+				</div>
+			</div>
+			<div class="row ">
+				<div class="col-sm-12">
+					<div class="panel panel-default">  
+							<div class="panel-heading" translate="Index List"></div> 
+							<div class="panel-body">
+									<div class="table-responsive">
+											<table class="table table-bordered table-striped table-responsive" ng-table="tableParams">
+													<!--<tbody>-->
+															<tr dir-paginate="index in index1 = (indexList | filter:search | itemsPerPage: 10 )" >
+																	<td data-title="'Index'|translate"  ng-bind="index.name | capitalize">
+																	</td>
+																	<td data-title="'IndexType'|translate" ng-bind="index.indexType">
+																	</td>
+																	<td data-title="'TakeFrom'|translate" ng-bind="index.minRange !=undefined ? index.minRange : 'NA'"></td>
+																	<td data-title="'TakeTo'|translate"  ng-bind="index.maxRange !=undefined ? index.maxRange : 'NA'">
+																	</td>
+																	<td data-title="'AlertFrequency'|translate"  ng-bind="index.alertFreqency">
+																	</td>
+																	<td ng-if="(permissionsArray.indexOf('edit_triage') != -1) || (permissionsArray.indexOf('edit_disease') != -1)" data-title="'Action'|translate" align="left"><a href ng-click="editIndexList(index._id,index.indexType)"><i class="fa fa-pencil-square-o fa-1 fa-lg"></i></a>
+																	</td>
+															</tr>
+															<tr ng-if="tableLoader">
+																<td colspan="7" align="center">
+																	<i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+																</td>
+															</tr>
+															<tr ng-if="indexList.length == 0 && !tableLoader">
+																<td colspan="7" align="center" translate="No Record Found"></td>
+															</tr>
+															<!-- 	 -->
+													<!--</tbody>-->
+															<!-- <tr ng-if="tableLoader">
+                                        					<td colspan="7" align="center">
+                                           					<i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+                                        					</td>
+                                    						</tr>
+                                    						<tr ng-if="indexList.length == 0 && !tableLoader">
+                                        					<td colspan="7" align="center">No record Found</td>
+                                    						</tr> -->
+
+
+											</table> 
+
+											<dir-pagination-controls direction-links="true" class="pull-right" boundary-links="true"></dir-pagination-controls>    
+											 </div>    
+									</div>  
+							</div> 
+					</div> 
+				</div>     
+			</div>
+		</div>
+ </div>    
+</div>
+<!--</section>-->

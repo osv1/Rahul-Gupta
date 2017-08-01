@@ -1,0 +1,115 @@
+<!--<section class="animate-fade-up" id="content">-->
+<div class="page page-dashboard" ng-init="getdiseasebyId()">
+	<div class="left-menu-top clearfix">
+		<a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button" method="POST"> <span class="sr-only">Toggle navigation</span> </a>
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+				aria-controls="navbar"> <span class="sr-only">Toggle navigation</span> Menu </button>
+		</div>
+		<div id="navbar" class="navbar-collapse collapse pull-left">
+			  <ul class="nav navbar-nav">
+                <li ng-if="(permissionsArray.indexOf('familyDoctors') != -1)"><a ui-sref="familyDoctors" ui-sref-active="active" translate="FamilyDoctors"></a></li>
+                <li  ng-if="(permissionsArray.indexOf('survey') != -1)"><a ui-sref="survey" ui-sref-active="active" translate="Survey"></a></li>
+                <li ng-if="(permissionsArray.indexOf('statuses') != -1)"><a ui-sref="statuses" ui-sref-active="active" translate="Statuses"></a></li>
+                <li ng-if="(permissionsArray.indexOf('index') != -1)"><a ui-sref="index" ui-sref-active="active" translate="Indexes"></a></li>
+                <li ng-if="(permissionsArray.indexOf('Diseases') != -1)"><a ui-sref="Diseases" ui-sref-active="active" translate="Main Complaint"></a></li>
+                <li ng-if="(permissionsArray.indexOf('users') != -1)"><a ui-sref="users" ui-sref-active="active" translate="Users"></a></li>
+                <li ng-if="(permissionsArray.indexOf('roles') != -1)"><a ui-sref="roles" ui-sref-active="active" translate="Roles & Permission"></a></li>
+                <li ng-if="(permissionsArray.indexOf('kupatCholim_list') != -1)"><a ui-sref="kupatCholim_list" ui-sref-active="active" translate="Kupat Cholim"></a></li>
+				<li ng-if="(permissionsArray.indexOf('ipSettings') != -1)"><a ui-sref-active="active" ui-sref="ipSettings" translate="IP Settings"></a></li>
+            </ul>
+		</div>
+	</div>
+	<div class="page-inner">
+		<div class="page-title-breadcrumb" id="title-breadcrumb-option-demo">
+			<div class="page-header">
+				<div class="page-title" translate="Update Test"></div>
+			</div>
+		</div>
+		<div class="clearfix"></div>
+		<div class="btnTop">
+		 <a title="{{'Save & Next'|translate}}"  class="btn btn-xs btn-primary ng-scope" href="" ng-click="updateTest(allTestList)"><i class="fa fa-save"></i>&nbsp;{{'Update'|translate}}</a>
+		  <a title="{{'Back'|translate}}"  class="btn btn-xs btn-primary ng-scope" href="#/dashboard/Currentdisease"><i class="fa fa-mail-forward" translate="Back"></i></a>
+		</div>
+		<div class="page-in-below-head clearfix">
+		<div class="panel panel-default">
+			<div class="panel-body">
+			<div class="form-container form-deve">
+				<form name="form">
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="form-group">
+								<h4 translate="Update Test for"></h4>
+								{{diseaseName}}
+							</div>
+						</div>
+					</div>
+					<div class="row">
+                         <div class="col-sm-6">
+										<h4 translate="Nurse's Test"></h4>
+										<hr>
+						</div>
+						<div class="col-sm-6">
+										<h4 translate="Doctor's Test"></h4>
+										<hr>
+						</div>
+					</div>
+					<div class="row">
+							<div class="col-sm-6">
+							<div class="form-container form-deve">
+								<div class="form-group clearfix" ng-repeat="disease in nurse track by $index" class="form-group clearfix">
+									<div class="col-sm-2">
+										<label translate="Test"># {{$index + 1}}:</label>
+									</div>
+									<div class="col-sm-8">
+										<input type="text" class="form-control" id="cost" name="cost" autocomplete="off" placeholder="Enter Nurse Test"
+											required ng-model="nurse[$index].nurseTest" />
+									</div>
+										
+									<span ng-hide="elemnt.length == 1">
+														<a href ng-click="nurse.splice($index, 1)"><i class="fa fa-minus-circle minus-cir" aria-hidden="true"></i>{{'Remove'|translate}}</a>
+									</span>
+								</div>
+								<br/>
+								<div class="col-sm-4 form-group clearfix">
+                                    <a href="#" ng-click="addnurseTest($event)"> <i class="fa fa-plus-circle plus-cir" aria-hidden="true"></i>{{'Add Test'|translate}}</a>
+                                </div>
+							</div>
+						</div>
+							<div class="col-sm-6">
+							<div class="form-container form-deve">
+								<div class="form-group clearfix" ng-repeat="disease in doctor track by $index">
+									<div class="col-sm-2">
+										<label translate="Test"># {{$index + 1}}:</label>
+									</div>
+									<div class="col-sm-6">
+										<input type="text" class="form-control" id="cost" name="cost"  autocomplete="off" placeholder="Enter Doctor Test"
+											required ng-model="doctor[$index].doctorTest" />
+									</div>
+									<span ng-hide="elemnt.length == 1">
+											<a href ng-click="doctor.splice($index, 1)"><i class="fa fa-minus-circle minus-cir" aria-hidden="true"></i>{{'Remove'|translate}}</a>
+								    </span>
+								</div>
+								</br>
+								<div class="col-sm-4 form-group clearfix">
+											<a href ng-click="addDoctorTest()"><i class="fa fa-plus-circle plus-cir" aria-hidden="true"></i>{{'Add Test'|translate}}</a>
+										</div>
+							</div>
+						</div>
+
+					</div>
+					<!-- <div class="row">
+						<div class="col-sm-8">
+						</div>
+						<div class="col-sm-4">
+							<button ui-sref="Diseases" class="btn_black">Back</button> <button type="submit" class="btn_green">Edit</button>
+						</div>
+					</div> -->
+				</form>
+				</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!--</section>-->

@@ -1,0 +1,64 @@
+ <div class="modal-header">
+		<button class="close" type="button" ng-click="cancel()">X
+		</button>
+	</div>
+ <div class="page page-dashboard" >
+  <div class="page-inner">
+		<div class="page-title-breadcrumb" id="title-breadcrumb-option-demo">
+			<div class="page-header">
+				<div class="page-title" translate="Credit Card"></div>
+			</div>
+		</div>
+		<div class="page-in-below-head clearfix">
+			<div class="row ">
+				<div class="col-sm-12">
+					<div class="panel panel-default">  
+						
+						<div class="panel-body">
+						<form name="form" novalidate>
+							<div class="row">
+								<div class="col-sm-12">
+                                    <div class="form-group">
+										<label>
+											{{'Card Type'|translate}}
+											
+										</label><span style="color : red">*</span>
+										<div class="select_box">
+											<select class="form-control" ng-init="paymentData.paidWithInfo.cardType = 'none'" ng-model="paymentData.paidWithInfo.cardType">
+												<option value = "none">{{'Select'|translate}}</option>
+												<option value = "American Express" >{{'American Express'|translate}}</option>
+												<option value = "Discover" >{{'Discover'|translate}}</option>
+												<option value = "MasterCard" >{{'MasterCard'|translate}}</option>
+												<option value = "Visa" >{{'Visa'|translate}}</option>								
+											</select>
+											<span class="dropdown_box"></span>
+										</div>
+									</div> 
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-12">
+									<div class="form-group">
+										<label>{{'Card Number'|translate}}</label><span style="color : red">*</span>
+										<input type="text" name="cardNumber" class="form-control" ng-model="paymentData.paidWithInfo.cc" placeholder="" ng-pattern="/^[0-9]*$/" ng-maxlength="4" required>
+										<span class="text-danger" ng-show="form.cardNumber.$invalid && form.cardNumber.$dirty">
+                                        <span ng-show="form.cardNumber.$error.required && form.cardNumber.$dirty" translate="Card Number is required."></span>
+										<span ng-show="form.cardNumber.$error.pattern" translate="Allowed only Number"></span>
+										<span ng-show="form.cardNumber.$error.maxlength" translate="Allowed Maximum 4 Numbers"></span>
+									</span>
+									</div>
+								</div>
+							</div>
+							
+							<button class=" btn_green" ng-disabled="form.$invalid" ng-click="ok()">{{'Proceed'|translate}}</button>
+							<button class=" btn_black" ng-click="cancel()">{{'Cancel'|translate}}</button>
+						</form>
+					</div>
+					</div> 
+				</div>     
+			</div>
+		</div>
+		</div>
+ </div>    
+
+

@@ -1,0 +1,215 @@
+<div class="page page-dashboard" data-ng-controller="surveyController">
+	<div class="left-menu-top clearfix">
+		<a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button"> <span class="sr-only">Toggle navigation</span> </a>
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+				aria-controls="navbar"> <span class="sr-only">Toggle navigation</span> Menu </button>
+		</div>
+		<div id="navbar" class="navbar-collapse collapse pull-left">
+			<!-- <ul class="nav navbar-nav navbar-right"> -->
+		  <ul class="nav navbar-nav">
+                <li ng-if="(permissionsArray.indexOf('familyDoctors') != -1)"><a ui-sref="familyDoctors" ui-sref-active="active" translate="FamilyDoctors"></a></li>
+                <li  ng-if="(permissionsArray.indexOf('survey') != -1)"><a ui-sref="survey" ui-sref-active="active" translate="Survey"></a></li>
+                <li ng-if="(permissionsArray.indexOf('statuses') != -1)"><a ui-sref="statuses" ui-sref-active="active" translate="Statuses"></a></li>
+                <li ng-if="(permissionsArray.indexOf('index') != -1)"><a ui-sref="index" ui-sref-active="active" translate="Indexes"></a></li>
+                <li ng-if="(permissionsArray.indexOf('Diseases') != -1)"><a ui-sref="Diseases" ui-sref-active="active" translate="Main Complaint"></a></li>
+                <li ng-if="(permissionsArray.indexOf('users') != -1)"><a ui-sref="users" ui-sref-active="active" translate="Users"></a></li>
+                <li ng-if="(permissionsArray.indexOf('roles') != -1)"><a ui-sref="roles" ui-sref-active="active" translate="Roles & Permission"></a></li>
+                <li ng-if="(permissionsArray.indexOf('kupatCholim_list') != -1)"><a ui-sref="kupatCholim_list" ui-sref-active="active" translate="Kupat Cholim"></a></li>
+				<li ng-if="(permissionsArray.indexOf('ipSettings') != -1)"><a ui-sref-active="active" ui-sref="ipSettings" translate="Settings"></a></li>
+            </ul>
+		</div>
+	</div>
+	<div class="page-inner" ng-init="getSurveyDetails()">
+		<div class="page-title-breadcrumb" id="title-breadcrumb-option-demo">
+			<div class="page-header">
+				<div class="page-title" translate="Survey"></div>
+			</div>
+		</div>
+		<div class="clearfix"></div>
+		<div class="btnTop">
+		  <a title="{{'Add'|translate}}"  class="btn btn-xs btn-primary ng-scope" href="" ng-click="addSurvey(survey)" ng-disabled="surveyForm.$invalid" ><i class="fa fa-save"></i>&nbsp;{{'Save'|translate}}</a>
+		  <a title="{{'Back'|translate}}" class="btn btn-xs btn-primary ng-scope" href="#/dashboard" ><i class="fa fa-mail-forward" translate="Back"></i></a>
+	    </div>
+		<div class="page-in-below-head clearfix">
+			<div class="row ">
+				<div class="col-sm-12">
+					<div class="panel panel-default">
+						<form name="surveyForm" ng-submit="addSurvey(survey)" role="form" method="post">
+							<div class="panel-body">
+								<div class="row">
+									<div class="col-sm-12">
+										<h4 translate="Survey Questions"></h4>
+										<hr>
+									</div>
+									<div class="form-container form-deve">
+										<div ng-repeat="elemnt in questionelemnt track by $index" class="form-group clearfix">
+											<ng-form name="subform{{$index}}">
+											<div class="col-sm-2">
+												<label translate="Questions"> {{$index + 1}}:</label>
+											</div>
+											<div class="col-sm-8">
+												<input type="text" class="form-control" name='myFriend' ng-model="questionelemnt[$index].question" placeholder="{{'Questions'|translate}}"
+													required/>
+												<span class="text-danger" ng-show="subform{{$index}}.myFriend.$touched || subform{{$index}}.myFriend.$error.required" translate="Question is required or remove"></span>
+											</div>
+											<span ng-hide="elemnt.length == 1">
+													<a href ng-click="questionelemnt.splice($index, 1)"><i class="fa fa-minus-circle minus-cir" aria-hidden="true"></i>	{{ 'Remove' | translate}}</a>
+											</span>
+											
+												<div class="col-sm-12">
+													<div class="mt-10px">
+													<div class="col-sm-2">
+													    
+												    </div>
+
+														  
+														   <div class="col-sm-2">
+															   
+															   <label translate="Question type:" class="ml-10"></label>
+														   </div>
+														   <div class="col-sm-2">
+											            	<div class="form-group">
+																<label class="ui-radio"><input type="radio" value="rating" translate="" ng-model="questionelemnt[$index].questionType" autocomplete="off" /><span>{{'Rating'|translate}}</span></label>
+															</div>
+														   </div>
+														   <div class="col-sm-2">
+															<div class="form-group">
+																<label class="ui-radio"><input type="radio"  value="options" ng-model="questionelemnt[$index].questionType" autocomplete="off" /><span>{{'Options'|translate}}</span></label>
+															</div>
+														   </div>
+													</div>
+
+
+												</div>
+											</ng-form>
+										</div>
+										<br/>
+										<div class="col-sm-2 form-group clearfix">
+											<a href ng-click="newItem($event)"> <i class="fa fa-plus-circle plus-cir" aria-hidden="true"></i>{{'New Question'|translate}}</a>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+										<div class="col-sm-12">
+											<h4 translate="Satisfaction Level"></h4>
+											<hr>
+										</div>
+										<div class="form-container form-deve">
+											<div class="form-group clearfix">
+												<div class="col-sm-2">
+													<label translate="Level 1:"></label>
+												</div>
+												<div class="col-sm-6">
+													<input type="text" ng-model="survey.level1" name='level1' class="form-control" maxlength="25" required>
+													<span class="text-danger" ng-show="surveyForm.level1.$dirty && surveyForm.level1.$invalid">
+                                                     <span ng-show="surveyForm.level1.$error.required" translate="Level 1 is required."></span>
+													</span>
+												</div>
+												<div class="col-sm-2"></div>
+											</div>
+											<div class="form-group clearfix">
+												<div class="col-sm-2">
+													<label translate="Level 2:"></label>
+												</div>
+												<div class="col-sm-6">
+													<input type="text" ng-model="survey.level2" name='level2' class="form-control" maxlength="25" required>
+													<span class="text-danger" ng-show="surveyForm.level2.$dirty && surveyForm.level2.$invalid">
+                                                     <span ng-show="surveyForm.level2.$error.required" translate="Level 2 is required."></span>
+													</span>
+												</div>
+												<div class="col-sm-2"></div>
+											</div>
+											<div class="form-group clearfix">
+												<div class="col-sm-2">
+													<label translate="Level 3:"></label>
+												</div>
+												<div class="col-sm-6">
+													<input type="text" ng-model="survey.level3" name='level3' class="form-control" maxlength="25" required>
+													<span class="text-danger" ng-show="surveyForm.level3.$dirty && surveyForm.level3.$invalid">
+                                                     <span ng-show="surveyForm.level3.$error.required" translate="Level 3 is required."></span>
+													</span>
+												</div>
+												<div class="col-sm-2"></div>
+											</div>
+											<div class="form-group clearfix">
+												<div class="col-sm-2">
+													<label translate="Level 4:"></label>
+												</div>
+												<div class="col-sm-6">
+													<input type="text" ng-model="survey.level4" name='level4' class="form-control" maxlength="25" required>
+													<span class="text-danger" ng-show="surveyForm.level4.$dirty && surveyForm.level4.$invalid">
+                                                     <span ng-show="surveyForm.level4.$error.required" translate="Level 4 is required."></span>
+													</span>
+											    </div>
+											</div>
+											<div class="form-group clearfix">
+												<div class="col-sm-2">
+													<label translate="Level 5:"></label>
+												</div>
+												<div class="col-sm-6">
+													<input type="text" ng-model="survey.level5" name='level5' class="form-control" maxlength="25" required>
+													<span class="text-danger" ng-show="surveyForm.level5.$dirty && surveyForm.level5.$invalid">
+                                                     <span ng-show="surveyForm.level5.$error.required" translate="Level 5 is required."></span>
+													</span>
+											   </div>
+											   </div>
+											<div class="form-group clearfix">
+												<div class="col-sm-2">
+													<label translate="Level 6:"></label>
+												</div>
+												<div class="col-sm-6">
+													<input type="text" ng-model="survey.level6" name='level6' class="form-control" maxlength="25" required>
+													<span class="text-danger" ng-show="surveyForm.level6.$dirty && surveyForm.level6.$invalid">
+                                                     <span ng-show="surveyForm.level6.$error.required" translate="Level 6 is required."></span>
+													</span>
+											   </div>		
+										   </div>
+									</div>
+									<div class="row">
+										<div class="col-sm-8">
+										</div>
+										<!-- <div class="col-sm-4">
+											<button class="btn_black" ui-sref="dashboard" translate="Back"></button> <button type="submit" ng-disabled="!surveyForm.$valid"
+												class="btn_green" translate="Add"></button>
+										</div> -->
+									</div>
+								</div>
+						</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!--<div id={{elemnt.id}} class="col-sm-2">
+														<label  ng-model="elemnt.question" ng-hide="editorEnabled" ng-click="editorEnabled=true">{{elemnt.question}} </label>
+														<div  ng-show="editorEnabled">
+															<input  ng-model="elemnt.question" ng-show="editorEnabled" >
+															<button href="#" ng-click="editorEnabled=false">Done editing</button>
+														</div>
+													</div>-->
+
+
+		<!--<div class="form-container form-deve">
+										<div ng-repeat="elemnt in questionelemnt track by $index" class="form-group clearfix">
+											<ng-form name="subform{{$index}}">
+
+												<div class="col-sm-2">
+													<label>Question {{$index + 1}}:</label>
+												</div>
+												<div class="col-sm-8">
+													<input required type="text" name="myFriend" class="form-control" ng-model="questionelemnt[$index].question" placeholder="Question"
+													/>
+													<span class="text-danger" ng-show="subform{{$index}}.myFriend.$touched && subform{{$index}}.myFriend.$error.required">Question is required or remove</span>
+													<span ng-hide="elemnt.length == 1">
+														<a href ng-click="questionelemnt.splice($index, 1)">Remove</a>
+											 	  </span>
+											    </div>
+											</ng-form>
+											<br/>
+											<div class="col-sm-2 form-group clearfix">
+												<a href ng-click="newItem($event)"> <i class="fa fa-plus-square-o" aria-hidden="true"></i>New Question</a>
+											</div>
+										</div>
+									</div>-->

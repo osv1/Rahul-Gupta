@@ -1,0 +1,96 @@
+ <div class="modal-header">
+		<button class="close" type="button" ng-click="cancel()">X
+		
+		</button>
+	</div>  
+	<div class="page page-dashboard">
+		
+		<div class="page-inner">
+			<div class="page-title-breadcrumb" id="title-breadcrumb-option-demo">
+				<div class="page-header">
+					<div class="page-title" translate="Nurse Examination"></div>
+				</div>
+			</div>
+			
+			
+			<div class="page-in-below-head clearfix" ng-init="getVisitById(); getNurseTestByCurrentDisease(); getDoctorList(); getStageInfoById(); ">
+				<div class="row ">
+					<div class="col-sm-12">
+						<div class="panel panel-default">
+							<div class="panel-heading">{{visitData.patientId.firstname}} {{visitData.patientId.lastname}}, {{visitData.patientId.age.year == 0 ? visitData.patientId.age.month == 0 ? visitData
+											.patientId.age.day : visitData.patientId.age.month : visitData.patientId.age.year}} {{visitData.patientId.age.year == 0 ? visitData.patientId.age.month == 0 ? 
+                                         'Day' : 'Month' : 'Year'|translate}} , {{visitData.patientId.gender | capitalize | translate }},{{'allergic to'|translate}}:
+							<span class = "allergi" ng-if = "allergies.length > 0" >    {{ allergies }} </span>
+						 <span> {{visitData.currentStatus}}</span>
+							 <span ng-if = "getStageDateTime('nurse_exam')" class="cameIn" >{{'Came In'|translate}}: {{ getStageDateTime('nurse_exam')| date : "HH:mm '|' dd.MM.yy" }}</span>
+						</div> 
+							<!--<div class="panel-heading">{{visitData.patientId.firstname}} {{visitData.patientId.lastname}}, {{visitData.patientId.age}} {{visitData.patientId.gender | capitalize}}{{ allergies.length ? ', allergic to: ' + allergies : "" }}
+								<span ng-cloak><strong translate="Came In:"></strong> {{ getStageDateTime('nurse_exam')| date : "HH:mm '|' dd.MM.yy" }}   {{visitData.currentStatus}}</span>
+							</div>-->
+							<div class="panel-body">
+								<form name="form">
+									<div class="row">
+										<strong class="col-sm-5" translate="Nurse's Test"></strong>
+										<strong class="col-sm-5" translate="Comments"></strong>
+											
+											
+											<hr>
+										
+										<div class="form-container form-deve">
+											<div class="form-group clearfix" ng-repeat="test in nurseTest track by $index">
+												<hr>
+												<div class="col-sm-5">
+													
+													{{test.name}}
+												</div>
+								
+												<div class="col-sm-5">
+													{{test.comment}}
+													
+												</div>
+											</div>
+											<div class="col-sm-12" ng-if="nurseTest.length == 0">
+												<h4 translate="No test for Main Complaint"></h4>
+												<hr>
+											</div>
+										</div>
+									</div>
+									<!--{{visitData.refferedTo}}-->
+									<div class="col-sm-12" >
+										<h4 translate="Referred" ng-if="visitData.refferedTo"></h4>
+										<hr>
+										<label>{{visitData.refferedTo.firstname}} {{visitData.refferedTo.lastname}}</label>
+									</div>
+									<!--<div class="col-sm-12" >
+										<h4 translate="Referred"></h4>
+										<hr>
+										<table width="400">
+											<colgroup>
+											<col width="1.0%" />
+											<col width="2.0%" />
+											<col width="2.2%" />
+											</colgroup>
+											<tbody>
+												<tr ng-show="drlist.length!=0" ng-repeat="doctor in drlist track by $index">
+													<td>
+														<p ng-model="visitData.refferedTo"></p>
+														<td>
+															<label>{{doctor.firstname}}   {{doctor.lastname}}</label>
+															<td>
+																<label> <font color="#FFA233"> 2 patients are waiting </font></label>
+															</tr>
+															<tr>
+											                <td colspan="7" align="center" ng-show="drlist.length==0" translate="No Record Found"></td>
+											
+										                   </tr>
+														</tbody>
+													</table>
+												</div>
+											</form>
+										</div>
+									</div>-->
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>

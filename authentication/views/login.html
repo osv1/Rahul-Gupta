@@ -1,0 +1,27 @@
+<div class="form-box" id="login-box">
+    <div class="alert alert-danger alert-dismissable" ng-show="error"><i class="fa fa-ban"></i>
+        <button class="close" aria-hidden="true" data-dismiss="alert" type="button">×</button>{{error}}</div>
+    <div class="header">Sign In</div>
+    <form accept-charset="UTF-8" role="form" role="loginForm" novalidate name="loginForm" class="form-horizontal" id="loginform">
+        <div class="body bg-gray">
+            <div class="form-group">
+                <input class="form-control" placeholder="E-mail" type="email" name="email" ng-model="user.email" placeholder="Email" ng-pattern="/^([a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z0-9]+$)/" required>
+                <div ng-show="loginForm.$submitted || loginForm.email.$touched">
+                    <span class="text-danger" ng-show="loginForm.email.$error.required" class="text-danger">Please enter Email
+                                                          </span>
+                    <span class="text-danger" ng-show="loginForm.email.$error.pattern && (loginForm.email.$invalid || loginForm.email.$pristine)">Please enter valid Email</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="password" class="form-control" name="password" class="form-control password" placeholder="Password" ng-model="user.password" required>
+                <span ng-show="loginForm.$submitted || loginForm.password.$touched">
+                    <span class="text-danger"  ng-show="loginForm.password.$error.required">Please enter Password</span>
+                </span>
+            </div>
+        </div>
+        <div class="footer">
+            <button type="submit" class="btn bg-olive btn-block" name="login" ng-click="login(loginForm)" ng-disabled="disabled">Sign me in <i class="fa fa-spinner fa-spin" ng-if="loader"></i></button>
+            <p><a href="/#/forgot-password">I forgot my password</a></p>
+        </div>
+    </form>
+</div>

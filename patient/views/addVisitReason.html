@@ -1,0 +1,105 @@
+<div class="page page-dashboard">
+	<div class="left-menu-top clearfix arrowMenuBg">
+		<a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button"> <span class="sr-only">Toggle navigation</span> </a>
+		<!--<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+				aria-controls="navbar"> <span class="sr-only">Toggle navigation</span> Menu </button>
+		</div>-->
+	<div class="topLRMenu">
+        <ul>
+            <li ng-if="(permissionsArray.indexOf('editPatientIdentification') != -1)">
+				<a ui-sref="editPatientIdentification({ id : visitData._id })" ng-click="addVisitReason(visitData, false, 'editPatientIdentification')" class="arrowL">
+                    <div class="inner-arrowL">
+						{{ 'Identify' | translate }}
+                    </div>
+                </a>
+            </li>
+            <li ng-if="(permissionsArray.indexOf('editVisitReason') != -1)">
+				<a ui-sref="editVisitReason({ id : visitData._id })" ui-sref-active="active" class="arrowL">
+                    <div class="inner-arrowL">
+                       	{{ 'Visit Reason' | translate }} 
+                    </div>
+                </a>
+            </li>
+			<li ng-if="(permissionsArray.indexOf('editPayment') != -1)">
+				<a ui-sref="editPayment({ id : visitData._id })" ng-click="addVisitReason(visitData, false)" class="arrowL">
+                    <div class="inner-arrowL">
+                       	{{ 'Payment' | translate }} 
+                    </div>
+                </a>
+            </li>
+        </ul>
+        <div class="clearfix"></div>
+    </div>
+	</div>
+	<div class="page-inner">
+		<div class="page-title-breadcrumb" id="title-breadcrumb-option-demo">
+			<div class="page-header">
+				<div class="page-title" translate="Visit Reason"></div>
+			</div>
+		</div>
+		<div class="clearfix"></div>
+		<div class="btnTop">
+		  <a title="{{'Save'|translate}}"  class="btn btn-xs btn-primary ng-scope" ng-click="addVisitReason(visitData, false)" ><i class="fa fa-save"></i> &nbsp;{{ 'Next' | translate }}  </a>
+		  <a title="{{'VisitCard'|translate}}"  class="btn btn-xs btn-primary ng-scope" ng-click="addVisitReason(visitData, true)"><i class="fa fa-vcard"></i> {{ 'Exit To Dashboard' | translate }}    </a>
+	    </div>
+		<div class="page-in-below-head clearfix" ng-init="currentPage = 'visitReason-edit'; getVisitById(); getStageInfoById(); getCurrentStatusName()">
+			<div class="row ">
+				<div class="col-sm-12">
+					<div class="panel panel-default">
+						<div class="panel-heading">{{visitData.patientId.firstname}} {{visitData.patientId.lastname}}, {{visitData.patientId.age.year == 0 ? visitData.patientId.age.month == 0 ? visitData
+											.patientId.age.day : visitData.patientId.age.month : visitData.patientId.age.year}} {{visitData.patientId.age.year == 0 ? visitData.patientId.age.month == 0 ? 
+                                         'Day' : 'Month' : 'Year'| translate}} , {{visitData.patientId.gender | capitalize | translate}}
+							<span class = "allergies" ng-if = "allergies.length > 0" >{{'allergic to'|translate}}: <u> {{ allergies }} </u></span>
+						 <span> {{currentStatus}}</span>
+							 <span ng-if = "getStageDateTime('visitReason')" class="cameIn" >{{'Came In'|translate}}: {{ getStageDateTime('visitReason')| date : "HH:mm '|' dd.MM.yy" }}</span>
+						</div>
+						<div class="panel-body">
+							<form name="visitReasonForm">
+								<div class="row">
+									<div class="col-sm-12">
+										<div class="form-group">
+											<label translate="Visit Reason">
+														
+													</label>
+											<textarea class="form-control" rows="10" ng-model="visitData.visitReason"></textarea>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-sm-12">
+										<div class="form-group">
+											<label translate="Urgency">
+														
+													</label>
+										</div>
+									</div>
+									<!--ng-init="visitReason.isUrgent == 0"-->
+									<div class="col-sm-12">
+										<!--<label translate="Not Urgent"></label>-->
+										<label class="switch" ng-class="{'switchRed': isUrgent == true}">
+														<input type="checkbox" ng-change="toggle(visitData.isUrgent)" name ="isUrgent" ng-model = 'visitData.isUrgent' >
+														<div class="slider round" ></div>
+												</label>
+										<label ng-if="isUrgent" translate="Urgent"></label>
+										<label  ng-if="!isUrgent" translate="Not Urgent"></label>
+									</div>
+								</div>
+								<!-- <div class="row">
+									<div class="col-sm-8">
+									</div>
+									<div class="col-sm-4">
+										<button  class="btn_black">BACK</button> <button type="submit" class="btn_green">SUBMIT</button>
+									</div>
+								</div> -->
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!--<input type="checkbox" name='status' ng-model='school.status' checked="{{enableChecked}}" /> Enable-->
+<!--<script> $(function() { $('#cp3').colorpicker({ color: '#AA3399', format: 'rgb' }); }); </script>-->

@@ -1,0 +1,117 @@
+
+<div class="page page-dashboard">
+    <div class="left-menu-top clearfix">
+        <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button"> <span class="sr-only">Toggle navigation</span> </a>
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+                aria-controls="navbar"> <span class="sr-only">Toggle navigation</span> Menu </button>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse pull-left">
+            <!-- <ul class="nav navbar-nav navbar-right"> -->
+           <ul class="nav navbar-nav">
+                <li ng-if="(permissionsArray.indexOf('familyDoctors') != -1)"><a ui-sref="familyDoctors" ui-sref-active="active" translate="FamilyDoctors"></a></li>
+                <li  ng-if="(permissionsArray.indexOf('survey') != -1)"><a ui-sref="survey" ui-sref-active="active" translate="Survey"></a></li>
+                <li ng-if="(permissionsArray.indexOf('statuses') != -1)"><a ui-sref="statuses" ui-sref-active="active" translate="Statuses"></a></li>
+                <li ng-if="(permissionsArray.indexOf('index') != -1)"><a ui-sref="index" ui-sref-active="active" translate="Indexes"></a></li>
+                <li ng-if="(permissionsArray.indexOf('Diseases') != -1)"><a ui-sref="Diseases" ui-sref-active="active" translate="Main Complaint"></a></li>
+                <li ng-if="(permissionsArray.indexOf('users') != -1)"><a ui-sref="users" ui-sref-active="active" translate="Users"></a></li>
+                <li ng-if="(permissionsArray.indexOf('roles') != -1)"><a ui-sref="roles" ui-sref-active="active" translate="Roles & Permission"></a></li>
+                <li ng-if="(permissionsArray.indexOf('kupatCholim_list') != -1)"><a ui-sref="kupatCholim_list" ui-sref-active="active" translate="Kupat Cholim"></a></li>
+                <li ng-if="(permissionsArray.indexOf('ipSettings') != -1)"><a ui-sref-active="active" ui-sref="ipSettings" translate="Settings"></a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="page-inner">
+        <div class="page-title-breadcrumb" id="title-breadcrumb-option-demo">
+            <div class="page-header">
+                <div class="page-title" translate="Set Permission"> </div>
+            </div>
+            <!--
+			<ul class="breadcrumb page-breadcrumb">
+				<li><a href="#">Home</a></li>
+				<span> &nbsp; <i class="fa fa-angle-right"></i> &nbsp;</span>
+				<li class="hidden"><a href="#">Dashboard</a></li>
+				<li class="active"><a href="#">Dashboard</a></li>
+			</ul>
+	-->
+        </div>
+        <div class="clearfix"></div>
+        <div class="btnTop">
+          <a title="{{'Update'|translate}}"  class="btn btn-xs btn-primary ng-scope" href="" " ng-click="updatePermission()"" ng-disabled="form.$invalid" ><i class="fa fa-save"></i>&nbsp;{{'Update'|translate}}</a>
+          <a title="{{'Back'|translate}}" class="btn btn-xs btn-primary ng-scope" ui-sref="roles" ><i class="fa fa-mail-forward" translate="Back"></i></a>
+        </div>
+        <div class="page-in-below-head clearfix" ng-init="getRoleByid('permission');getPermissions();">
+            <div class="form-container form-deve">
+                <form name="form" novalidate>
+                    <div class="row">
+                        <div class="col-md-4 pull-left">
+                            <div class="form-group">
+                                <label translate="Title"></label>
+                                <input type="text" class="form-control" value="{{roleForm.title}}" name="title" readonly="" required="" placeholder="{{'Title'|translate}}">
+                            </div>
+                        </div>
+                        <!--<div class="col-md-2">
+                            <div class="form-group">
+                                <label translate="">Select All</label>
+                                <input type="checkbox"  ng-model="selectAll"  ng-click="checkAll()" />
+                            </div>
+                        </div>-->
+                    </div>
+                    <!--<div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label translate="Permissions:"></label>
+                                <div ng-repeat="(index,data) in permissionList">
+                                    <div class="col-md-4">
+                                        <input type="checkbox" class="inCheckbox" ng-model="index.select" name="role_id[index]" ng-checked="exists(data._id, rolePermissionForm.permission_id)" ng-click="toggle(data._id, rolePermissionForm.permission_id)"
+                                            ng-true-value="'{{data._id}}'" ng-false-value="''" aria-label="data.title">
+                                            {{data.title}}
+                                        </>
+                                    </div>
+                                </div>
+                                <input type="hidden" name="permission_id" ng-model="rolePermissionForm.permission_id">
+                            </div>
+                        </div>
+                    </div>-->
+                       <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Permissions :</label>
+                                <div ng-repeat="(index,data) in permissionList">
+                                    <div class="col-md-4">
+                                        <label class='ui-checkbox'><input type="checkbox" class="inCheckbox" name="role_id[index]" ng-checked="exists(data._id, rolePermissionForm.permission_id)" ng-click="toggle(data._id, rolePermissionForm.permission_id)"
+                                            ng-true-value="'{{data._id}}'" ng-false-value="''" aria-label="data.title"></label>
+                                            {{data.title}}
+                                        </>
+                                    </div>
+                                </div>
+                                <input type="hidden" name="permission_id" ng-model="rolePermissionForm.permission_id">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--<div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <button type="submit" ng-click="updatePermission()" ng-disabled="disableUpdateSbmtBtn" value="Update" class="btn btn-danger">
+                                            Update
+                                        </button>
+                                <a ui-sref="roles" class="btn">Back</a>
+                            </div>
+                        </div>
+                    </div>-->
+
+                   <!--  <div class="row">
+						<div class="col-sm-8">
+						</div>
+						<div class="col-sm-4">
+							 <button class="btn_black" ui-sref="roles" translate="Back"></button> <button type="submit" ng-click="updatePermission()"
+                                        ng-disabled="disableUpdateSbmtBtn"  value="Update" class="btn_green" translate="Update"></button>
+						</div>
+					</div> -->
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

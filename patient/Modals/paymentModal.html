@@ -1,0 +1,164 @@
+<style>
+	input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+</style>
+<div class="modal-header">
+		<button class="close" type="button" ng-click="cancel()">X
+		
+		</button>
+	</div>
+<div class="page page-dashboard">
+      <div class="page-inner">
+		<div class="page-title-breadcrumb" id="title-breadcrumb-option-demo">
+			<div class="page-header">
+				<div class="page-title" translate="Payment"></div>
+			</div>
+		</div>
+		<div class="clearfix"></div>
+		<div class="page-in-below-head clearfix" ng-init="getVisitById(); getPaymentDetailsByVisitId(); getStageInfoById()">
+			<div class="row ">
+				<div class="col-sm-12">
+					<div class="panel panel-default">
+						<div class="panel-heading">{{visitData.patientId.firstname}} {{visitData.patientId.lastname}}, {{visitData.patientId.age.year == 0 ? visitData.patientId.age.month == 0 ? visitData
+											.patientId.age.day : visitData.patientId.age.month : visitData.patientId.age.year}} {{visitData.patientId.age.year == 0 ? visitData.patientId.age.month == 0 ? 
+                                         'Day' : 'Month' : 'Year'|translate}} , {{visitData.patientId.gender | capitalize | translate}},{{'allergic to'|translate}}:
+							<span class = "allergi" ng-if = "allergies.length > 0" >   {{ allergies }}</span>
+						 <span> {{visitData.currentStatus}}</span>
+							 <span ng-if = "getStageDateTime('nurse_visitDetails')" class="cameIn" >{{'Came In'|translate}}: {{ getStageDateTime('nurse_visitDetails')| date : "HH:mm '|' dd.MM.yy" }}</span>
+						</div> 
+					
+                                    <div class="panel-body">
+								<form>
+						<accordion close-others="true" class="accordionDiv">
+							<accordion-group ng-repeat="(indexX, bill) in billList" is-open="$last" >
+								<accordion-heading>
+									<span class="pull-left">	 Bill No. #{{$index + 1}} </span><i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': test.open, 'glyphicon-chevron-right': !test.open}"></i>
+								</accordion-heading>
+								<div class="panel-body">
+									<form class="ng-pristine ng-valid">
+										<div class="row">
+											<div class="col-sm-12">
+
+												<div class="form-group">
+													<div class="row">
+														<div class="col-sm-5">
+															<label translate="Payment for the visit:"></label>
+														</div>
+														
+														<div class="col-sm-2">
+															{{billList[indexX].visitPayment}}
+														</div>
+														<div class="col-sm-2">
+															<label>{{ billList[indexX].currency }}</label>
+														</div>
+													</div>
+												</div>
+
+												<div class="form-group">
+													<div class="row">
+														<div class="form-container form-deve">
+															<div ng-repeat="(indexY, item)  in billList[indexX].billableItems" class="form-group clearfix">
+																<div class="col-sm-10">
+																	<strong translate="Payment for:"></strong>
+																</div>
+
+																<div class="col-sm-5">
+																	{{billList[indexX].billableItems[indexY].name}}
+																</div>
+																<div class="col-sm-2">
+																	{{billList[indexX].billableItems[indexY].price}}
+																</div>
+																<div class="col-sm-2">
+																	<strong>{{ billList[indexX].currency }}</strong>
+																</div>
+																
+															</div>
+
+															<br/>
+															
+														</div>
+													</div>
+												</div>
+												<div class="form-group">
+													<div class="row">
+														<div class="col-sm-5">
+															<label translate="Previous debt"></label>
+														</div>
+													
+														<div class="col-sm-2">
+															{{billList[indexX].previousDebt}}
+														</div>
+														<div class="col-sm-2">
+															<label> {{ billList[indexX].currency }} </label>
+														</div>
+													</div>
+												</div>
+												<hr style="border-color: #cccccc;">
+												<div class="form-group">
+													<div class="row">
+														<div class="col-sm-5">
+															<label translate="Total"></label>
+														</div>
+													
+														<div class="col-sm-2">
+																{{ billList[indexX].total }}
+															<!--{{billList[indexX].visitPayment + billList[indexX].previousDebt}}-->
+														
+														</div>
+														<div class="col-sm-2">
+															<label>{{ billList[indexX].currency }}</label>
+														</div>
+													</div>
+												</div>
+												<div class="form-group">
+													<div class="row">
+														<div class="col-sm-5">
+															<label translate="Paid with"></label>
+														</div>
+														<div class="col-sm-2">
+														{{billList[indexX].paymentType}}
+														</div>
+														
+														</div>
+												</div>
+											</div>
+											 
+												</div>
+								
+											</div>
+										</div>
+									
+								</div>
+					</div>
+					</accordion-group>
+					<br/>
+					
+					</accordion>
+				</div>
+			</div>
+			</form>
+		</div>
+	</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+
+
+
+<style>
+	input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+</style>
+
+

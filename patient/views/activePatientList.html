@@ -1,0 +1,96 @@
+<style type="text/css">
+.hoverme:hover
+{
+    background-color:lightslategray;
+}
+
+</style>
+
+
+<div class="page page-dashboard" ng-init="getActivePatientList()" >
+<div class="left-menu-top clearfix"> <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button"> <span class="sr-only">Toggle navigation</span> </a>
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"> <span class="sr-only">Toggle navigation</span> Menu </button>
+      </div>
+      <div id="navbar" class="navbar-collapse collapse pull-left"> 
+        <!-- <ul class="nav navbar-nav navbar-right"> -->
+        <ul class="nav navbar-nav">
+            <li ng-if="(permissionsArray.indexOf('patientDebt') != -1)"><a ui-sref="patientDebt" ui-sref-active="active" translate="In Debt" ></a></li>
+            <li ng-if="(permissionsArray.indexOf('visitHistory') != -1)"><a ui-sref="visitHistory" ui-sref-active="active" translate="Visit History"></a></li>
+            <li ng-if="(permissionsArray.indexOf('activePatient') != -1)"><a ui-sref="activePatient" ui-sref-active="active" translate="Active"></a></li>
+			<li ng-if="(permissionsArray.indexOf('activePatientByDr') != -1)"><a ui-sref="activePatientByDr" ui-sref-active="active" translate="Waiting patient"></a></li>
+        </ul>
+      </div>
+    </div>
+  <div class="page-inner">
+		<div class="page-title-breadcrumb" id="title-breadcrumb-option-demo">
+			<div class="page-header">
+				<div class="page-title" translate="Active Patient List"></div>
+			</div>
+		</div>
+		<div class="clearfix"></div>
+		<div class="page-in-below-head clearfix">
+			<div class="row ">
+				<div class="col-sm-6 col-xs-6">
+					<form name="searchForm" novalidate class="pull-left famildr_sear">
+						<div class="input-group" >
+							<input type="text" class="form-control" placeholder="{{'Search Patient'|translate}}" name="searchTerm" ng-model="searchActivePatientTextField" ng-change="searchActivePatient()" ng-focus = "check = 'YES'; showActiveSearchStatus = 'YES'" required/>
+							<span class="search_box">
+						     	<label class="ui-checkbox"><input type="checkbox" ng-model="check" ng-change="checkActiveSearchStatus(check)" ng-true-value="YES" ng-false-value="NO"/></label><label translate="Show filtered status">
+								</label>
+							</span>
+							</button>
+							</span>
+						</div>
+					</form>
+				</div>
+                 <div class="col-sm-6 col-xs-6" ng-if="(permissionsArray.indexOf('patientList') != -1)">
+					<button class="btn_green pull-right" ui-sref="patientList" translate="New Patient Visit"></button>
+			     </div>
+			</div>
+           
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="panel panel-default ">  
+							<div class="panel-heading" translate="Active Patients"></div> 
+							<div class="panel-body">
+									<div class="table-responsive">
+									<table class="table table-bordered table-responsive" ng-table="tableParams" ng-table-columns-binding="boundCols">
+									<tr class="hoverme" title='Click to see visit card' ng-repeat="patient in activeVisitList" ng-click="showVisitCard(patient._id)">
+										<td data-title="'Name'|translate" sortable="'patientInfo.firstname'" filter="{title:'text'}">{{patient.patientInfo.firstname}} {{patient.patientInfo.lastname}}</td>
+										<td data-title="'Age'|translate" sortable="'patientInfo.age'" filter="{title:'text'}">{{patient.patientInfo.age.year == 0 ? patient.patientInfo.age.month == 0 ?patient.patientInfo.age.day : patient.patientInfo.age.month : patient.patientInfo.age.year}} {{patient.patientInfo.age.year == 0 ? patient.patientInfo.age.month == 0 ? 
+                                         'Day' : 'Month' : 'Year'|translate}}</td>
+										<td data-title="'Patient Id'|translate" sortable="'patientInfo.patientId'" filter="{title:'text'}">{{patient.patientInfo.patientId}}</td>
+										<td data-title="'Visit Started'|translate" sortable="'visitStart'" filter="{title:'text'}" >{{patient.visitStart | date : "HH:mm  dd.MM.yy"}}</td>
+										<td data-title="'Current Visit Duration'|translate" sortable="'visitDuration'" filter="{title:'text'}">{{patient.visitDuration}}</td>
+										<td data-title="'Reason for Visit'|translate" sortable="'visitReason'" filter="{title:'text'}">{{patient.visitReason}}</td>
+                                        <td data-title="'Status'|translate"  filter="{title:'text'}"><p class="status" ng-model="patient.statusColour" style="background-color:{{patient.statusColour}}" ></p>{{patient.statusName}}</td>
+									</tr>
+									<tr ng-if="tableLoader">
+										<td colspan="7" align="center">
+											<i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+										</td>
+									</tr>
+									<tr ng-if="activeVisitList.length == 0 && !tableLoader">
+										<td colspan="7" align="center" translate="No Record Found"></td>
+									</tr>
+								</table>		       
+									</div>  
+							</div> 
+					</div> 
+				</div>     
+			</div>
+		</div>
+ </div>    
+</div>
+<style>
+	.status{
+
+	background-color: "{{Status.colour}}";
+    border: 1px solid #ccc;
+   
+    height: 25px;
+    width: 25px;
+	}
+	</style>
+

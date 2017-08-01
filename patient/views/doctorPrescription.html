@@ -1,0 +1,280 @@
+<div class="page page-dashboard">
+	<div class="left-menu-top clearfix arrowMenuBg">
+		<a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button"> <span class="sr-only">Toggle navigation</span> </a>
+		<!--<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+				aria-controls="navbar"> <span class="sr-only">Toggle navigation</span> Menu </button>
+		</div>-->
+		 <div class="topLRMenu">
+        <ul>
+            <li ng-if="(permissionsArray.indexOf('doctorSummary') != -1)">
+				<a ng-click="addPrescription(false, 'doctorSummary')" ui-sref-active="active" class="arrowL">
+                    <div class="inner-arrowL">
+						<p translate="Nursery's Summary"></p>
+                    </div>
+                </a>
+            </li>
+            <li ng-if="(permissionsArray.indexOf('editDoctorExam') != -1)">
+				<a ng-click="addPrescription(false, 'editDoctorExam')" ui-sref-active="active" class="arrowL">
+                    <div class="inner-arrowL">
+                       	{{ 'Physical Examination' | translate }} 
+                    </div>
+                </a>
+            </li>
+			<li ng-if="(permissionsArray.indexOf('doctorOrder') != -1)">
+				<a  ng-click="addPrescription(false, 'doctorOrder')" ui-sref-active="active" class="arrowL">
+                    <div class="inner-arrowL">
+                       	{{ 'Dr.Orders' | translate }} 
+                    </div>
+                </a>
+            </li>
+		
+			<li ng-if="(permissionsArray.indexOf('doctorTreatment') != -1)">
+				<a ng-click="addPrescription(false, 'doctorTreatment')" ui-sref-active="active" class="arrowL">
+                    <div class="inner-arrowL">
+                       	{{ 'Treatment' | translate }} 
+                    </div>
+                </a>
+            </li>
+			<li ng-if="(permissionsArray.indexOf('doctorPrescription') != -1)">
+				<a ui-sref="doctorPrescription({ id : visitData._id })" ui-sref-active="active" class="arrowL">
+                    <div class="inner-arrowL">
+                       	{{ 'Prescription' | translate }} 
+                    </div>
+                </a>
+            </li>
+			<li ng-if="(permissionsArray.indexOf('doctorResult') != -1)">
+				<a ng-click="addPrescription(false, 'doctorResult')" ui-sref-active="active" class="arrowL">
+                    <div class="inner-arrowL">
+                       	{{ 'Results' | translate }} 
+                    </div>
+                </a>
+            </li>
+			
+        </ul>
+        <div class="clearfix"></div>
+    </div>
+		<!--<div id="navbar" class="navbar-collapse collapse pull-left">
+			
+			<ul class="nav navbar-nav">
+				<li><a href="#/doctorSummary/{{visitData._id}}" translate="Doctor's Summary"></a></li>
+				<li><a href="#/doctorExam-edit/{{visitData._id}}" translate="Physical Examination"></a></li>
+				<li><a href="#/doctorTreatment-edit/{{visitData._id}}" translate="Treatment"></a></li>
+				<li><a href="#/doctorResult-edit/{{visitData._id}}" translate="Results"></a></li>
+				
+				<li><a href="#/prescription-edit/{{visitData._id}}" translate="Order"></a></li>
+			</ul>
+		</div>-->
+	</div>
+	<div class="page-inner">
+		<div class="page-title-breadcrumb" id="title-breadcrumb-option-demo">
+			<div class="page-header">
+				<div class="page-title" translate="Prescription"></div>
+			</div>
+		</div>
+		<div class="clearfix"></div>
+		<div class="btnTop">
+			<!--<a title="{{'Save'|translate}}"  class="btn btn-xs btn-primary ng-scope" href="" ng-click="addPrescription();getVisitById();"><i class="fa fa-save" translate="Save"></i></a>
+			<a title="{{'Save & finish'|translate}}" class="btn btn-xs btn-primary ng-scope" href="#/visitCard/{{visitData._id}}" ng-click="addPrescription()"><i class="fa fa-save" translate="& Finish"></i> </a>
+			<a title="{{'Back'|translate}}" class="btn btn-xs btn-primary ng-scope" href="#/doctorResultFollowUp-edit/{{visitData._id}}"><i class="fa fa-mail-forward" translate="Back"></i></a>-->
+			<!--<a title="{{'Save & Next'|translate}}"  class="btn btn-xs btn-primary ng-scope" ng-click="addPrescription(false)" ><i class="fa fa-save"></i> {{ 'Next' | translate }}  </a>-->
+			<a title="{{'Save & Next'|translate}}"  class="btn btn-xs btn-primary ng-scope" ng-click="addPrescription(false)"><i class="fa fa-save"></i> {{ 'Next' | translate }}  </a>
+			<a title="{{'VisitCard'|translate}}"  class="btn btn-xs btn-primary ng-scope" ng-click="addPrescription(true)"><i class="fa fa-vcard"></i> {{ 'Exit To Dashboard' | translate }}    </a>
+		</div>
+		<div class="page-in-below-head clearfix" ng-init="currentPage = 'doctorPrescription';getVisitById(); getPrescriptionById(); getStageInfoById(); getDrugs()">
+			<div class="row ">
+				<div class="col-sm-12">
+					<div class="panel panel-default">
+                        <div class="panel-heading clearfix summary-heading">{{visitData.patientId.firstname}} {{visitData.patientId.lastname}}, {{visitData.patientId.age.year == 0 ? visitData.patientId.age.month == 0 ? visitData
+											.patientId.age.day : visitData.patientId.age.month : visitData.patientId.age.year}} {{visitData.patientId.age.year == 0 ? visitData.patientId.age.month == 0 ? 
+                                         'Day' : 'Month' : 'Year'|translate}} , {{visitData.patientId.gender | capitalize | translate}}
+							<span class = "allergies" ng-if = "allergies.length > 0" >  {{'allergic to'|translate}}: <u> {{ allergies }} </u></span>
+						 <span> {{visitData.currentStatus}}</span>
+							 <span ng-if = "getStageDateTime('dr_prescriptions')" class="cameIn" >{{'Came In'|translate}}: {{ getStageDateTime('dr_prescriptions')| date : "HH:mm '|' dd.MM.yy" }}</span>
+						</div>
+
+						<div class="panel-body">
+							<div class="col-sm-12">
+								<form name = 'form' class="form-horizontal tabNav" >
+                                   <tabset class="ui-tab">
+										<tab heading="{{'EMC Prescriptions'|translate}}">
+											<form action="">
+												<div class="row">
+													<div class="table-responsive">
+													
+															<table class="table table-striped table-bordered">
+																<thead>
+																	<tr>
+																		<th><label class='ui-checkbox'><input type="checkbox" ng-model="selectedAll" ng-click="checkAllEmcOrders()" /></label></th>
+																		<th translate="Drug type"></th>
+																		<th translate="Dosage"></th>
+																		<th translate="Amount"></th>
+																		<th translate="Description"></th>
+																	</tr>
+																</thead>
+																<tbody> 	
+																	<tr ng-repeat="order in emcOrders track by $index">
+																		<td>
+																			<label class='ui-checkbox'><input type="checkbox" ng-model="order.selected" /></label></td>
+																		<td>
+																		  	<div ng-if = '!order._id' isteven-multi-select  input-model="duplicatedData[ $index ]" output-model="order.props" button-label="name"
+																					item-label="name" helper-elements="none filter reset" tick-property="ticked"  selection-mode="single" on-item-click="addDrugNameToEmcOrderItem(order.props, $index)">
+																			</div>
+																			<input ng-if = 'order._id' type="text" class="form-control" ng-model="order.drugName" readonly/>
+																			<!--<input type="text" class="form-control" ng-model="order.drugName" required/></td>-->
+																		<td>	
+																			<div class="select_box" ng-if = '!order._id'>
+																				<select class="form-control" ng-model="order.dosage" ng-change = 'addDosageToEmcOrderItem(order.dosage ,$index)' >
+																					<option value="">Select</option>
+																					<option ng-repeat="x in order.props[0].drugDetails" value="{{x.dosage}}"> {{x.dosage}}
+																					</option>
+																				</select>
+																				<span class="dropdown_box"></span>
+								                                            </div>
+                                                                            <input ng-if = 'order._id' type="text" class="form-control" ng-model="order.dosage" readonly/></td>
+																		<td>
+																			<input ng-readonly= 'order._id' type="number" min=0 class="form-control" ng-model="order.prescriptionAmount" /></td>
+																		<td>
+																			<input ng-readonly= 'order._id' type="text" class="form-control" ng-model="order.description" /></td>
+																	</tr>
+																</tbody>
+															</table>
+															<br>
+															<div class="row">
+																<div class="col-sm-9">
+																</div>
+															
+																<div class="col-sm-4">
+																	<!--<input  type="button"  ng-click="addNewEmcOrders()" value=" + ">-->
+																	<a href="" ng-click="addNewEmcOrders()"> <i class="fa fa-plus-circle plus-cir" aria-hidden="true"></i></a>
+																	<a href="" ng-click="removeEmcOrders()"> <i class="fa fa-minus-circle minus-cir" aria-hidden="true"></i></a>
+																	<!--<input type="button"  ng-click="removeEmcOrders()" value=" - ">-->
+																</div>
+															</div>
+															<br>
+														</div>
+												</div>
+												<div class="row">
+													<div class="col-sm-10">
+													</div>
+													<!--<div class="col-sm-2">
+														<button class="btn_green">Issue</button>
+													</div>-->
+												</div>
+											</form>
+										</tab>
+										<tab heading="{{'External Prescriptions'|translate}}">
+											<form action="">
+												<div class="row">
+														<div class="table-responsive">
+															<table class="table table-striped table-bordered">
+																<thead>
+																	<tr>
+																		<th><label class='ui-checkbox'><input type="checkbox" ng-model="selectedAll" ng-click="checkAllExtOrders()" /></label></th>
+																		<th translate="Drug type"></th>
+																		<th translate="Dosage"></th>
+																		<th translate="Amount"></th>
+																		<th translate="Description"></th>
+																	</tr>
+																</thead>
+																<tbody>
+																	<tr ng-repeat="order in extOrders track by $index">
+																		<td>
+																			<label class='ui-checkbox'><input type="checkbox" ng-model="order.selected" /></label></td>
+																		<td>
+																			<input type="text" class="form-control" ng-model="order.drugName" required/></td>
+																		<td>
+																			<input type="text" class="form-control" ng-model="order.dosage" required/></td>
+																		<td>
+																			<input type="number" min=0 class="form-control" ng-model="order.prescriptionAmount" required/></td>
+																		<td>
+																			<input type="text" class="form-control" ng-model="order.description" required/></td>
+																	</tr>
+																</tbody>
+															</table>
+															<br>
+															<div class="row">
+																<div class="col-sm-9">
+																	<!--<input  type="button"  ng-click="addNewExtOrders()" value=" + ">-->
+																	<a href="" ng-click="addNewExtOrders()"> <i class="fa fa-plus-circle plus-cir" aria-hidden="true"></i></a>
+																	<a href="" ng-click="removeExtOrders()"> <i class="fa fa-minus-circle minus-cir" aria-hidden="true"></i></a>
+																	<!--<input type="button"  ng-click="removeExtOrders()" value=" - ">-->
+																</div>
+															</div>
+															<br>
+														</div>
+												</div>
+												<hr>
+												<div class="row">
+													<div class="col-sm-10">
+													</div>
+												
+													
+													
+													<div class="col-sm-2">
+														<!--<button class="btn_green pull-right" ng-click="issueDocument('Prescription')">{{'Issue' | translate}}<i class="fa fa-spinner fa-spin" ng-if="loader"></i></button>-->
+													   <button class="btn_green pull-right" ng-click="saveDrPresAndIssuePres()">{{'Issue' | translate}}<i class="fa fa-spinner fa-spin" ng-if="loader"></i></button>
+
+													</div>
+												</div>
+											</form>
+										</tab>
+										<!-- <tab heading="Dr. orders">
+											<form action="">
+												<div class="row">
+														<div class="table-responsive">
+															<table class="table table-striped table-bordered">
+																<thead>
+																	<tr>
+																		<th><input type="checkbox" ng-model="selectedAll" ng-click="checkAll()" /></th>
+																		<th>Drug type</th>
+																		<th>Dosage</th>
+																		<th>Amount</th>
+																		<th>Description</th>
+																	</tr>
+																</thead>
+																<tbody>
+																	<tr ng-repeat="order in tab.order">
+																		<td>
+																			<input type="checkbox" ng-model="order.selected" /></td>
+																		<td>
+																			<input type="text" class="form-control" ng-model="order.dosage" required/></td>
+																		<td>
+																			<input type="text" class="form-control" ng-model="order.drugName" required/></td>
+																		<td>
+																			<input type="text" class="form-control" ng-model="order.prescriptionAmount" required/></td>
+																		<td>
+																			<input type="text" class="form-control" ng-model="order.description" required/></td>
+																	</tr>
+																</tbody>
+															</table>
+															<div class="row">
+																<div class="col-sm-9">
+																</div>
+																<div class="col-sm-3">
+																	<input  type="button" ng-click="removeOrder()" value="Remove">
+																	<input type="button" ng-click="addNew()" value="Add New">
+																</div>
+															</div>
+														</div>
+												</div>
+												<div class="row">
+													<div class="col-sm-10">
+													</div>
+													<div class="col-sm-2">
+														<button class="btn_green">Issue</button>
+													</div>
+												</div>
+											</form>
+										</tab> -->
+									</tabset>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+

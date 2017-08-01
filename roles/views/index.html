@@ -1,0 +1,119 @@
+
+<style type="text/css">
+.input-group .search_box button	{
+    min-width: 40px !important;
+    padding: 12px;
+	
+}
+.input-group .search_box { position: absolute; }
+.input-group .search_box button{     margin: 0;
+    margin-top: -1px; }
+
+
+</style>
+<div class="page page-dashboard">
+    <div class="left-menu-top clearfix">
+        <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button"> <span class="sr-only">Toggle navigation</span> </a>
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+                aria-controls="navbar"> <span class="sr-only">Toggle navigation</span> Menu </button>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse pull-left">
+            <!-- <ul class="nav navbar-nav navbar-right"> -->
+           <ul class="nav navbar-nav">
+                <li ng-if="(permissionsArray.indexOf('familyDoctors') != -1)"><a ui-sref="familyDoctors" ui-sref-active="active" translate="FamilyDoctors"></a></li>
+                <li  ng-if="(permissionsArray.indexOf('survey') != -1)"><a ui-sref="survey" ui-sref-active="active" translate="Survey"></a></li>
+                <li ng-if="(permissionsArray.indexOf('statuses') != -1)"><a ui-sref="statuses" ui-sref-active="active" translate="Statuses"></a></li>
+                <li ng-if="(permissionsArray.indexOf('index') != -1)"><a ui-sref="index" ui-sref-active="active" translate="Indexes"></a></li>
+                <li ng-if="(permissionsArray.indexOf('Diseases') != -1)"><a ui-sref="Diseases" ui-sref-active="active" translate="Main Complaint"></a></li>
+                <li ng-if="(permissionsArray.indexOf('users') != -1)"><a ui-sref="users" ui-sref-active="active" translate="Users"></a></li>
+                <li ng-if="(permissionsArray.indexOf('roles') != -1)"><a ui-sref="roles" ui-sref-active="active" translate="Roles & Permission"></a></li>
+                <li ng-if="(permissionsArray.indexOf('kupatCholim_list') != -1)"><a ui-sref="kupatCholim_list" ui-sref-active="active" translate="Kupat Cholim"></a></li>
+                <li ng-if="(permissionsArray.indexOf('ipSettings') != -1)"><a ui-sref-active="active" ui-sref="ipSettings" translate="Settings"></a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="page-inner">
+        <div class="page-title-breadcrumb" id="title-breadcrumb-option-demo">
+            <div class="page-header">
+                <div class="page-title" translate="List of Roles"></div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="page-in-below-head clearfix" ng-init="getRolesList()">
+            <div class="row ">
+                <div class="col-sm-6 col-xs-6">
+                     
+                    <!--<form name="searchForm" novalidate>
+                        <div class="input-group">
+
+                            <input type="text" class="form-control" placeholder="Search term" name="searchTerm" ng-model="searchTextField" required />
+                            <span class="search_box">
+								<button type="button"  class="glyphicon glyphicon-search btn_green" type="submit">
+							
+							</button>
+							</span>
+
+                        </div>
+                    </form>-->
+                </div>
+                <!-- <div class="col-sm-6 col-xs-6">
+					<div class="form-group">
+						<div class="select_box">
+							<input type="text" class="form-control" placeholder="Search" ng-model="search.name">
+							<span class="search_box"></span>
+						</div>
+					</div>
+				</div> -->
+                <div class="col-sm-6 col-xs-6">
+                    <button class="btn_green pull-right" ui-sref="addRole" translate="Add New Role"></button>
+                </div>
+                <br>
+                <br>
+     <!--<div ng-if="(permissionsArray.indexOf('addRole') != -1)" class="col-lg-4 pull-right"> <a id="btn-archive" class="pull-right btn btn-primary btn-sm" ui-sref="addRole">Create Role</a>-->
+
+            </div>
+            <div class="row ">
+                <div class="col-sm-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading" translate="List of Roles"></div>
+                        <div class="panel-body">
+
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-striped table-responsive" ng-table="tableParams" show-filter="isFiltersVisible">
+                                    <tbody>
+                                        <tr ng-repeat="record in $data">
+                                            <td data-title="'Role'|translate" ng-bind="record.title  | capitalize"></td>
+                                            <!--<td data-title="'Status'|translate" ng-if="record.status"><span class="label label-success" translate="Active"></span></td>
+                                            <td data-title="'Status'|translate" ng-if="!record.status"><span class="label label-danger" translate="Inactive"></span></td>-->
+                                            <td data-title="'Action'|translate">
+                                                <a ui-sref="editRoles({id:record._id})" alt="Edit" title="Click to edit">
+                                                    <i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i>
+                                                </a>&nbsp;&nbsp;
+                                                <a ui-sref="rolePermissions({id:record._id})" alt="Permission"
+                                                    title="Permission">
+                                                    <i class="fa fa-lock fa-lg" aria-hidden="true"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        <tr ng-show="tableParams.data.length == 0">
+                                            <td colspan="3" align="left" translate="No Record Found"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+              <!--<td data-title="'Action'" ng-if="(permissionsArray.indexOf('editRoles') != -1) || (permissionsArray.indexOf('rolePermissions') != -1)">
+                                                <a ng-if="(permissionsArray.indexOf('editRoles') != -1)" ui-sref="editRoles({id:record._id})" alt="Edit" title="Click to edit">
+                                                    <span class="glyphicon glyphicon-edit"></span>
+                                                </a>&nbsp;&nbsp;
+                                                <a ng-if="(permissionsArray.indexOf('rolePermissions') != -1)" ui-sref="rolePermissions({id:record._id})" alt="Permission"
+                                                    title="Permission">
+                                                    <i class="fa fa-lock" aria-hidden="true"></i>
+                                                </a>
+                                            </td>-->

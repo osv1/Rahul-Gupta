@@ -1,0 +1,94 @@
+
+	
+	<div class="modal-header">
+		<button class="close" type="button" ng-click="cancel()">X
+		
+		</button>
+	</div>
+	<div class="page page-dashboard">
+		<div class="page-inner" ng-init="getVisitDoctorExamById(); getNurseTestByCurrentDisease(); getStageInfoById()">
+			<div class="page-title-breadcrumb" id="title-breadcrumb-option-demo">
+				<div class="page-header">
+					<div class="page-title" translate="Physical Examination"></div>
+					
+				</div>
+			</div>
+			
+			<div class="page-in-below-head clearfix" >
+				<div class="row ">
+					<div class="col-sm-12">
+						<div class="panel panel-default">
+							<div class="panel-heading">{{visitData.patientId.firstname}} {{visitData.patientId.lastname}}, {{visitData.patientId.age.year == 0 ? visitData.patientId.age.month == 0 ? visitData
+											.patientId.age.day : visitData.patientId.age.month : visitData.patientId.age.year}} {{visitData.patientId.age.year == 0 ? visitData.patientId.age.month == 0 ? 
+                                         'Day' : 'Month' : 'Year'|translate}} , {{visitData.patientId.gender | capitalize |translate}},{{'allergic to'|translate}}:
+							<span class = "allergi" ng-if = "allergies.length > 0" >   {{ allergies }}</span>
+						 <span> {{visitData.currentStatus}}</span>
+							 <span ng-if = "getStageDateTime('dr_exam')" class="cameIn" >{{'Came In'|translate}}: {{ getStageDateTime('dr_exam')| date : "HH:mm '|' dd.MM.yy" }}</span>
+						</div>
+							<div class="panel-body">
+								<div class="row">
+									<div class="col-sm-6">
+										<h5 translate="Current Disease"></h5>
+										{{visitData.currentdisease}}
+									</div>
+									</div>
+									<br>
+									<div class="row">
+									<div class="col-sm-12">
+										<h5 translate="Physical Examination"></h5>
+									</div>
+									
+								</div>
+								<div class="col-sm-12">
+									<form class="form-horizontal tabNav">
+										<tabset class="ui-tab">
+										<tabset>
+										<tab ng-repeat="tab in tabs track by $index" heading="{{tabs[$index].name|translate}}" active="tabs[$index].active" select="onTabSelected(tabs[$index].slug)" >
+										<label  class="col-sm-5">{{tabs[$index].checked == '1' ? 'Tested and found ok' : tabs[$index].checked == '2' ? 'Tested and details findings' : 'Not tested' |translate }}</label>
+										<strong>{{tabs[$index].finding}}</strong>
+										</tab>
+										
+									</tabset></form>
+								</div>
+								 <div class="row">
+								<div class="col-sm-6">
+									<h5 translate="Treatment Recommendations"></h5>
+								</div>
+								<div class="crearfix"></div>
+							</div>
+									
+								<div class="row">
+									<strong class="col-sm-5" translate="Main Complaint"></strong>
+									<strong class="col-sm-5" translate="Comments"></strong>
+									<hr>
+											
+									<div class="col-sm-12" ng-if="doctorTest.length > 0">
+										<hr>
+									</div>
+									<div class="col-sm-12" ng-if="doctorTest.length == 0">
+										<center><label translate="No Treatment recommendations"></label></center>
+										<hr>
+									</div>
+									<div class="form-container form-deve">
+										<div class="form-group clearfix" ng-repeat="test in doctorTest track by $index">
+											<div class="col-sm-5">
+													{{test.name}}
+												</div>
+								
+											<div class="col-sm-5">
+													{{test.comment}}
+												</div>
+											
+										</div>
+									</div>
+								</div>
+								
+								
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	

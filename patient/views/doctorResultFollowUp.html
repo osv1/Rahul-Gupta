@@ -1,0 +1,101 @@
+<div class="page page-dashboard">
+	<div class="left-menu-top clearfix">
+		<a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button"> <span class="sr-only">Toggle navigation</span> </a>
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+				aria-controls="navbar"> <span class="sr-only">Toggle navigation</span> Menu </button>
+		</div>
+		<div id="navbar" class="navbar-collapse collapse pull-left"> 
+        <!-- <ul class="nav navbar-nav navbar-right"> -->
+       <ul class="nav navbar-nav">
+				<li><a href="#/doctorSummary/{{visitData._id}}" translate="Doctor's Summary"></a></li>
+				<li><a href="#/doctorExam-edit/{{visitData._id}}" translate="Physical Examination"></a></li>
+				<li><a href="#/doctorTreatment-edit/{{visitData._id}}" translate="Treatment"></a></li>
+				<li><a href="#/doctorResult-edit/{{visitData._id}}" translate="Results"></a></li>
+				<li><a href="#/doctorResultFollowUp-edit/{{visitData._id}}" translate="Follow Up"></a></li>
+				<li><a href="#/prescription-edit/{{visitData._id}}" translate="Order"></a></li>
+			</ul>
+      </div>
+	</div>
+	<div class="page-inner">
+		<div class="page-title-breadcrumb" id="title-breadcrumb-option-demo">
+			<div class="page-header">
+				<div class="page-title" translate="Results Follow Up"></div>
+				<span class="back-visitCard"><a title="{{'visitCard Dashboard'|translate}}" href="#/visitCard/{{visitData._id}}"><i class="fa fa-life-ring"></i></a></span>
+			</div>
+		</div>
+		<div class="clearfix"></div>
+		<div class="btnTop">
+	  <a title="{{'Save & Next'|translate}}"  class="btn btn-xs btn-primary ng-scope" href="#/prescription-edit/{{visitData._id}}" ng-click="addFollowUpDetails(visitData)"><i class="fa fa-save" translate="& Next"></i></a>
+	  <a title="{{'Save'|translate}}"  class="btn btn-xs btn-primary ng-scope" href="" ng-click="addFollowUpDetails(visitData);getVisitById()"><i class="fa fa-save" translate="Save"></i></a>
+	  <a title="{{Back|translate}}"  class="btn btn-xs btn-primary ng-scope" href="#/doctorResult-edit/{{visitData._id}}"><i class="fa fa-mail-forward" translate="Back"></i></a>
+	    </div>
+		<div class="page-in-below-head clearfix" ng-init="getVisitById(); getStageInfoById()">
+			<div class="row ">
+				<div class="col-sm-12">
+					<div class="panel panel-default">
+						<!-- <div class="panel-heading">{{visitData.patientId.firstname}} {{visitData.patientId.lastname}}, {{visitData.patientId.age}} male, allergic to:{{visitData.allergies}}
+							<u ng-repeat="a in visitData.patientId.allergies">
+								{{a}} {{$last ? '' : ($index==shifts.length-2) ? ' and ' : ', '}}
+							</u>
+							<span>Came in: 28.2.17 | 16:28 STATUS</span>
+						</div> -->
+						<div class="panel-heading">{{visitData.patientId.firstname}} {{visitData.patientId.lastname}}, {{visitData.patientId.age}} {{visitData.patientId.gender | capitalize}}
+							<span class = "allergies" ng-if = "allergies.length > 0" >  allergic to: <u> {{ allergies }} </u></span>
+						 <span> {{visitData.currentStatus}}</span>
+							 <span ng-if = "getStageDateTime('dr_result')" class="cameIn" >Came In: {{ getStageDateTime('dr_result')| date : "HH:mm '|' dd.MM.yy" }}</span>
+						</div>
+						<div class="panel-body">
+							<form name="form">
+							    <div class="col-sm-6">
+								<div class="row">
+									<div class="col-sm-12">
+										<div class="form-group">
+											<label translate="Dr.Follow Up">
+														
+											</label>
+											<input type="text" name="drfollowup" class="form-control" ng-model="visitData.drfollowup" placeholder="{{'Dr.Follow Up'|translate}}"/>
+											
+											
+										</div>
+									</div>
+									<div class="col-sm-12">
+										<div class="form-group">
+											<label translate="Treatment">
+														
+											</label>
+											
+											<input type="text" name="treatmentResultComment" class="form-control" ng-model="visitData.treatmentResultComment" placeholder="{{'Treatment'|translate}}"/>	
+									
+										</div>
+									</div>
+									<div class="col-sm-12">
+										<div class="form-group">
+											<label translate="Go to ER if">
+												
+											</label>
+											
+											<input type="text" name="goToERIf" class="form-control" ng-model="visitData.goToERIf" placeholder="{{'Go to ER if'|translate}}"/>	
+											
+										</div>
+									</div>
+									<div class="clearfix"></div>
+								</div>
+								</div>
+							<!-- <div class="row">
+								<div class="col-sm-6">
+								</div>
+							<div class="col-sm-6">
+								<button class="btn_black">Back</button> <button type="submit" ng-disabled="doctorTreatmentForm.$invalid" class="btn_green">Submit</button>
+							</div>
+							</div> -->
+				</form>
+		</div>
+	
+</div>
+
+</div>
+</div>
+</div>
+</div>
+</div>

@@ -1,0 +1,108 @@
+
+ <div class="page page-dashboard" >
+<div class="left-menu-top clearfix arrowMenuBg"> <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button"> <span class="sr-only">Toggle navigation</span> </a>
+			<div class="topLRMenu">
+        <ul>
+            <li ng-if="(permissionsArray.indexOf('patientDrugListing') != -1)">
+				<a ui-sref="patientDrugListing({ id : visitData._id })" ui-sref-active="active" class="arrowL">
+                    <div class="inner-arrowL">
+						{{ 'Drugs' | translate }}
+                    </div>
+                </a>
+            </li>
+            <li ng-if="(permissionsArray.indexOf('summary') != -1)">
+				<a ui-sref="summary({ id : visitData._id })" ui-sref-active="active" class="arrowL">
+                    <div class="inner-arrowL">
+                       	{{ 'Summary' | translate }} 
+                    </div>
+                </a>
+            </li>
+        </ul>
+        <div class="clearfix"></div>
+    </div>
+    </div>
+  <div class="page-inner ">
+		<div class="page-title-breadcrumb" id="title-breadcrumb-option-demo">
+			<div class="page-header">
+				<div class="page-title" translate="Summary"></div>
+			</div>
+	
+	
+		</div>
+		<div class="clearfix"></div>
+	  <div class="btnTop">
+	  <a title="{{'Save & finish'|translate}}"  class="btn btn-xs btn-primary ng-scope" ng-click="submitSummary(visitData._id)" href="javascript:;"> {{ 'Finish' | translate }}  </a>
+	  </div>
+		<div class="page-in-below-head clearfix" ng-init="getVisitById();getStageInfoById()">
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="panel panel-default visitCard">  
+					
+						<div class="panel-heading clearfix summary-heading">{{visitData.patientId.firstname}} {{visitData.patientId.lastname}}, {{visitData.patientId.age.year == 0 ? visitData.patientId.age.month == 0 ? visitData
+											.patientId.age.day : visitData.patientId.age.month : visitData.patientId.age.year}} {{visitData.patientId.age.year == 0 ? visitData.patientId.age.month == 0 ? 
+                                         'Day' : 'Month' : 'Year'|translate}} , {{visitData.patientId.gender | capitalize | translate}}
+							<span class = "allergies" ng-if = "allergies.length > 0" >  {{'allergic to'|translate}}: <u> {{ allergies }} </u></span>
+							 <span> {{visitData.currentStatus}}</span>
+							<span ng-if = "getStageDateTime('closure_summary')" class="cameIn" >{{'Came In'|translate}}: {{ getStageDateTime('closure_summary')| date : "HH:mm '|' dd.MM.yy" }}</span>
+						</div>
+<!--{{issuedocChecked}}   {{sendMailToFamilyDrChecked}}  {{closeVistChecked}}-->
+						<div class="panel-body">
+									<form data-toggle="buttons">
+										<div class="row">
+											<div class="col-sm-3  ">
+												<div class="clearfix">
+													<!--<input type="checkbox" ng-model="issuedocChecked"/>
+													&nbsp;{{'Print summary' | translate}}<i class="fa fa-spinner fa-pulse fa-3x fa-fw" ng-if="loader"></i>-->
+													<button class="btn-chk closureBg padding30" ng-click="issuedocChecked = !issuedocChecked" >
+														<span ng-class="issuedocChecked == true ? 'glyphicon glyphicon-ok':  ''" class="glyphicon glyphicon-ok"></span>
+														<p>{{'Print summary' | translate}}</p> 
+													</button>
+													</div>
+											</div>
+											<div class="col-sm-3">
+												<div class="clearfix">
+													<!--<input type="checkbox" ng-model="sendMailToFamilyDrChecked" />&nbsp;{{'Send summary to the family doctor' | translate}}<i class="fa fa-spinner fa-pulse fa-3x fa-fw" ng-if="sendSummaryLoader"></i>-->
+													<button class="btn-chk familyDr padding30" ng-click="sendMailToFamilyDrChecked = !sendMailToFamilyDrChecked">
+														<!--<input type="checkbox" ng-model="sendMailToFamilyDrChecked" autocomplete="off">-->
+														<span ng-class="sendMailToFamilyDrChecked == true ? 'glyphicon glyphicon-ok':  ''" class="glyphicon glyphicon-ok"></span>
+														<p>{{'Send summary to the family doctor' | translate}}</p> 
+													</button>
+													</div>
+											</div>
+											<div class="col-sm-3">
+												<div class="clearfix">
+													<!--<input type="checkbox" ng-model="closeVistChecked"  ng-show = "visitData.visitIsClosed == 0" />&nbsp;{{ 'Close visit & send a survey' | translate}}-->
+													<button class=" btn-chk receptionBg padding30" ng-click="closeVistChecked = !closeVistChecked">
+														<!--<input type="checkbox" autocomplete="off" ng-model="closeVistChecked">-->
+														<span ng-class="closeVistChecked == true ? 'glyphicon glyphicon-ok':  ''" class="glyphicon glyphicon-ok"></span>
+														<p>{{ 'Close visit & send a survey' | translate}}</p> 
+													</button>	
+													</div>
+											</div>
+										</div>
+									</form>
+							</div>
+					</div> 
+				</div>     
+			</div>
+		</div>
+ </div>    
+</div>
+
+
+			<!--<div class="panel-body">
+									<form>
+										<div class="row">
+											<div class="col-sm-3">
+												<div class="closureBg padding40" ng-click="issueDocument('Treatment Summary')">{{'Print summary' | translate}}<i class="fa fa-spinner fa-pulse fa-3x fa-fw" ng-if="loader"></i></div>
+											</div>
+											<div class="col-sm-3">
+												<div class="familyDr padding30" ng-click="sendSummaryToFamilyDoctor()">{{'Send summary to the family doctor' | translate}}<i class="fa fa-spinner fa-pulse fa-3x fa-fw" ng-if="sendSummaryLoader"></i></div>
+											</div>
+											<div class="col-sm-3">
+												<button class="receptionBg padding30"  ng-click="closeVisitAndSendSurvey()" ng-disabled="visitData.visitIsClosed == 1">{{ 'Close visit & send a survey' | translate}}</button>
+											</div>
+										</div>
+									</form>
+							</div>-->
+								  <!--<a title="{{'Save & finish'|translate}}"  class="btn btn-xs btn-primary ng-scope" href="#/visitCard/{{visitData._id}}"> {{ 'Finish' | translate }}  </a>-->

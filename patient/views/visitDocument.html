@@ -1,0 +1,93 @@
+<style type="text/css">
+.input-group .search_box button	{
+    min-width: 40px !important;
+    padding: 12px;
+	
+}
+.input-group .search_box { position: absolute; }
+.input-group .search_box button{     margin: 0;
+    margin-top: -1px; }
+.hoverme:hover
+{
+    background-color:lightslategray;
+}
+
+</style>
+<div class="page page-dashboard" ng-init="getVisitById(); getVisitDocumentInfoById(); getStageInfoById()">
+	<div class="left-menu-top clearfix">
+		<a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button"> <span class="sr-only">Toggle navigation</span> </a>
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+				aria-controls="navbar"> <span class="sr-only">Toggle navigation</span> Menu </button>
+		</div>
+		<div id="navbar" class="navbar-collapse collapse pull-left">
+
+		</div>
+	</div>
+	<div class="page-inner">
+		<div class="page-title-breadcrumb" id="title-breadcrumb-option-demo">
+			<div class="page-header">
+				<div class="page-title" translate="Visit Document List"></div>
+			</div>
+		</div>
+		<div class="clearfix"></div>
+		<div class="page-in-below-head clearfix">
+			<div class="row ">
+				<div class="col-sm-6 col-xs-6">
+				</div>
+
+
+				<div class="btnTop">
+				
+						<form name="form" enctype="multipart/form-data">
+						</form>
+						<!--<a title="{{'Back'|translate}}"  class="btn btn-xs btn-primary ng-scope" href="#/visitCard/{{visitData._id}}"><i class="fa fa-mail-forward" translate="Back"></i></a>-->
+						<!--<a title="{{'Upload New Document'|translate}}"  class="btn btn-xs btn-primary ng-scope" ngf-select="uploadFile($file)"><i class="fa fa-upload"></i></a>						             -->
+						<a title="{{'Upload New Document'|translate}}" class="btn btn-xs btn-primary ng-scope" ngf-select="uploadFile($file)"><i class="fa fa-upload"></i><i class="fa fa-spinner fa-spin fa-lg" ng-if="loader"></i> {{ 'Upload New Document' | translate }} </a>
+						<a title="{{'VisitCard'|translate}}" class="btn btn-xs btn-primary ng-scope" href="#/visitCard/{{visitData._id}}"><i class="fa fa-vcard"></i> {{ 'Exit To Dashboard' | translate }}    </a>
+
+				</div>
+			</div>
+				<div class="row ">
+			<div class="col-sm-12">
+				<div class="panel panel-default">
+					<div class="panel-heading">{{visitData.patientId.firstname}} {{visitData.patientId.lastname}}, {{visitData.patientId.age.year == 0 ? visitData.patientId.age.month
+						== 0 ? visitData .patientId.age.day : visitData.patientId.age.month : visitData.patientId.age.year}} {{visitData.patientId.age.year
+						== 0 ? visitData.patientId.age.month == 0 ? 'Day' : 'Month' : 'Year'}} , {{visitData.patientId.gender | capitalize}}
+						<span ng-cloak> {{visitData.currentStatus}}</span>
+					</div>
+					<div class="panel-body">
+						<div class="table-responsive">
+							<table class="table table-bordered table-responsive" ng-table="tableParams" show-filter="isFiltersVisible">
+								<tr class="hoverme" ng-repeat="document in visitDocumentData">
+									<td data-title="'Submitted By'|translate"> {{ document.createdAt | date : "dd.MM.yy | HH:mm " }} <strong translate="by:"></strong> {{document.submittedBy}}</td>
+									<td data-title="'File Size'|translate" filter="{title:'text'}">{{document.size}} <strong translate="KB"></strong></td>
+									<td data-title="'Document Type'|translate" filter="{title:'text'}">{{document.name}}</td>
+									<td data-title="'Action'">
+										
+										<a target="_self" id="downloadpdf" ng-click="download(document._id)" download={{filename}}><i class="fa fa-download fa-lg"></i></a>										&nbsp;&nbsp;
+										<a ng-show = "document.ext == '.pdf' || (document.name).indexOf('.pdf') !== -1" href="" ng-click="viewVisitDocument(document._id)"><i class="fa fa-eye fa-lg " aria-hidden="true"></i></a>
+										<!--<a href="" ng-click="viewVisitDocument(document._id)"><i class="fa fa-eye" aria-hidden="true"></i></a>-->
+
+
+									</td>
+								</tr>
+								<tr ng-if="tableLoader">
+									<td colspan="7" align="center">
+										<i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+									</td>
+								</tr>
+								<tr ng-if="visitDocumentData.length == 0 && !tableLoader">
+									<td colspan="7" align="center" translate="No Record Found"></td>
+								</tr>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		</div>
+	
+	</div>
+</div>
+</div>

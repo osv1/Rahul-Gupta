@@ -1,0 +1,49 @@
+<div class="modal-header">
+	<button class="close" type="button" ng-click="cancel()">X
+		</button>
+</div>
+<div class="page page-dashboard">
+	<div class="page-inner">
+		<div class="page-title-breadcrumb" id="title-breadcrumb-option-demo">
+			<div class="page-header">
+				<div class="page-title" translate="Cheque"></div>
+			</div>
+			
+		</div>
+
+		<div class="page-in-below-head clearfix">
+			<div class="row ">
+				<div class="col-sm-12">
+					<div class="panel panel-default">
+
+						<div class="panel-body">
+							<form name="form" novalidate>
+								<div class="row">
+									<div class="col-sm-12">
+										<div class="form-group" ng-class="{ 'has-error' : form.cheque.$invalid && form.cheque.$dirty }">
+											<label>{{'Cheque Number'|translate}}
+											
+										</label><span style="color : red">*</span>
+                                        <input type="text" name="cheque" class="form-control" ng-model="paymentData.paidWithInfo.chequeNumber" placeholder=""
+	                                     ng-pattern="/^[0-9]*$/" ng-maxlength="8" required>
+                                         <span class="text-danger" ng-show="form.cheque.$invalid && form.cheque.$dirty">
+                                        <span ng-show="form.cheque.$error.required && form.cheque.$dirty" translate="Cheque Number is required."></span>
+										<span ng-show="form.cheque.$error.pattern" translate="Allowed only Number"></span>
+										<span ng-show="form.cheque.$error.maxlength" translate="Allowed Maximum 8 Numbers"></span>
+									</span>
+</div>
+</div>
+</div>
+</div>
+<div>
+	<button class=" btn_green" ng-disabled="form.$invalid" ng-click="ok()">{{'Proceed'|translate}}</button>
+	<button class=" btn_black" ng-click="cancel()">{{'Cancel'|translate}}</button>
+</div>
+
+
+</div>
+
+</div>
+</div>
+</div>
+

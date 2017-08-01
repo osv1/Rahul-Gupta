@@ -1,0 +1,107 @@
+
+	
+		<div class="modal-header">
+			<button class="close" type="button" ng-click="cancel()">X
+			
+			</button>
+	
+	</div>
+	
+	
+	
+	<div class="page-inner">
+		<div class="page-title-breadcrumb" id="title-breadcrumb-option-demo">
+			<div class="page-header">
+				<div class="page-title" translate="Identify"></div>
+			</div>
+		</div>
+		<div class="page-in-below-head clearfix" ng-init="getVisitById();getkupatCholim();getFamilyDoctor();">
+			<!--<div class="row ">-->
+				<div class="col-md-11">
+					<div class="panel panel-default">
+						
+						<div class="panel-body">
+							<form name="form" novalidate>
+								<div class="row">
+						             <label class="col-sm-3" translate="Id Number"></label>
+						               <div class="col-sm-3">{{patient.patientId}}</div>
+									 <label class="col-sm-3" translate= "Date of Birth"></label>
+											<div class="col-sm-3">{{patient.DOB|date}}</div>
+								</div>
+								<hr>	
+								<div class="row">
+						             <label class="col-sm-3" translate="First Name"></label>
+										<div class="col-sm-3">{{patient.firstname}}</div>
+									 <label class="col-sm-3" translate="Surname"></label>
+											<div class="col-sm-3">{{patient.lastname}}</div>
+								</div>
+										<hr>	
+								<div class="row">
+						             <label class="col-sm-3" translate="Address"></label>
+										<div class="col-sm-3">{{patient.address}}</div>
+									 <label class="col-sm-3" translate="City"></label>
+											<div class="col-sm-3">{{patient.city}}</div>
+								</div>		<hr>	
+								<div class="row">
+						             <label class="col-sm-3" translate="Kupat Cholim"></label>
+										<div class="col-sm-3">{{patient.kupatCholim.name}}</div>
+									 <label class="col-sm-3" translate="Family Doctor"></label>
+											<div class="col-sm-3">{{patient.familyDoctorId.firstname}} {{patient.familyDoctorId.lastname}}</div>
+								</div>		<hr>	
+								<div class="row">
+						             <label class="col-sm-3" translate="Mobile Number"></label>
+										<div class="col-sm-3">{{patient.mobileNo}}</div>
+										<label class="col-sm-3" translate="Email"></label>
+										<div class="col-sm-3">{{patient.email}}</div>
+									
+								</div>		<hr>	
+								<div class="row">
+						             <label class="col-sm-3" translate="Mother Name"></label>
+										<div class="col-sm-3">{{patient.motherName}}</div>
+									 <label class="col-sm-3" translate="Father Name"></label>
+											<div class="col-sm-3">{{patient.fatherName}}</div>
+								</div>		<hr>
+								<div class="row">
+						             <label class="col-sm-3" translate="Gender"></label>
+										<div class="col-sm-3">{{patient.gender | translate}}</div>
+									 <label class="col-sm-3" translate="Age"></label>
+										<div class="col-sm-3">{{patient.age.year == 0 ? patient.age.month == 0 ? patient.age.day : patient.age.month : patient.age.year}} {{patient.age.year == 0 ? patient.age.month == 0 ? 
+                                         'Day' : 'Month' : 'Year'| translate}}</div>
+								</div>		<hr>
+								<div class="row"> 
+									<label class="col-sm-3" translate="Additional Number"></label>
+											<div class="col-sm-3">{{patient.secondaryNo}}</div>
+						             
+									 <label class="col-sm-3" translate="Other Comment"></label>
+									<div class="col-sm-3" ng-bind="patient.comment !=undefined ? patient.comment : 'NA'"></div>
+								</div>
+								</form>
+						</div>
+					</div>
+				</div>
+			<!--</div>-->
+		</div>
+	</div>
+	
+												
+				                         
+			                           
+							
+										
+									
+								
+									
+									
+									
+								
+								
+						
+								
+										
+											
+								
+								
+								
+								
+								
+							

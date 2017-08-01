@@ -1,0 +1,104 @@
+<style type="text/css">
+.input-group .search_box button    {
+    min-width: 40px !important;
+    padding: 12px;
+
+}
+.input-group .search_box { position: absolute; }
+.input-group .search_box button{     margin: 0;
+    margin-top: -1px; }
+
+
+
+</style> 
+ <div class="page page-dashboard" >
+<div class="left-menu-top clearfix"> <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button"> <span class="sr-only">Toggle navigation</span> </a>
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"> <span class="sr-only">Toggle navigation</span> Menu </button>
+      </div>
+      <div id="navbar" class="navbar-collapse collapse pull-left"> 
+        <!-- <ul class="nav navbar-nav navbar-right"> -->
+        <ul class="nav navbar-nav">
+           <li><a ui-sref="familyDoctors">familyDoctors</a></li>
+          <li><a ui-sref="Survey">Survey</a></li>
+          <li><a ui-sref="Statuses">Statuses</a></li>
+          <li><a ui-sref="index">Indexes</a></li>
+          <li><a ui-sref="Diseases">Diseases</a></li>
+          <li><a ui-sref="users">Users</a></li>
+        </ul>
+      </div>
+    </div>
+  <div class="page-inner" ng-init="getallIndex()">
+		<div class="page-title-breadcrumb" id="title-breadcrumb-option-demo">
+			<div class="page-header">
+				<div class="page-title">Index List</div>
+			</div>
+	<!--
+			<ul class="breadcrumb page-breadcrumb">
+				<li><a href="#">Home</a></li>
+				<span> &nbsp; <i class="fa fa-angle-right"></i> &nbsp;</span>
+				<li class="hidden"><a href="#">Dashboard</a></li>
+				<li class="active"><a href="#">Dashboard</a></li>
+			</ul>
+	-->
+		</div>
+		<div class="clearfix"></div>
+		<div class="page-in-below-head clearfix">
+			<div class="row ">
+				<div class="col-sm-6 col-xs-6">
+					<div class="input-group">
+						<div class="select_box">
+							<input type="text" class="form-control" placeholder="Search By Index" ng-model="name">
+							<span class="search_box">
+							 <button type="button" class="fa fa-search btn_green" type="submit"></button>
+							</span>
+						</div>
+					</div>
+				</div>
+ 				<div class="col-sm-6 col-xs-6">
+					<button class="btn_green pull-right" ui-sref="index_add" >ADD NEW INDEX</button>
+				</div>
+			</div>
+			<div class="row ">
+				<div class="col-sm-12">
+					<div class="panel panel-default">  
+							<div class="panel-heading">Index List</div> 
+							<div class="panel-body">
+									<div class="table-responsive">
+											<table class="table table-bordered table-striped table-responsive" ng-table="tableParams">
+													<!--<tbody>-->
+															<tr dir-paginate="index in indexList | filter:name | itemsPerPage: 5">
+																	<td data-title="'Index'" align="left" ng-bind="index.name | capitalize">
+																	</td>
+																	<td data-title="'IndexType'" align="left" ng-bind="index.indexType">
+																	</td>
+																	<td data-title="'TakeFrom'" ng-init="index.minRange=index.minRange !='' ? index.minRange : 'NA';" align="left" ng-bind="index"></td>
+																	<td data-title="'TakeTo'"  align="left" ng-bind="index.maxRange !='' ? index.maxRange : 'NA'"></td>
+																	<td data-title="'AlertFrequency'"  align="left" ng-bind="index.alertFreqency"></td>
+																	<td data-title="'Action' "align="left"><a href ng-click="editIndexList(index._id,index.indexType)"><i class="fa fa-pencil"></i></a></td>
+																	
+															</tr>
+															<!-- <p ng-show="(indexList |filter:name).length==0">No record found</p> -->
+													<!--</tbody>-->
+															<!-- <tr ng-if="tableLoader">
+                                        					<td colspan="7" align="center">
+                                           					<i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+                                        					</td>
+                                    						</tr>
+                                    						<tr ng-if="indexList.length == 0 && !tableLoader">
+                                        					<td colspan="7" align="center">No record Found</td>
+                                    						</tr> -->
+
+
+											</table> 
+
+											<dir-pagination-controls direction-links="true" class="pull-right"></dir-pagination-controls>    
+											 </div>    
+									</div>  
+							</div> 
+					</div> 
+				</div>     
+			</div>
+		</div>
+ </div>    
+</div>

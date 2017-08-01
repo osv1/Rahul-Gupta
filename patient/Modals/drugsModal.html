@@ -1,0 +1,55 @@
+
+	<div class="modal-header">
+		<button class="close" type="button" ng-click="cancel()">X
+		</button>
+	</div>
+<div class="page page-dashboard">
+		<div class="page-inner">
+			<div class="page-title-breadcrumb" id="title-breadcrumb-option-demo">
+				<div class="page-header">
+					<div class="page-title" translate="Drugs"></div>
+				</div>
+			</div>
+			<div class="clearfix"></div>
+			<div class="page-in-below-head clearfix" ng-init="getVisitById();getPatientEmcPrescription(); getStageInfoById()">
+				<div class="row ">
+					<div class="col-sm-12">
+						<form name="form">
+							<div class="panel panel-default">
+								<div class="panel-heading">{{visitData.patientId.firstname}} {{visitData.patientId.lastname}}, {{visitData.patientId.age.year == 0 ? visitData.patientId.age.month == 0 ? visitData
+											.patientId.age.day : visitData.patientId.age.month : visitData.patientId.age.year}} {{visitData.patientId.age.year == 0 ? visitData.patientId.age.month == 0 ? 
+                                         'Day' : 'Month' : 'Year'|translate}} , {{visitData.patientId.gender | capitalize |translate}},{{'allergic to'|translate}}:
+							<span class = "allergi" ng-if = "allergies.length > 0" >   {{ allergies }} </span>
+						 <span> {{visitData.currentStatus}}</span>
+							 <span ng-if = "getStageDateTime('closure_drug')" class="cameIn" >{{'Came In'|translate}}: {{ getStageDateTime('closure_drug')| date : "HH:mm '|' dd.MM.yy" }}</span>
+						</div>
+							</div>
+							<div class="panel-body">
+								<div class="table-responsive">
+									<table class="table table-bordered table-responsive" ng-table="tableParams" ng-table-columns-binding="boundCols">
+										<tr  class="hoverme" title='Patient Prescriptions' ng-show="emcOrders.length!=0" ng-repeat="prescription in emcOrders track by $index" >
+											
+											<td data-title="'Drug type'|translate" filter="{title:'text'}" align="left" ng-model="emcOrders[$index].drugName" ng-bind="emcOrders[$index].drugName"></td>
+											
+											<td data-title="'Dosage'|translate" filter="{title:'text'}" align="left" ng-model="emcOrders[$index].dosage" ng-bind="emcOrders[$index].dosage"></td>
+											
+											<td data-title="'Amount'|translate"  filter="{title:'text'}" align="left" ng-model="emcOrders[$index].prescriptionAmount" ng-bind="emcOrders[$index].prescriptionAmount"></td>
+											<td data-title="'Amount Given'|translate"  filter="{title:'text'}" align="left">
+												<span ng-if="emcOrders[$index].isSomeClick!=true" ng-bind="emcOrders[$index].givenAmount" ng-model='emcOrders[$index].givenAmount'></span>
+												<input type="number" class="form-control" ng-if="emcOrders[$index].isSomeClick==true" name="givenAmount" ng-model="emcOrders[$index].givenAmount" max="{{emcOrders[$index].prescriptionAmount}}" ng-bind='emcOrders[$index].givenAmount'/>
+											</td>
+										</tr>
+										<tr>
+											<td colspan="7" align="center" ng-show="emcOrders.length==0" translate="No Record Found"></td>
+											
+										</tr>
+										
+									</table>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>

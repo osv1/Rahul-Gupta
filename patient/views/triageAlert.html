@@ -1,0 +1,50 @@
+<style>
+    .allergie{ background: red;
+    color: #fff;
+    padding: 5px;
+    text-decoration: none;
+       }
+       .alertReason .triage-popup-h2 { text-align: center;}
+</style>
+
+<div class="modal-content">
+
+ <div class="modal-header">
+        <button class="close"  type="button" ng-click="cancel()">X
+	</button>
+      
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-sm-12">
+                 <div class="alertRed">
+            
+            {{'ALERT at'|translate}} <span>{{currentDate | date:'HH:mm:ss'}}</span>
+        </div>
+                <center><div class="alertReason" style="margin-bottom: 10px;">
+                      <h2 class="triage-popup-h2"><strong>{{'Patient'|translate}}:</strong>  {{data.patientInfo.name}}, {{data.patientInfo.age.year == 0 ? data.patientInfo.age.month == 0 ? data.patientInfo.age.day : data.patientInfo.age.month : data.patientInfo.age.year}} {{data.patientInfo.age.year == 0 ? data.patientInfo.age.month == 0 ? 
+                                         'Day' : 'Month' : 'Year'|translate}} , {{data.patientInfo.gender | capitalize | translate}} {{ data.patientInfo.allergies.length ? ', allergic to:' : "" | translate}}<span class = "allergie">{{ data.patientInfo.allergies.length ? data.patientInfo.allergies.join() : "" }} </span>
+                    </h2>
+                    </div></center>
+                     <div class="alertReason pull-left">
+                    <h2><span class="triage-h2"><strong>{{ 'Alert reason' |translate}}</strong></span> <span class="triage-dot">:</span></h2>
+                    <div ng-repeat="item in data.triages">
+                    <h3><span class="triage-h2">&nbsp;<strong>{{item.name}}</strong> </span>&nbsp;<span>&nbsp;{{'was'|translate}}&nbsp; </span><strong>{{item.value}}</strong></h3>
+                    </div>
+                    <h3>{{'On last test done'|translate}} <strong>{{'Today'|translate}}, {{triageTakenTime | date:'HH:mm:ss'}} </strong></h3>
+                </div>
+
+            </div>
+        </div>
+        <input type="hidden" value="patientsch.id">
+    </div>
+    <div class="modal-footer">
+        <button class="btn_green pull-right" data-dismiss="modal" type="button" ng-click="cancel()">
+                        {{'Confirm'|translate}}
+	    </button>
+       <button class="btn btn-w-md btn-gap-v btn-danger pull-right"  ng-click="goToTriage()">{{'Go to Triage'|translate}}
+        </button>
+    </div>
+</div>
+
+

@@ -1,0 +1,48 @@
+  <div class="modal-header">
+		<button class="close" type="button" ng-click="cancel()">X
+		
+		</button>
+	</div>  
+	<div class="page page-dashboard">
+		
+		<div class="page-inner">
+			<div class="page-title-breadcrumb" id="title-breadcrumb-option-demo">
+				<div class="page-header">
+					<div class="page-title" translate="Visit Reason"></div>
+				</div>
+			</div>
+			
+			<div class="page-in-below-head clearfix" ng-init="getVisitById(); getStageInfoById()">
+				<div class="row ">
+					<div class="col-sm-12">
+						<div class="panel panel-default">	
+							<div class="panel-heading">{{visitData.patientId.firstname}} {{visitData.patientId.lastname}}, {{visitData.patientId.age.year == 0 ? visitData.patientId.age.month == 0 ? visitData
+											.patientId.age.day : visitData.patientId.age.month : visitData.patientId.age.year}} {{visitData.patientId.age.year == 0 ? visitData.patientId.age.month == 0 ? 
+                                         'Day' : 'Month' : 'Year'|translate}} , {{visitData.patientId.gender | capitalize | translate}},{{'allergic to'|translate}}:
+							<span class = "allergi" ng-if = "allergies.length > 0" >    {{ allergies }}</span>
+						 <span> {{visitData.currentStatus}}</span>
+							 <span ng-if = "getStageDateTime('visitReason')" class="cameIn" >{{'Came In'|translate}}: {{ getStageDateTime('visitReason')| date : "HH:mm '|' dd.MM.yy" }}</span>
+						</div> 				
+							<!--<div class="panel-heading">{{visitData.patientId.firstname}} {{visitData.patientId.lastname}}, {{visitData.patientId.age}} {{visitData.patientId.gender | capitalize}}{{ allergies.length ? ', allergic to: ' + allergies : "" }}
+								
+								<span ng-cloak><strong translate="Came In:"></strong> {{ getStageDateTime('visitReason')| date : "HH:mm '|' dd.MM.yy" }}   {{visitData.currentStatus}}</span>
+							</div>-->
+							<div class="panel-body">
+								<form name="visitReasonForm">
+									<div class="row">
+						             <label class="col-sm-3" translate="Visit Reason"></label>
+						               <div class="col-sm-6">{{visitData.visitReason}}</div>
+									</div>
+								<hr>	
+								<div class="row">				             
+									 <label class="col-sm-3" translate="Urgency"></label>
+									<div class="col-sm-6">{{visitData.isUrgent ? 'Urgent' : 'Not Urgent'}}</div>
+								</div>					
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>

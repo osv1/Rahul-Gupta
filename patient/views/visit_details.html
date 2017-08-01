@@ -1,0 +1,278 @@
+<div class="page page-dashboard">
+	<div class="left-menu-top clearfix arrowMenuBg">
+		<a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button"> <span class="sr-only">Toggle navigation</span> </a>
+		<!--<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+				aria-controls="navbar"> <span class="sr-only">Toggle navigation</span> Menu </button>
+		</div>-->
+		
+	 <div class="topLRMenu">
+        <ul>
+            <li ng-if="(permissionsArray.indexOf('visitDetails') != -1)">
+				<a ui-sref="visitDetails({ id : visitData._id })" ui-sref-active="active" class="arrowL">
+                    <div class="inner-arrowL">
+						{{ 'Visit details & Triage' | translate }}
+                    </div>
+                </a>
+            </li>
+            <li ng-if="(permissionsArray.indexOf('editNurseExam') != -1)">
+				<a ui-sref="editNurseExam({ id : visitData._id })" ng-click="addVisitDetails(visitData, false)" class="arrowL">
+                    <div class="inner-arrowL">
+                       	{{ 'Nurse Examination' | translate }} 
+                    </div>
+                </a>
+            </li>
+        </ul>
+        <div class="clearfix"></div>
+    </div>
+	</div>
+	<div class="page-inner">
+		<div class="page-title-breadcrumb" id="title-breadcrumb-option-demo">
+			<div class="page-header">
+				<div class="page-title" translate="Visit details & Triage"></div>
+			</div>
+		</div>
+		<div class="clearfix"></div>
+		<div class="btnTop">
+		  <a title="{{'Save & Next'|translate}}"  class="btn btn-xs btn-primary ng-scope" ng-click="addVisitDetails(visitData, false)"><i class="fa fa-save"></i> {{ 'Next' | translate }}  </a>
+		  <a title="{{'VisitCard'|translate}}"  class="btn btn-xs btn-primary ng-scope" ng-click="addVisitDetails(visitData, true)" ><i class="fa fa-vcard"></i> {{ 'Exit To Dashboard' | translate }}    </a>
+		  <!--<a title="{{'Save & Next'|translate}}"  class="btn btn-xs btn-primary ng-scope" href="#/nurseExam-edit/{{visitData._id}}" ng-click="addVisitDetails(visitData)"><i class="fa fa-save" translate="& Next"></i> </a>
+		  <a title="{{'Save'|translate}}"  class="btn btn-xs btn-primary ng-scope" href="" ng-click="addVisitDetails(visitData);addTriageTestform();getVisitDetailsById()"><i class="fa fa-save" translate="Save"></i>  </a>
+		  <a title="{{'Back'|translate}}"  class="btn btn-xs btn-primary ng-scope" href="#/triage-edit/{{visitData._id}}"><i class="fa fa-mail-forward"  translate="Back"></i>  </a>-->
+	    </div>
+		<div class="page-in-below-head clearfix" ng-init="currentPage = 'visitDetails-edit'; getVisitDetailsById(); getAllergies(); getStageInfoById(); getVisitById(); getTriageTestByVisitId();">
+			<div class="row ">
+				<div class="col-sm-12">
+					<div class="panel panel-default">
+						<div class="panel-heading">{{visitData.patientId.firstname}} {{visitData.patientId.lastname}}, {{visitData.patientId.age.year == 0 ? visitData.patientId.age.month == 0 ? visitData
+											.patientId.age.day : visitData.patientId.age.month : visitData.patientId.age.year}} {{visitData.patientId.age.year == 0 ? visitData.patientId.age.month == 0 ? 
+                                         'Day' : 'Month' : 'Year'|translate}} , {{visitData.patientId.gender | capitalize |translate}}
+							<span class = "allergies" ng-if = "allergies.length > 0" >  {{'allergic to'|translate}}: <u> {{ allergies }} </u></span>
+						 <span> {{visitData.currentStatus}}</span>
+							 <span ng-if = "getStageDateTime('nurse_visitDetails')" class="cameIn" >{{'Came In'| translate}}: {{ getStageDateTime('nurse_visitDetails')| date : "HH:mm '|' dd.MM.yy" }}</span>
+						</div>
+						<div class="panel-body">
+							<form name="visitDetailsForm">
+								<div class="row">
+									<div class="col-sm-6">
+										<div class="form-group">
+											<label translate="Main Complaint"></label>
+										<div name ="mainComplaintDiv"  isteven-multi-select input-model="modifiedList" output-model="visitData.modifiedCurrentDisease" button-label="icon name"
+											item-label="name" helper-elements="none filter reset" tick-property="ticked">
+										</div>
+										</div>
+									</div>	
+									
+									<div class="col-sm-6">
+										<div class="form-group">
+											<label translate="Past Medical History"></label>
+											<textarea class="form-control" rows="10" ng-model="visitData.medicalHistory"></textarea>
+										</div>
+									</div>
+									<div class="clearfix"></div>
+								</div>
+								<div class="row">
+									<div class="col-sm-12">
+										<!--<label translate="Not Urgent"></label>-->
+										<label class="switch" ng-class="{'switchRed': isUrgent == true}">
+														<input type="checkbox" ng-change="toggle(visitData.isUrgent)" name ="isUrgent" ng-model = 'visitData.isUrgent' >
+														<div class="slider round" ></div>
+												</label>
+										<label ng-if="isUrgent" translate="Urgent"></label>
+										<label  ng-if="!isUrgent" translate="Not Urgent"></label>
+									</div>
+								</div>
+								<br>
+								<div class="row">
+									<div class="col-sm-6">
+										<div class="form-group">
+											<label translate="Main Complaint Comments"></label>
+											<textarea class="form-control" rows="10" ng-model="visitData.mainComplaint"></textarea>
+										</div>
+									</div>
+									<!--<div class="col-sm-6">
+										<div class="form-group">
+											<label translate="Current disease">
+												
+							       			</label><span style="color : red">*</span>
+										<div isteven-multi-select input-model="modifiedList" output-model="visitData.modifiedCurrentDisease" button-label="icon name"
+											item-label="name" helper-elements="none filter reset" tick-property="ticked">
+										</div>
+										</div>
+									</div>		-->
+									<div class="col-sm-6">
+										<div class="form-group">
+											<label translate="Staff Comments(Internal)"></label>
+										<textarea class="form-control" rows="10" ng-model="visitData.nurseComments"></textarea>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									
+								<!--{{visitData.patientId.allergies}}-->
+										<div class="form-group" >
+											<div class="col-sm-6">
+												<label translate="Allergies"></label><span style="color : red">*</span>
+												<!--<tags-input ng-model="visitData.patientId.allergies"  use-strings="true"></tags-input>-->
+												<tags-input ng-model="visitData.patientId.allergies" replace-spaces-with-dashes="false" placeholder="Add a allergie" add-on-comma = "false">
+													<auto-complete source="loadAllergies()" select-first-match="false"
+													                load-on-focus="true"
+                    												 load-on-empty="true"
+																	>
+													</auto-complete>
+												</tags-input>
+											</div>
+										</div>
+
+                                       <div class="form-group" >
+											<div class="col-sm-6">
+												<label translate="Drugs he/she takes"></label>
+												<input type="text"  class="form-control" ng-model="visitData.drugTakes"/>
+											</div>
+										</div>
+										
+									</div>
+							<hr>
+							<div class="row">
+										<div class="form-group">
+											<div class="col-sm-12">
+												<label translate="Triages"></label><span style="color : red">*</span>
+											</div>
+										</div>
+									</div>
+								<accordion close-others="true" class="accordionDiv">
+									<accordion-group ng-repeat="test in triageTestList" is-open="test.open">
+										<accordion-heading>
+										<span class="pull-left">{{'Test' | translate}} #{{$index + 1}} </span><i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': test.open, 'glyphicon-chevron-right': !test.open}"></i>
+										<span ng-if= "triageTestList[$index].created_at" class="doneAt" >Done at: {{ triageTestList[$index].created_at | date : "HH:mm '|' dd.MM.yy" }} By {{ triageTestList[$index].testTakenBy.firstname }}  {{ triageTestList[$index].testTakenBy.lastname }}</span>
+
+										</accordion-heading>
+										<div class="panel-body">
+											<div class="col-sm-20">
+												<div class="panel-body">
+													<div class="row">
+														<div class="col-sm-4">
+															<div class="form-group" ng-class="{ 'has-error' : visitDetailsForm.pulse.$invalid && visitDetailsForm.pulse.$dirty }">
+																<div class="col-sm-6">
+																	<label translate="Pulse"></label><span style="color : red">*</span>
+													       
+											         	
+																</div>
+																<div class="col-sm-6">
+																	<input class="form-control" name="pulse" type="number" min=0 ng-model="triageTestList[$index].pulse" ng-readonly = "triageTestList[$index]._id"  required>
+																	<span class="text-danger" ng-show="visitDetailsForm.pulse.$invalid && visitDetailsForm.pulse.$dirty">
+																		<span ng-show="visitDetailsForm.pulse.$error.required && visitDetailsForm.pulse.$dirty"></span>
+																	</span>
+																</div>
+															</div>
+														</div>
+														<div class="col-sm-4">
+															<div class="form-group" ng-class="{ 'has-error' : visitDetailsForm.minValue.$invalid && visitDetailsForm.minValue.$dirty }">
+																<div class="col-sm-4">
+																	<label translate="Blood Pressure"></label><span style="color : red">*</span>
+																</div>
+																<div class="col-sm-4 sd devider">
+																	<input class="form-control" placeholder="S" name="minValue" min=0 ng-model="triageTestList[$index].bloodPressure.minValue" type="number"  ng-readonly = "triageTestList[$index]._id" required>
+																	<span class="text-danger" ng-show="visitDetailsForm.minValue.$invalid && visitDetailsForm.minValue.$dirty">
+																		<span ng-show="visitDetailsForm.minValue.$error.required && visitDetailsForm.minValue.$dirty"></span>
+																	</span>
+																</div>
+																<div class="col-sm-4">
+																	<input class="form-control" placeholder="D" name="minValue" min=0 ng-model="triageTestList[$index].bloodPressure.maxValue" type="number" ng-readonly = "triageTestList[$index]._id" required>
+																	<span class="text-danger" ng-show="visitDetailsForm.minValue.$invalid && visitDetailsForm.minValue.$dirty">
+																		<span ng-show="visitDetailsForm.minValue.$error.required && visitDetailsForm.minValue.$dirty"></span>
+																	</span>
+																</div>
+															</div>
+														</div>
+														<div class="col-sm-4">
+															<div class="form-group" ng-class="{ 'has-error' : visitDetailsForm.temperature.$invalid && visitDetailsForm.temperature.$dirty }">
+																<div class="col-sm-6"><label translate="Temperature"></label><span style="color : red">*</span>
+													
+												
+																</div>
+																<div class="col-sm-6">
+																	<input class="form-control" name="temperature" min=0 ng-model="triageTestList[$index].temperature" type="number" ng-readonly = "triageTestList[$index]._id" required>
+																	<span class="text-danger" ng-show="visitDetailsForm.temperature.$invalid && visitDetailsForm.temperature.$dirty">
+																		<span ng-show="visitDetailsForm.temperature.$error.required && visitDetailsForm.temperature.$dirty"></span>
+																	</span>
+																</div>
+															</div>
+														</div>
+														
+														
+													</div>
+												</div>
+                                               
+												<div class="panel-body">
+													<div class="row">
+														<div class="col-sm-4">
+															<div class="form-group" ng-class="{ 'has-error' : visitDetailsForm.saturation.$invalid && visitDetailsForm.saturation.$dirty }">
+																<div class="col-sm-6"><label translate="Saturation"></label><span style="color : red">*</span>
+													
+												     
+																</div>
+																<div class="col-sm-6">
+																	<input class="form-control" name="saturation" min=0 ng-model="triageTestList[$index].saturation" type="number" ng-readonly = "triageTestList[$index]._id" required>
+																	<span class="text-danger" ng-show="visitDetailsForm.saturation.$invalid && visitDetailsForm.saturation.$dirty">
+																		<span ng-show="visitDetailsForm.saturation.$error.required && visitDetailsForm.saturation.$dirty"></span>
+																	</span>
+																</div>
+															</div>
+														</div>
+														
+														<div class="col-sm-4">
+															<div class="form-group" ng-class="{ 'has-error' : visitDetailsForm.breadthPerMinute.$invalid && visitDetailsForm.breadthPerMinute.$dirty }">
+																<div class="col-sm-6"><label translate="Breadth/Minutes"></label><span style="color : red">*</span>
+												
+									
+																</div>
+																<div class="col-sm-6">
+																	<input class="form-control" name="breadthPerMinute" min=0 type="number" ng-model="triageTestList[$index].breadthPerMinute" ng-readonly = "triageTestList[$index]._id" required>
+																	<span class="text-danger" ng-show="visitDetailsForm.saturation.$invalid && visitDetailsForm.saturation.$dirty">
+																		<span ng-show="visitDetailsForm.saturation.$error.required && visitDetailsForm.saturation.$dirty"></span>
+																	</span>
+																</div>
+															</div>
+														</div>
+														<div class="col-sm-4">
+															<div class="form-group">
+																<div class="col-sm-6"><label translate="Weight">
+													        
+											         	</label>
+																</div>
+																<div class="col-sm-6">
+																	<input class="form-control" min=0 ng-model="triageTestList[$index].weight" type="number" ng-readonly = "triageTestList[$index]._id" >
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+												
+											</div>
+
+										</div>
+									</accordion-group>
+									<br/>
+									<div class="row">
+										<div class="form-group">
+											<div class="col-sm-12" ng-if="triageTestList[triageTestList.length - 1]._id || triageTestList.length == 0">
+										
+										<a href="#" ng-click="addtriagetest($event)" ><i class="fa fa-plus-circle plus-cir" aria-hidden="true" ></i>{{ 'Add Triage'| translate }}</a>
+										
+											</div>
+										</div>
+									</div>
+									
+								</accordion>
+						</form>
+					 </div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+

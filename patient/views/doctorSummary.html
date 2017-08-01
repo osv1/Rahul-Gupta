@@ -1,0 +1,361 @@
+<div class="page page-dashboard">
+	<div class="left-menu-top clearfix arrowMenuBg">
+		<a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button"> <span class="sr-only">Toggle navigation</span> </a>
+		<!--<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+				aria-controls="navbar"> <span class="sr-only">Toggle navigation</span> Menu </button>
+		</div>-->
+	
+		 <div class="topLRMenu">
+        <ul>
+            <li ng-if="(permissionsArray.indexOf('doctorSummary') != -1) && visitData.visitIsClosed == 0">
+				<a ui-sref="doctorSummary({ id : visitData._id })" ui-sref-active="active" class="arrowL">
+                    <div class="inner-arrowL">
+						<p translate="Nursery's Summary"></p>
+
+                    </div>
+                </a>
+            </li>
+            <li ng-if="(permissionsArray.indexOf('editDoctorExam') != -1) && visitData.visitIsClosed == 0">
+				<a ui-sref="editDoctorExam({ id : visitData._id })" ui-sref-active="active" class="arrowL">
+                    <div class="inner-arrowL">
+                       	{{ 'Physical Examination' | translate }} 
+                    </div>
+                </a>
+            </li>
+			<li ng-if="(permissionsArray.indexOf('doctorOrder') != -1) && visitData.visitIsClosed == 0">
+				<a ui-sref="doctorOrder({ id : visitData._id })" ui-sref-active="active" class="arrowL">
+                    <div class="inner-arrowL">
+                       	{{ 'Dr.Orders' | translate }} 
+                    </div>
+                </a>
+            </li>
+		
+			<li ng-if="(permissionsArray.indexOf('doctorTreatment') != -1) && visitData.visitIsClosed == 0">
+				<a ui-sref="doctorTreatment({ id : visitData._id })" ui-sref-active="active" class="arrowL">
+                    <div class="inner-arrowL">
+                       	{{ 'Treatment' | translate }} 
+                    </div>
+                </a>
+            </li>
+			<li ng-if="(permissionsArray.indexOf('doctorPrescription') != -1) && visitData.visitIsClosed == 0">
+				<a ui-sref="doctorPrescription({ id : visitData._id })" ui-sref-active="active" class="arrowL">
+                    <div class="inner-arrowL">
+                       	{{ 'Prescription' | translate }} 
+                    </div>
+                </a>
+            </li>
+			<li ng-if="(permissionsArray.indexOf('doctorResult') != -1) && visitData.visitIsClosed == 0">
+				<a ui-sref="doctorResult({ id : visitData._id })" ui-sref-active="active" class="arrowL">
+                    <div class="inner-arrowL">
+                       	{{ 'Results' | translate }} 
+                    </div>
+                </a>
+            </li>
+			
+        </ul>
+        <div class="clearfix"></div>
+    </div>
+	</div>
+	<div class="page-inner">
+		<div class="page-title-breadcrumb" id="title-breadcrumb-option-demo">
+			<div class="page-header">
+				
+				<div class="page-title" translate="Nursery's Summary"></div>
+				<!--<span class="back-visitCard"><a title="{{'visitCard Dashboard'|translate}}" href="#/visitCard/{{visitData._id}}"><i class="fa fa-life-ring"></i></a></span>-->
+			</div>
+		</div>
+		<div class="clearfix"></div>
+		<div class="btnTop">
+	  <!--<a title="{{'Back'|translate}}"  class="btn btn-xs btn-primary ng-scope" href="#/visitCard/{{visitData._id}}"><i class="fa fa-mail-forward" translate="Back"></i> </a>-->
+	  		  <a title="{{'VisitCard'|translate}}"  class="btn btn-xs btn-primary ng-scope" href="#/visitCard/{{visitData._id}}" ><i class="fa fa-vcard"></i> {{ 'Exit To Dashboard' | translate }}    </a>
+
+	    </div>
+		<div class="page-in-below-head clearfix" ng-init="currentPage = 'doctorSummary';getVisitById();getTriageTestByVisitId();getViewVisitDetailsById();getNurseTestByCurrentDisease(); getStageInfoById()">
+			<div class="row ">
+				<div class="col-sm-12">
+					<div class="panel panel-default ">
+						<!--<div class="panel-heading">{{visitData.patientId.firstname}} {{visitData.patientId.lastname}}, {{visitData.patientId.age}} {{visitData.patientId.gender | capitalize}}
+							<span class = "allergies" ng-if = "allergies.length > 0" >  allergic to: <u> {{ allergies }} </u></span>
+						 <span> {{visitData.currentStatus}}</span>
+							 
+						</div> -->
+						<div class="panel-heading clearfix summary-heading">{{visitData.patientId.firstname}} {{visitData.patientId.lastname}} , {{visitData.patientId.age.year == 0 ? visitData.patientId.age.month == 0 ? visitData
+											.patientId.age.day : visitData.patientId.age.month : visitData.patientId.age.year}} {{visitData.patientId.age.year == 0 ? visitData.patientId.age.month == 0 ? 
+                                         'Day' : 'Month' : 'Year'|translate}} , {{visitData.patientId.gender | capitalize | translate}}
+							<span class = "allergies" ng-if = "allergies.length > 0" >  {{'allergic to'|translate}}: <u> {{ allergies }} </u></span>
+							<span> {{visitData.currentStatus}}</span>
+							</div> 
+						<div class="panel-body">
+							<form>
+										<div class="row">
+											<div class="col-sm-6">
+											<div class="form-group row">
+												<label class="col-sm-4" translate="Visit Reason">
+												
+												</label>
+												<div class="col-sm-8">{{visitData.visitReason}}</div>
+											</div>
+											</div>
+										</div>
+										<div class="drSumDiv" translate="Triage Detail">
+																					
+										</div>
+										
+									<accordion close-others="false" class="accordionDiv accordian-header">
+									<accordion-group ng-repeat="test in triageTestList" is-open="true">
+										<accordion-heading>
+										<span class="pull-left">{{'Test' | translate}} #{{$index + 1}} 
+											</span>
+											<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': true, 'glyphicon-chevron-right': false}"></i>
+										
+										<span ng-if= "triageTestList[$index].created_at"  class="doneAt" >Done at: {{ triageTestList[$index].created_at | date : "HH:mm '|' dd.MM.yy" }} By {{ triageTestList[$index].testTakenBy.firstname }}  {{ triageTestList[$index].testTakenBy.lastname }}</span>
+<div class="clearfix"></div>
+										</accordion-heading>
+										<div class="panel-body">
+											<div class="col-sm-20">
+												<div class="panel-body">
+													<div class="row">
+														<div class="col-sm-4">
+															<div class="form-group">
+																<div class="col-sm-4">
+																	<label translate="Pulse">
+													       		
+											         				</label>
+																</div>
+																<div class="col-sm-6">
+																	
+																{{triageTestList[$index].pulse}}
+																</div>
+															</div>
+														</div>
+														<div class="col-sm-4">
+															<div class="form-group">
+																<div class="col-sm-4">
+																	<label translate="Saturation">
+																		
+												     				</label>
+																</div>
+																<div class="col-sm-6">
+																{{triageTestList[$index].saturation}}
+																</div>
+															</div>
+														</div>
+														<div class="col-sm-4">
+															<div class="form-group">
+																<div class="col-sm-4"><label translate="Weight">
+													        
+											         	</label>
+																</div>
+																<div class="col-sm-6">
+																{{triageTestList[$index].weight}}
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+
+												<div class="panel-body">
+													<div class="row">
+														<div class="col-sm-4">
+															<div class="form-group">
+																<div class="col-sm-8">
+																	<label translate="Blood Pressure"></label>
+																</div>														
+															</div>
+														</div>
+														<div class="col-sm-4">
+														<!--<div class="col-sm-6" translate="Min:">
+																
+														</div>-->
+															<div class="col-sm-6">
+																{{triageTestList[$index].bloodPressure.minValue}}	
+														     	<label> /  </label>
+														  		{{triageTestList[$index].bloodPressure.maxValue}}
+															</div>
+														</div>
+														<!--<div class="col-sm-4">-->
+														<!--<div class="col-sm-6">
+																Max: 
+														</div>-->
+															
+														<!--</div>-->
+														</div>
+													</div>
+												
+												<div class="panel-body">
+													<div class="row">
+													<div class="col-sm-4">
+															<div class="form-group">
+																<div class="col-sm-4">
+																<label translate="Temperature">
+																	
+																</label>
+																</div>
+																<div class="col-sm-6">
+																{{triageTestList[$index].temperature}}
+																</div>
+															</div>
+														</div>
+														<div class="col-sm-6">
+															<div class="form-group">
+																<div class="col-sm-4">
+																<label translate="Breadth/Minutes">
+																	
+																</label>
+																</div>
+																<div class="col-sm-2">
+																{{triageTestList[$index].breadthPerMinute}}
+																</div>
+															</div>
+													</div>
+												</div>	
+												</div>
+												<hr>
+											</div>
+
+										</div>
+									</accordion-group>
+								</accordion>
+									
+									<div class="col-sm-6">
+												<div class="form-group row">
+												<label class="col-sm-4" translate="Allergies">
+													
+													</label>
+													<div class="col-sm-8">
+														<p ng-bind="allergies !=undefined ? allergies : 'NA'"></p>
+													<!--{{allergies | capitalize}}-->
+													</div>
+												</div>
+											</div>
+							    <div class="clearfix"></div>
+							    	<div class="drSumDiv" translate="Visit Details">
+																		
+									</div>
+										<div class="visitDetail">
+											<div class="col-sm-6">
+												<div class="form-group row">
+												<label class="col-sm-4" translate="Main Complaint">
+													
+													</label>
+													<div class="col-sm-8">
+														<p ng-bind="visitData.mainComplaint !=undefined ? visitData.mainComplaint : 'NA'"></p>
+													<!--{{visitData.mainComplaint}}-->
+													</div>
+												</div>
+											</div>
+											<div class="col-sm-6">
+												<div class="form-group row">
+												<label class="col-sm-4" translate="BG diseases">
+														s
+													</label>
+													<div class="col-sm-8">
+														<p ng-bind="visitData.medicalHistory !=undefined ? visitData.medicalHistory : 'NA'"></p>
+													<!--{{visitData.medicalHistory}}-->
+													</div>
+												</div>
+											</div>
+										</div>
+
+										<div class="visitDetail">
+											<div class="col-sm-6">
+												<div class="form-group row">
+												<label class="col-sm-4" translate="Nurse comment">
+														
+													</label>
+													<div class="col-sm-8">
+														<p ng-bind="visitData.nurseComments !=undefined ? visitData.nurseComments : 'NA'"></p>
+													
+													</div>
+													</div>
+											</div>
+											
+											
+											<div class="col-sm-6">
+												
+												<div class="form-group row">
+													<label class="col-sm-4" translate="Current Disease">
+														
+													</label>
+													<div class="col-sm-8" ng-show="selectedDiseaseList.length!=0" ng-repeat="disease in selectedDiseaseList">
+														{{disease}}
+													</div>
+														<div class="col-sm-6" ng-show="selectedDiseaseList.length==0" translate="NA"></div>
+														
+													</div>
+											</div>
+
+											<div class="col-sm-6">
+												<div class="form-group row">
+												<label class="col-sm-4" translate="Drugs he/she takes">
+														
+													</label>
+													<div class="col-sm-8">
+														<p ng-bind="visitData.drugTakes != undefined ? visitData.drugTakes : 'NA'"></p>
+													
+													</div>
+													</div>
+											</div>
+
+											
+									</div>
+										
+									<div class="clearfix"></div>
+							    	<div class="drSumDiv" translate="Nurse Examination">
+													
+									</div>
+									<!--<hr>-->
+									<div class="visitDetail">
+										<!--<div class="row">-->
+										<strong class="col-sm-6" translate="Nurse's Test"></strong>
+										<strong class="col-sm-6" translate="Comments"></strong>
+											
+											
+											<hr>
+										
+										<div class="form-container form-deve">
+											
+											<div class="form-group clearfix" ng-repeat="test in nurseTest track by $index">
+												<hr>
+												<div class="col-sm-5">
+													
+													{{test.name}}
+												</div>
+								
+												<div class="col-sm-5">
+													{{test.comment}}
+													
+												</div>
+											</div>
+											<center><div class="col-sm-6" ng-if="nurseTest.length == 0">
+												<br>
+												<label translate="No test for Main Complaint"></label>
+												<hr>
+											</div></center>
+										<!--</div>-->
+									</div>
+									
+									</div>
+										<div class="col-sm-12 text-center"  ng-if="visitData.visitIsClosed == 0">
+							 <a href="#/doctorExam-edit/{{visitData._id}}" class="btn_green" translate="Continue"></a>
+							</div>
+							</form>
+							</div>
+							
+						
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!--<script> $(function() { $('#cp3').colorpicker({ color: '#AA3399', format: 'rgb' }); }); </script>-->
+<!-- <div class="row">
+								<div class="col-sm-12">
+									<h4>Physical examination</h4>
+								</div>
+								<div class="crearfix"></div>
+							</div> -->

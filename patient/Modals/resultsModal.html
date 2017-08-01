@@ -1,0 +1,76 @@
+<div class="modal-content">
+	
+	<div class="modal-header">
+		<button class="close" type="button" ng-click="cancel()">X
+		
+		</button>
+	</div>
+	<div class="page page-dashboard">
+		
+		<div class="page-inner">
+			<div class="page-title-breadcrumb" id="title-breadcrumb-option-demo">
+				<div class="page-header">
+					<div class="page-title" translate="Results"></div>
+				</div>
+				
+			</div>
+			<div class="page-in-below-head clearfix">
+				<div class="row ">
+					<div class="col-sm-12">
+						<div class="panel panel-default">
+							<div class="panel-heading">{{visitData.patientId.firstname}} {{visitData.patientId.lastname}}, {{visitData.patientId.age.year == 0 ? visitData.patientId.age.month == 0 ? visitData
+											.patientId.age.day : visitData.patientId.age.month : visitData.patientId.age.year}} {{visitData.patientId.age.year == 0 ? visitData.patientId.age.month == 0 ? 
+                                         'Day' : 'Month' : 'Year'|translate}} , {{visitData.patientId.gender | capitalize | translate}},{{'allergic to'|translate}}:
+							<span class = "allergi" ng-if = "allergies.length > 0" >   {{ allergies }} </span>
+						 <span> {{visitData.currentStatus}}</span>
+							 <span ng-if = "getStageDateTime('dr_result')" class="cameIn" >{{'Came In'|translate}}: {{ getStageDateTime('dr_result')| date : "HH:mm '|' dd.MM.yy" }}</span>
+						</div> 
+							<div class="panel-body" ng-init="getVisitById(); getStageInfoById()">
+								<form name="form">
+										<div class="row">
+						             <label class="col-sm-5" translate="Treatment Results"></label>
+									 <div class="col-sm-5" ng-bind="visitData.treatmentResultType !=undefined ? visitData.treatmentResultType : 'NA'"></div>
+						               
+									</div>
+									<hr>
+									<div class="row">
+						             <label class="col-sm-5" translate="Comments"></label>
+									 <div class="col-sm-5" ng-bind="visitData.doctorResultCommentOrOrder !=undefined ? visitData.doctorResultCommentOrOrder : 'NA'"></div>   
+									</div>
+										<hr>
+									<div ng-if="extreferral==true">
+										<div class="row">
+						             <label class="col-sm-5" translate="Refer To"></label>
+									<div class="col-sm-5" ng-bind="visitData.externalRefferedTo !=undefined ? visitData.externalRefferedTo : 'NA'"></div>   
+									</div>
+									<hr>
+											<div class="row">
+						             <label class="col-sm-5" translate="Referred by"></label>
+									 <div class="col-sm-5" ng-bind="visitData.refferedBy !=undefined ? visitData.refferedBy : 'NA'"></div>
+									</div>
+											<hr>	
+										</div>
+										<div class="row">
+						             <label class="col-sm-5" translate="Dr.Follow Up"></label>
+									 <div class="col-sm-5" ng-bind="visitData.drfollowup !=undefined ? visitData.drfollowup : 'NA'"></div>
+									</div>
+									<hr>
+									<div class="row">
+						             <label class="col-sm-5" translate="Treatment"></label>
+									 <div class="col-sm-5" ng-bind="visitData.treatmentResultComment !=undefined ? visitData.treatmentResultComment : 'NA'"></div>
+									</div>
+									<hr>
+									<div class="row">
+						             <label class="col-sm-5" translate="Go to ER if"></label>
+									 <div class="col-sm-5" ng-bind="visitData.goToERIf !=undefined ? visitData.goToERIf : 'NA'"></div>
+									</div>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

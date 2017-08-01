@@ -1,0 +1,82 @@
+<style type="text/css">
+.hoverme:hover
+{
+    background-color:lightslategray;
+}
+
+</style>
+
+
+<div class="page page-dashboard" ng-init="getVisitHistory()" >
+<div class="left-menu-top clearfix"> <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button"> <span class="sr-only">Toggle navigation</span> </a>
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"> <span class="sr-only">Toggle navigation</span> Menu </button>
+      </div>
+      <div id="navbar" class="navbar-collapse collapse pull-left"> 
+        <!-- <ul class="nav navbar-nav navbar-right"> -->
+      <ul class="nav navbar-nav">
+                <li ng-if="(permissionsArray.indexOf('patientDebt') != -1)"><a ui-sref="patientDebt" ui-sref-active="active" translate="In Debt" ></a></li>
+                <li ng-if="(permissionsArray.indexOf('visitHistory') != -1)"><a ui-sref="visitHistory" ui-sref-active="active" translate="Visit History"></a></li>
+                <li ng-if="(permissionsArray.indexOf('activePatient') != -1)"><a ui-sref="activePatient" ui-sref-active="active" translate="Active"></a></li>
+				<li ng-if="(permissionsArray.indexOf('activePatientByDr') != -1)"><a ui-sref="activePatientByDr" ui-sref-active="active" translate="Waiting patient"></a></li>
+     </ul>
+      </div>
+    </div>
+  <div class="page-inner">
+		<div class="page-title-breadcrumb" id="title-breadcrumb-option-demo">
+			<div class="page-header">
+				<div class="page-title" translate="Visit History List"></div>
+			</div>
+		</div>
+		<div class="clearfix"></div>
+		<div class="page-in-below-head clearfix">
+			<div class="row ">
+				<div class="col-sm-6 col-xs-6">
+					<form name="searchForm" novalidate class="pull-left famildr_sear">
+						<div class="input-group" >
+							<input type="text" class="form-control" placeholder="{{'Search Term'|translate}}" name="searchTerm" ng-model="searchVisitHistoryTextField" ng-change="searchVisitHistory()" ng-focus = "check = 'YES'; showHistoryStatus = 'YES'" required/>
+							
+							<span class="search_box">
+						     	<label class="ui-checkbox"><input type="checkbox" ng-model="check" ng-change="checkHistoryStatus(check)" ng-true-value="YES" ng-false-value="NO"/></label><label translate="Show filtered status">
+								</label>
+							</span>
+							</button>
+							</span>
+						</div>
+					</form>
+				</div>
+			</div>
+			<div class="row ">
+				<div class="col-sm-12">
+					<div class="panel panel-default">  
+							<div class="panel-heading" translate="Visit History"></div> 
+							<div class="panel-body">
+									<div class="table-responsive">
+									<table class="table table-bordered table-responsive" ng-table="tableParams" ng-table-columns-binding="boundCols">
+									<tr ng-repeat="visit in closedVisitList" class="hoverme" title='Click to see visit card' ng-click="showVisitCard(visit._id)">
+										<td data-title="'Name'|translate" sortable="'patientInfo.firstname'" filter="{title:'text'}" align="left">{{visit.patientInfo.firstname}}</td>
+										<td data-title="'Reason for Visit'|translate" sortable="'visitReason'" filter="{title:'text'}" align="left">{{visit.visitReason}}</td>
+										<td data-title="'Visit Started'|translate" sortable="'visitStart'" filter="{title:'text'}" align="left">{{visit.visitStart | date : "HH:mm  dd.MM.yy"}}</td>
+										<td data-title="'Visit Ended'|translate" sortable="'visitStart'" filter="{title:'text'}" align="left">{{visit.visitEnd | date : "HH:mm  dd.MM.yy"}}</td>
+										<td data-title="'Visit Duration'|translate" sortable="'visitDuration'" filter="{title:'text'}" align="left">{{visit.visitDuration}}</td>
+										<td  data-title="'Visit Result'|translate" sortable="'treatmentResultType'" filter="{title:'text'}" align="left">{{visit.treatmentResultType}}</td>
+									</tr>
+									<tr ng-if="tableLoader">
+										<td colspan="7" align="center">
+											<i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+										</td>
+									</tr>
+									<tr ng-if="$data.length == 0 && !tableLoader">
+										<td colspan="7" align="center" translate="No Record Found"></td>
+									</tr>
+								</table>		       
+									</div>  
+							</div> 
+					</div> 
+				</div>     
+			</div>
+		</div>
+ </div>    
+</div>
+
+

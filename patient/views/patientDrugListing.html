@@ -1,0 +1,94 @@
+<div class="page page-dashboard">
+	<div class="left-menu-top clearfix arrowMenuBg">
+		<a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button"> <span class="sr-only">Toggle navigation</span> </a>
+		<div class="topLRMenu">
+        <ul>
+            <li ng-if="(permissionsArray.indexOf('patientDrugListing') != -1)">
+				<a ui-sref="patientDrugListing({ id : visitData._id })" ui-sref-active="active" class="arrowL">
+                    <div class="inner-arrowL">
+						{{ 'Drugs' | translate }}
+                    </div>
+                </a>
+            </li>
+            <li ng-if="(permissionsArray.indexOf('summary') != -1)">
+				<a ui-sref="summary({ id : visitData._id })" ui-sref-active="active" ng-click="addPatientDrugs(false)" class="arrowL">
+                    <div class="inner-arrowL">
+                       	{{ 'Summary' | translate }} 
+                    </div>
+                </a>
+            </li>
+        </ul>
+        <div class="clearfix"></div>
+    </div>
+	</div>
+	<div class="page-inner">
+		<div class="page-title-breadcrumb" id="title-breadcrumb-option-demo">
+			<div class="page-header">
+				<div class="page-title" translate="Drugs"></div>
+			</div>
+		</div>
+		<div class="clearfix"></div>
+		<div class="btnTop">
+		  <a title="{{'Save & Next'|translate}}"  class="btn btn-xs btn-primary ng-scope" ng-click="addPatientDrugs(false)"><i class="fa fa-save"></i> {{ 'Next' | translate }}  </a>
+		  <a title="{{'VisitCard'|translate}}"  class="btn btn-xs btn-primary ng-scope" ng-click="addPatientDrugs(true)" ><i class="fa fa-vcard"></i> {{ 'Exit To Dashboard' | translate }}    </a>
+		</div>
+		<div class="page-in-below-head clearfix" ng-init="currentPage = 'addPatientDrugs'; getVisitById(); getStageInfoById(); getPatientEmcPrescription()">
+			<div class="row ">
+				<div class="col-sm-12">
+                      <form name="form">
+					  <div class="panel panel-default">
+						<div class="panel-heading clearfix summary-heading">{{visitData.patientId.firstname}} {{visitData.patientId.lastname}}, {{visitData.patientId.age.year == 0 ? visitData.patientId.age.month == 0 ? visitData
+											.patientId.age.day : visitData.patientId.age.month : visitData.patientId.age.year}} {{visitData.patientId.age.year == 0 ? visitData.patientId.age.month == 0 ? 
+                                         'Day' : 'Month' : 'Year'|translate}} , {{visitData.patientId.gender | capitalize |translate}}
+							<span class = "allergies" ng-if = "allergies.length > 0" >  {{'allergic to'|translate}}: <u> {{ allergies }} </u></span>
+							 <span> {{visitData.currentStatus}}</span>
+							<span ng-if = "getStageDateTime('closure_drug')" class="cameIn" >{{'Came In'|translate}}: {{ getStageDateTime('closure_drug')| date : "HH:mm '|' dd.MM.yy" }}</span>
+						</div>
+					  </div>
+					   <div class="panel-body">
+									<div class="table-responsive">
+									<table class="table table-bordered table-responsive" ng-table="tableParams" ng-table-columns-binding="boundCols">
+									<tr  class="hoverme" title='Patient Prescriptions' ng-repeat="prescription in emcOrders track by $index" >
+										
+										<td data-title="'Drug type'|translate"  filter="{title:'text'}" ng-model="emcOrders[$index].dosage" ng-bind="emcOrders[$index].dosage"></td>
+										
+										<td data-title="'Dosage'|translate"  filter="{title:'text'}" ng-model="emcOrders[$index].drugName" ng-bind="emcOrders[$index].drugName"></td>
+										
+										<td data-title="'Amount'|translate"  filter="{title:'text'}" ng-model="emcOrders[$index].prescriptionAmount" ng-bind="emcOrders[$index].prescriptionAmount"></td>
+
+										<td data-title="'Amount Given'|translate" filter="{title:'text'}"> 
+											<span ng-if="emcOrders[$index].isSomeClick!=true" ng-bind="emcOrders[$index].givenAmount" ng-model='emcOrders[$index].givenAmount'></span>
+											<input type="number" min=0 class="form-control" ng-if="emcOrders[$index].isSomeClick==true" name="givenAmount" ng-model="emcOrders[$index].givenAmount" max="{{emcOrders[$index].prescriptionAmount}}" ng-bind='emcOrders[$index].givenAmount'/>
+										 </td>
+										<td data-title="'Status'|translate"  filter="{title:'text'}">
+														
+										  <a class="btn_success" ng-class="{'switchGreen': emcOrders[$index].Yes == 'yes' || emcOrders[$index].given == 'Yes' }" translate="Yes" ng-click=" emcOrders[$index].givenAmount =  emcOrders[$index].prescriptionAmount;emcOrders[$index].isSomeClick = false;emcOrders[$index].given='Yes';Yes($index);" ng-model="prescription.given"></a>
+                                          
+                                          <a class="btn_success" ng-class="{'switchYellow': emcOrders[$index].Some == 'some' || emcOrders[$index].given == 'Some' }" translate="Some" ng-click="givePrescriptionOnSomeClick($index);emcOrders[$index].given='Some';Some($index);" ng-model="prescription.given"></a>
+                                          
+                                          <a class="btn_success" ng-class="{'switch_Red': emcOrders[$index].No == 'no' || emcOrders[$index].given == 'No'}"  translate="No" ng-click="emcOrders[$index].givenAmount = 0;emcOrders[$index].isSomeClick = false;emcOrders[$index].given='No';No($index);" ng-model="prescription.given"></a>	
+										</td>
+									</tr>
+									<tr ng-if="tableLoader">
+										<td colspan="7" align="center">
+											<i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+										</td>
+									</tr>
+									<tr ng-if="emcOrders.length == 0 && !tableLoader">
+										<td colspan="7" align="center" translate="No Record Found"></td>
+									</tr>
+								</table>		       
+									</div>  
+							</div> 
+				
+								
+								
+					 	
+					  </form>
+				</div>
+			</div>
+			   </div>
+		    </div>
+	   </div>
+	</div>
+</div>

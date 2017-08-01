@@ -1,0 +1,198 @@
+<div class="page page-dashboard">
+	<!-- <div class="page-title-breadcrumb" id="title-breadcrumb-option-demo">
+		<ul class="breadcrumb page-breadcrumb">
+			<li><a href="#">Home</a></li>
+			<span> &nbsp; <i class="fa fa-angle-right"></i> &nbsp;</span>
+			<li class="hidden"><a href="#">Dashboard</a></li>
+			<li class="active"><a href="#">Summary</a></li>
+		</ul>
+	</div> -->
+	<div class="left-menu-top clearfix">
+		<a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button"> <span class="sr-only">Toggle navigation</span> </a>
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+				aria-controls="navbar"> <span class="sr-only">Toggle navigation</span> Menu </button>
+		</div>
+		<div id="navbar" class="navbar-collapse collapse pull-left">
+			<!-- <ul class="nav navbar-nav navbar-right"> -->
+			<ul class="nav navbar-nav">
+				<li><a href="#/triage-edit/{{visitData._id}}" translate="Triage"></a></li>
+				<li><a href="#/visitDetails-edit/{{visitData._id}}" translate="Visit Details"></a></li>
+				<li><a href="#/nurseExam-edit/{{visitData._id}}" translate="Physical Examination"></a></li>
+			</ul>
+		</div>
+	</div>
+	<div class="page-inner">
+		<div class="page-title-breadcrumb" id="title-breadcrumb-option-demo">
+			<div class="page-header">
+				<div class="page-title" translate="Triage"></div>
+				<span class="back-visitCard"><a title="visitCard Dashboard" href="#/visitCard/{{visitData._id}}"><i class="fa fa-life-ring"></i></a></span>
+			</div>
+		</div>
+		<div class="clearfix"></div>
+		<div class="btnTop">
+		  <a title="{{'Save & Next'|translate}}"  class="btn btn-xs btn-primary ng-scope" href="#/visitDetails-edit/{{visitData._id}}" ng-click="addTriageTestform()" translate="Next"> </a>
+		  <a title="{{'Save'|translate}}"  class="btn btn-xs btn-primary ng-scope" href="" ng-click="addTriageTestform();"><i class="fa fa-save" translate="Save"></i>  </a>
+		  <a title="{{'Back'|translate}}"  class="btn btn-xs btn-primary ng-scope" href="#/visitCard/{{visitData._id}}"><i class="fa fa-mail-forward"  translate="Back"></i>  </a>
+	    </div>
+		<div class="page-in-below-head clearfix" ng-init="getVisitById(); getTriageTestByVisitId(); getStageInfoById()">
+			<div class="row ">
+				<div class="col-sm-12">
+                      <form name="form" ng-submit="addTriageTestform()" role="form" method="post">
+					 <div class="panel panel-default">
+						 <div class="panel-heading">{{visitData.patientId.firstname}} {{visitData.patientId.lastname}}, {{visitData.patientId.age}} {{visitData.patientId.gender | capitalize}}
+							<span class = "allergies" ng-if = "allergies.length > 0" >  allergic to: <u> {{ allergies }} </u></span>
+						 <span> {{visitData.currentStatus}}</span>
+							 <span ng-if = "getStageDateTime('nurse_triage')" class="cameIn" >Came In: {{ getStageDateTime('nurse_triage')| date : "HH:mm '|' dd.MM.yy" }}</span>
+						</div>
+						<!--<div class="panel-heading">{{visitData.patientId.firstname}} {{visitData.patientId.lastname}}, {{visitData.patientId.age}} {{visitData.patientId.gender | capitalize}}{{ allergies.length ? ', allergic to: ' + allergies : "" }}  
+							 <span ng-cloak>Came In: {{ getStageDateTime('nurse_triage')| date : "HH:mm '|' dd.MM.yy" }}   {{visitData.currentStatus}}</span>
+						</div>-->
+						<div>
+							
+								<!--<form class="ng-pristine ng-valid" ng-submit="addTriageTestform(test)" role="form" method="post">-->
+								<accordion close-others="true" class="accordionDiv">
+									<accordion-group ng-repeat="test in triageTestList" is-open="test.open">
+										<accordion-heading>
+										<span class="pull-left" translate="Test"> #{{$index + 1}} </span><i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': test.open, 'glyphicon-chevron-right': !test.open}"></i>
+										<span ng-if= "triageTestList[$index].created_at" >Done at: {{ triageTestList[$index].created_at | date : "HH:mm '|' dd.MM.yy" }} By {{ triageTestList[$index].testTakenBy.firstname }}  {{ triageTestList[$index].testTakenBy.lastname }}</span>
+										   <!--<i ng-class="{'glyphicon glyphicon-chevron-down': test.open, 'glyphicon glyphicon-chevron-right': !test.open}"></i> Test #{{$index + 1}}-->
+										</accordion-heading>
+										<div class="panel-body">
+											<div class="col-sm-15">
+												<div class="panel-body">
+													<div class="row">
+														<div class="col-sm-4">
+															<div class="form-group">
+																<div class="col-sm-6">
+																	<label translate="Pulse">
+													       
+											         	</label>
+																</div>
+																<div class="col-sm-6">
+																	<input class="form-control" type="number" ng-model="triageTestList[$index].pulse">
+																</div>
+															</div>
+														</div>
+														<div class="col-sm-4">
+															<div class="form-group">
+																<div class="col-sm-6"><label translate="Saturation">
+													
+												     </label>
+																</div>
+																<div class="col-sm-6">
+																	<input class="form-control" ng-model="triageTestList[$index].saturation" type="number">
+																</div>
+															</div>
+														</div>
+														<div class="col-sm-4">
+															<div class="form-group">
+																<div class="col-sm-6"><label translate="Weight">
+													        
+											         	</label>
+																</div>
+																<div class="col-sm-6">
+																	<input class="form-control" ng-model="triageTestList[$index].weight" type="number">
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+
+												<div class="panel-body">
+													<div class="row">
+														<div class="col-sm-4">
+															<div class="form-group">
+																<div class="col-sm-4">
+																	<label translate="Blood Pressure"></label>
+																</div>
+																<div class="col-sm-4">
+																	<input class="form-control" ng-model="triageTestList[$index].bloodPressure.minValue" type="number">
+																</div>
+																<div class="col-sm-4">
+																	<input class="form-control" ng-model="triageTestList[$index].bloodPressure.maxValue" type="number">
+																</div>
+															</div>
+														</div>
+														<div class="col-sm-4">
+															<div class="form-group">
+																<div class="col-sm-6"><label translate="Temperature">
+													
+												</label>
+																</div>
+																<div class="col-sm-6">
+																	<input class="form-control" ng-model="triageTestList[$index].temperature" type="number">
+																</div>
+															</div>
+														</div>
+														<div class="col-sm-4">
+															<div class="form-group">
+																<div class="col-sm-6"><label translate="Breadth/Minutes">
+												
+												</label>
+																</div>
+																<div class="col-sm-6">
+																	<input class="form-control" type="number" ng-model="triageTestList[$index].breadthPerMinute">
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+												
+											</div>
+
+										</div>
+									</accordion-group>
+									<br/>
+									<div class="col-sm-4 form-group clearfix">
+										<div class="row">
+										<a translate="Add Triage"></a>&nbsp;&nbsp;
+										<a href="#" ng-click="addtriagetest($event)" ><i class="fa fa-plus-circle plus-cir" aria-hidden="true" ></i></a>
+										</div>
+									</div>
+								</accordion>
+								
+								<div class="row">
+									<div class="col-sm-12">
+										<div class="form-group">
+											<div class="col-sm-5">
+												<label translate="Allergies">
+								                   
+						                      	</label>
+												<tags-input ng-model="visitData.patientId.allergies"  use-strings="true"></tags-input>
+											</div>
+											<!--<div class="col-sm-5">
+												<tags-input ng-model="visitData.allergies"  use-strings="true"></tags-input>
+											</div>-->
+										</div>
+									</div>
+							    	</div>
+						        </div>
+					 
+				             <!--<div class="row">
+					        	<div class="col-sm-4">
+						        	<button class="btn_black" ui-sref="dashboard">Back</button> <button type="submit" class="btn_green">Add</button>
+						       </div>
+					         </div>-->
+					      </form>
+					    </div>
+				    </div>
+			   </div>
+		    </div>
+	   </div>
+	</div>
+</div>
+<!--</div>
+</div>
+</div>
+</div>
+</div>
+</div>-->
+
+
+
+<!--
+  <tags-input ng-model="main.tags"
+            placeholder="Enter things...">
+            <auto-complete source="main.loadTags($query)"></auto-complete>
+        </tags-input>-->

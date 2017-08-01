@@ -1,0 +1,373 @@
+<div class="page page-dashboard">
+	<div class="left-menu-top clearfix arrowMenuBg">
+		<a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button"> <span class="sr-only">Toggle navigation</span> </a>
+		<!--<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+				aria-controls="navbar"> <span class="sr-only">Toggle navigation</span> Menu </button>
+		</div>-->
+		<div class="topLRMenu">
+        <ul>
+            <li ng-if="(permissionsArray.indexOf('editPatientIdentification') != -1) && visitData.visitIsClosed == 0">
+				<a ui-sref="editPatientIdentification({ id : visitData._id })" ui-sref-active="active" class="arrowL" >
+                    <div class="inner-arrowL">
+						{{ 'Identify' | translate }}
+                    </div>
+                </a>
+            </li>
+            <li ng-if="(permissionsArray.indexOf('editVisitReason') != -1) && visitData.visitIsClosed == 0">
+				<a ui-sref="editVisitReason({ id : visitData._id })" ui-sref-active="active" class="arrowL" >
+                    <div class="inner-arrowL">
+                       	{{ 'Visit Reason' | translate }} 
+                    </div>
+                </a>
+            </li>
+			<li ng-if="(permissionsArray.indexOf('editPayment') != -1)">
+				<a ui-sref="editPayment({ id : visitData._id })" ui-sref-active="active" class="arrowL">
+                    <div class="inner-arrowL">
+                       	{{ 'Payment' | translate }} 
+                    </div>
+                </a>
+            </li>
+        </ul>
+        <div class="clearfix"></div>
+    </div>
+	</div>
+	<div class="page-inner">
+		<div class="page-title-breadcrumb" id="title-breadcrumb-option-demo">
+			<div class="page-header">
+				<div class="page-title" translate="Payment"></div>
+			</div>
+		</div>
+		<div class="clearfix"></div>
+		<div class="btnTop"> 
+		    <a title="{{'finish'|translate}}"  class="btn btn-xs btn-primary ng-scope" href="#/visitCard/{{visitData._id}}" > {{ 'Finish' | translate }}  </a>
+		</div>
+		<div class="page-in-below-head clearfix" ng-init="currentPage = 'payment-edit'; getVisitById(); getPaymentDetailsByVisitId(); getStageInfoById()">
+			<div class="row ">
+				<div class="col-sm-12">
+					<div class="panel panel-default">
+						<div class="panel-heading">{{visitData.patientId.firstname}} {{visitData.patientId.lastname}}, {{visitData.patientId.age.year == 0 ? visitData.patientId.age.month == 0 ? visitData
+											.patientId.age.day : visitData.patientId.age.month : visitData.patientId.age.year}} {{visitData.patientId.age.year == 0 ? visitData.patientId.age.month == 0 ? 
+                                         'Day' : 'Month' : 'Year'|translate}} , {{visitData.patientId.gender | capitalize | translate}}
+							<span class = "allergies" ng-if = "allergies.length > 0" >  {{'allergic to'|translate}}: <u> {{ allergies }} </u></span>
+						 <span> {{visitData.currentStatus}}</span>
+						 		 <span ng-if = "getStageDateTime('payment')" class="cameIn" >{{'Came In'|translate}}: {{ getStageDateTime('payment')| date : "HH:mm '|' dd.MM.yy" }}</span>
+						</div>
+					
+						<accordion close-others="true" class="accordionDiv">
+							<accordion-group ng-repeat="(indexX, bill) in billList" is-open="$last" >
+								<accordion-heading>
+									<span class="pull-left">	 {{'Bill No'|translate}}. #{{$index + 1}} </span><i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': test.open, 'glyphicon-chevron-right': !test.open}"></i>
+								</accordion-heading>
+								<div class="panel-body">
+									<form class="ng-pristine ng-valid">
+										<div class="row">
+											<div class="col-sm-6">
+
+												<div class="form-group">
+													<div class="row">
+
+														<div class="col-sm-6">
+															<label translate="Payment for the visit:"></label>
+														</div>
+														
+														<div class="col-sm-2">
+															<input class="form-control" type="number"  min=0 ng-readonly = "billList[indexX].isBillPayed" ng-model="billList[indexX].visitPayment">
+														</div>
+														<div class="col-sm-2">
+															<label>{{ billList[indexX].currency }}</label>
+														</div>
+													</div>
+												</div>
+
+												<div class="form-group">
+													<div class="row">
+														<div class="form-container form-deve">
+															<div ng-repeat="(indexY, item)  in billList[indexX].billableItems" class="form-group clearfix">
+																<div class="col-sm-3">
+																	<label translate="Payment for:"></label>
+																</div>
+
+																<div class="col-sm-3">
+																	<input class="form-control" name="name" ng-readonly = "billList[indexX].isBillPayed" ng-model="billList[indexX].billableItems[indexY].name" type="text">
+																</div>
+																<div class="col-sm-2">
+																	<input class="form-control" id="price" ng-readonly = "billList[indexX].isBillPayed" ng-model="billList[indexX].billableItems[indexY].price" type="number" min=0>
+																</div>
+																<div class="col-sm-2">
+																	<label>{{ billList[indexX].currency }}</label>
+																</div>
+																<a href ng-click="removeBillableItem(indexX, indexY)"><i class="fa fa-minus-circle minus-cir" aria-hidden="true"></i>
+																</a>
+															</div>
+
+															<br/>
+															<div class="col-sm-4 form-group clearfix">
+																<a href ng-click="newPaymentItem(indexX)"><i class="fa fa-plus-circle plus-cir" aria-hidden="true"></i>{{'Add Items'|translate}}</a>
+															</div>
+														</div>
+													</div>
+												</div>
+												<div class="form-group">
+													<div class="row">
+														<div class="col-sm-4">
+															<label translate="Previous debt"></label>
+														</div>
+														<div class="col-sm-2"></div>
+														<div class="col-sm-2">
+															<input ng-init="billList[indexX].previousDebt = billList[indexX].previousDebt || visitData.patientId.previousDebt || 0" class="form-control" min=0 type="number" ng-readonly = "billList[indexX].isBillPayed" ng-model="billList[indexX].previousDebt">
+														</div>
+														<div class="col-sm-2">
+															<label> {{ billList[indexX].currency }} </label>
+														</div>
+													</div>
+												</div>
+												<hr style="border-color: #cccccc;">
+												<div class="form-group">
+													<div class="row">
+														<div class="col-sm-4">
+															<label translate="Total"></label>
+														</div>
+														<div class="col-sm-2"></div>
+														<div class="col-sm-2">
+															<!--<input class="form-control" ng-readonly = "billList[indexX].isBillPayed" value="{{sum(billList[indexX].billableItems, billList[indexX].visitPayment, billList[indexX].previousDebt )}}">-->
+														<input class="form-control" value="{{sum(billList[indexX].billableItems, billList[indexX].visitPayment, billList[indexX].previousDebt )}}" readonly>
+
+														</div>
+														<div class="col-sm-2">
+															<label>{{ billList[indexX].currency }}</label>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="col-sm-6">
+												<div class="form-group">
+													<div class="row">
+														<div class="col-sm-3">
+															<label translate="Currency"></label>
+														</div>
+														<div class="col-sm-5">
+															<div class="select_box">
+																<select ng-init="billList[indexX].currency = billList[indexX].currency || 'ILS'" class="form-control" ng-model="billList[indexX].currency" ng-readonly = "billList[indexX].isBillPayed">
+												        <option value="" translate="Select Currency"> </option>
+														<option value='USD' translate="USD"> </option>
+														<option value='ILS' translate="ILS"> </option>
+													   </select>
+																<span class="dropdown_box"></span>
+															</div>
+														</div>
+
+													</div>
+												</div>
+												<div class="form-group">
+													<div class="row">
+														<div class="col-sm-3">
+															<label translate="Paid with"></label>
+														</div>
+														<div class="col-sm-6">
+															<div class="select_box">
+														<select class="form-control" ng-init="billList[indexX].paymentType = billList[indexX].paymentType || 'none'" ng-model="billList[indexX].paymentType" ng-readonly = "billList[indexX].isDocIssued" ng-click="openPaymentModal(billList[indexX].paymentType, billList[indexX])">
+												        <option value="none" translate="Select Payment Mode"> </option>
+														<option value='cash' translate="Cash"> </option>
+														<option value='cheque' translate="Cheque"> </option>
+														<option value='credit' translate="Credit">  </option>
+													   </select>
+																<span class="dropdown_box"></span>
+															</div>
+														</div>
+													</div>
+												</div>
+												<div class="row">
+												<div class="form-group">
+													<button style="min-width: auto;" class="btn_green" ng-disabled = "billList[indexX].isDocIssued" ng-click="savePaymentDetails(); enableInvoiceButton(billList[indexX].paymentType, billList[indexX])">{{'Save'|translate}}</button>
+												</div></div>
+												<div class="row" <div class="col-sm-12 text-right" >
+													<button class="btn_green" ng-click="issueInvoice(billList[indexX])" ng-disabled="{{billList[indexX].hasOwnProperty('isDocIssued')}} && billList[indexX].isDocIssued">{{'Issue an Invoice' | translate}}<i class="fa fa-spinner fa-spin" ng-if="issueInvLoader"></i></button>
+													<button class="btn btn-danger" translate="Print Invoice" ng-click="printInvoice(billList[indexX])"  ng-disabled="!billList[indexX].isDocIssued"></button>
+													<button class="btn-info" ng-click="emailInvoice(billList[indexX])" ng-disabled="!billList[indexX].isDocIssued">{{'Email Invoice' | translate}}<i class="fa fa-spinner fa-spin" ng-if="emailInvLoader"></i></button>
+												</div>
+												
+												<div class="form-group">
+													<div class="row" ng-if="payment.type == 'dc'">
+														<button class=" btn_green" ng-click="openDilogue('debit')">Pay</button>
+													</div>
+												</div>
+												<div class="form-group">
+													<div class="row" ng-if="payment.type == 'cheque'">
+														<button class=" btn_green" ng-click="openDilogue('cheque')">Pay</button>
+													</div>
+												</div>
+												<div class="form-group">
+													<div class="row" ng-if="payment.type == 'cc'">
+														<button class=" btn_green" ng-click="openDilogue('credit')">Pay</button>
+													</div>
+												</div>
+											</div>
+											<div class="clearfix"></div>
+										</div>
+									
+								</div>
+					</div>
+					</accordion-group>
+					<br/>
+					<div class="col-sm-4 form-group clearfix">
+						<a href="#" ng-click="addNewPaymentGroup($event)" ng-if="billList[billList.length - 1].isBillPayed || billList.length == 0"> <i class="fa fa-plus-circle plus-cir" aria-hidden="true"></i>{{'Add Payment'|translate}}</a>
+					</div>
+					</accordion>
+				</div>
+			</div>
+			</form>
+		</div>
+	</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+
+
+<!--<accordion close-others="true" class="accordionDiv">
+	<accordion-group ng-repeat="item in billList" is-open="item.open">
+		<accordion-heading>
+			<span class="pull-left">	 Bill No. #{{$index + 1}} </span><i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': test.open, 'glyphicon-chevron-right': !test.open}"></i>
+			<span ng-if="triageTestList[$index].created_at">Done at: {{ triageTestList[$index].created_at | date : "HH:mm '|' dd.MM.yy" }} By {{ triageTestList[$index].testTakenBy.firstname }}  {{ triageTestList[$index].testTakenBy.lastname }}</span>
+		</accordion-heading>
+		<div class="panel-body">
+			<form class="ng-pristine ng-valid">
+				<div class="row">
+					<div class="col-sm-6">
+
+						<div class="form-group">
+							<div class="row">
+								<div class="col-sm-4">
+									<label translate="Payment for the visit:"></label>
+								</div>
+								<div class="col-sm-2"></div>
+								<div class="col-sm-2">
+									<input class="form-control" value="{{visitData.patientId.kupatCholim.price}}" type="number" ng-model="visitData.patientId.kupatCholim.price">
+								</div>
+								<div class="col-sm-2">
+									<label>ILS</label>
+								</div>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<div class="row">
+								<div class="form-container form-deve">
+									<div ng-repeat="item in paymentItemList track by $index" class="form-group clearfix">
+										<div class="col-sm-3">
+											<label translate="Payment for:"></label>
+										</div>
+										<div class="col-sm-3">
+											<input class="form-control" name="name" ng-model="paymentItemList[$index].name" type="text">
+										</div>
+										<div class="col-sm-2">
+											<input class="form-control" id="price" ng-model="paymentItemList[$index].price" type="number">
+										</div>
+										<div class="col-sm-2">
+											<label translate="ILS"></label>
+										</div>
+										<span ng-hide="item.length == 1">
+														<a href ng-click="paymentItemList.splice($index, 1)" translate="Remove"></a>
+												</span>
+									</div>
+
+									<br/>
+									<div class="col-sm-2 form-group clearfix">
+										<a href ng-click="newPaymentItem($event)" translate="Add payment"></a>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="row">
+								<div class="col-sm-4">
+									<label translate="Previous debt"></label>
+								</div>
+								<div class="col-sm-2"></div>
+								<div class="col-sm-2">
+									<input class="form-control" type="number" ng-model="payment.previousDebt">
+								</div>
+								<div class="col-sm-2">
+									<label translate="ILS"></label>
+								</div>
+							</div>
+						</div>
+						<hr>
+						<div class="form-group">
+							<div class="row">
+								<div class="col-sm-4">
+									<label translate="Total"></label>
+								</div>
+								<div class="col-sm-2"></div>
+								<div class="col-sm-2">
+									<input class="form-control" value="{{sum(paymentItemList, visitData.patientId.kupatCholim.price, payment.previousDebt )}}">
+								</div>
+								<div class="col-sm-2">
+									<label translate="ILS"></label>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<div class="form-group">
+							<div class="row">
+								<div class="col-sm-3">
+									<label translate="Paid with"></label>
+								</div>
+								<div class="col-sm-6">
+									<div class="select_box">
+										<select class="form-control" ng-model="payment.type">
+												        <option value="" translate="Select Payment Mode"> </option>
+														<option value='cash' translate="Cash"> </option>
+														<option value='cheque' translate="Cheque"> </option>
+														<option value='cc' translate="Credit">  </option>
+														<option value='dc' translate="Debit"> </option>
+													</select>
+										<span class="dropdown_box"></span>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="row" ng-if="payment.type == 'dc'">
+								<button class=" btn_green" ng-click="openDilogue('debit')">Pay</button>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="row" ng-if="payment.type == 'cheque'">
+								<button class=" btn_green" ng-click="openDilogue('cheque')">Pay</button>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="row" ng-if="payment.type == 'cc'">
+								<button class=" btn_green" ng-click="openDilogue('credit')">Pay</button>
+							</div>
+						</div>
+					</div>
+					<div class="clearfix"></div>
+				</div>
+				<div class="row" <div class="col-sm-12 text-right">
+					<button class=" btn_green" ng-click="issueInvoice(payment)" translate="Issue an Invoice"></button>
+					<button class="btn btn-danger" translate="Print Invoice"></button>
+					<button class="btn-info" ng-click="emailInvoice()" translate="Email Invoice"></button>
+				</div>
+		</div>
+		</div>
+	</accordion-group>
+	<br/>
+	<div class="col-sm-4 form-group clearfix">
+		<a href="#" ng-click="addtriagetest($event)"> <i class="fa fa-plus-square-o" aria-hidden="true"></i> Add New Payment</a>
+	</div>
+</accordion>-->
+<style>
+	input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+</style>
