@@ -1,0 +1,141 @@
+<!--<section class="animate-fade-up" id="content">-->
+<style type="text/css">
+.input-group .search_box button	{
+    min-width: 40px !important;
+    padding: 12px;
+	
+}
+.input-group .search_box { position: absolute; }
+.input-group .search_box button{     margin: 0;
+    margin-top: -1px; }
+
+
+</style>
+
+<div class="page page-dashboard" ng-init="getUsersList()">
+	<div class="left-menu-top clearfix">
+		<a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button"> <span class="sr-only">Toggle navigation</span> </a>
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+				aria-controls="navbar"> <span class="sr-only">Toggle navigation</span> Menu </button>
+		</div>
+		<div id="navbar" class="navbar-collapse collapse pull-left">
+			<!-- <ul class="nav navbar-nav navbar-right"> -->
+			  <ul class="nav navbar-nav">
+                <li ng-if="(permissionsArray.indexOf('familyDoctors') != -1)"><a ui-sref="familyDoctors" ui-sref-active="active" translate="FamilyDoctors"></a></li>
+                <li  ng-if="(permissionsArray.indexOf('survey') != -1)"><a ui-sref="survey" ui-sref-active="active" translate="Survey"></a></li>
+                <li ng-if="(permissionsArray.indexOf('statuses') != -1)"><a ui-sref="statuses" ui-sref-active="active" translate="Statuses"></a></li>
+                <li ng-if="(permissionsArray.indexOf('index') != -1)"><a ui-sref="index" ui-sref-active="active" translate="Indexes"></a></li>
+                <li ng-if="(permissionsArray.indexOf('Diseases') != -1)"><a ui-sref="Diseases" ui-sref-active="active" translate="Main Complaint"></a></li>
+                <li ng-if="(permissionsArray.indexOf('users') != -1)"><a ui-sref="users" ui-sref-active="active" translate="Users"></a></li>
+                <li ng-if="(permissionsArray.indexOf('roles') != -1)"><a ui-sref="roles" ui-sref-active="active" translate="Roles & Permission"></a></li>
+                <li ng-if="(permissionsArray.indexOf('kupatCholim_list') != -1)"><a ui-sref="kupatCholim_list" ui-sref-active="active" translate="Kupat Cholim"></a></li>
+				<li ng-if="(permissionsArray.indexOf('ipSettings') != -1)"><a ui-sref-active="active" ui-sref="ipSettings" translate="Settings"></a></li>
+
+            </ul>
+		</div>
+	</div>
+
+	
+
+
+
+	
+	<div class="page-inner">
+		<div class="page-title-breadcrumb" id="title-breadcrumb-option-demo">
+			<div class="page-header">
+				<div class="page-title" translate="User List"></div>
+			</div>
+		</div>
+		<div class="clearfix"></div>
+		<div class="page-in-below-head clearfix">
+			<div class="row ">
+				<div class="col-sm-6 col-xs-6">
+					<!--<div class="form-group">
+						<div class="select_box">
+							<input type="text" class="form-control" placeholder="Search term" ng-model="searchTextField" name="searchTerm" ng-change="searching()">
+							<span class="search_box"></span>
+						</div>
+					</div>-->
+					<form name="searchForm" novalidate class="famildr_sear">
+						<div class="input-group">
+							<!-- <span class="input-group-addon">Except for...
+								<input type="checkbox" name="inverted" ng-model="isInvertedSearch" />
+								</span> -->
+							<input type="text" class="form-control" placeholder="{{'Search Term'|translate}}" name="searchTerm" ng-model="searchTextField"
+								required />
+							<span class="search_box">
+								<button type="button" ng-click="searching()" class="glyphicon glyphicon-search btn_green" type="submit">
+							
+							</button>
+							</span>
+							
+						</div>
+					</form>
+				</div>
+				<div class="col-sm-6 col-xs-6">
+					<button class="btn_green pull-right" ui-sref="addUser" translate="Add New"></button>
+				</div>
+			</div>
+			<div class="row ">
+				<div class="col-sm-12">
+					<div class="panel panel-default">
+						<div class="panel-heading" translate="User List"></div>
+						<div class="panel-body">
+							<div class="table-responsive">
+								<table class="table table-bordered table-striped table-responsive" ng-table="tableParams" show-filter="isFiltersVisible">
+									<!--<tr ng-repeat="user in usersList" class="ng-table-sort-header">
+										<td class="header sortable" title="'First Name'| translate" sortable="'firstname'" filter="{title:'text'}" align="left">{{user.firstname |capitalize}}</td>
+										<td class="header sortable" data-title="'Last Name'| translate" sortable="'lastname'" filter="{title:'text'}" align="left">{{user.lastname |capitalize}}</td>
+										<td class="header sortable" data-title="'Email'| translate" sortable="'email'" filter="{title:'text'}" align="left">{{user.email}}</td>
+										<td class="header sortable" data-title="'User Type'| translate" sortable="'userType'" filter="{title:'text'}" align="left">{{user.userType}}</td>
+										<td class="header sortable" data-title="'Mobile Number'|translate" sortable="'mobileNo'" filter="{title:'text'}" align="left">{{user.mobileNo}}</td>
+										 <td data-title="'Status'" sortable="'status' |translate" filter="{title:'text'}" align="left">
+                                                <a href="javascript:void(0)" ng-click="enableDisableUser(user._id, 'Inactive')"><img src="/assets/images/enable.png" title="Active" ng-if="user.status == 'Active'" height="17" width="17"></a>
+                                                <a href="javascript:void(0)" ng-click="enableDisableUser(user._id, 'Active')"><img src="/assets/images/disabled.png" title="Inactive" ng-if="user.status == 'Inactive'" height="14" width="14"></a>
+                                         </td>
+										 <td data-title="'Action'| translate" align='left'>
+                                                <a href="#/dashboard/userlist/adduser/{{user._id}}"><i class="fa fa-pencil-square-o fa-1" aria-hidden="true"></i></a> &nbsp;&nbsp;
+                                                <a href="" ng-click="deleteUser(user._id)"><i class="fa fa-trash-o fa-1" aria-hidden="true"></i></a>
+                                         </td>
+									</tr>-->
+									
+								    <tr ng-repeat="user in usersList">
+										<td title="'User Profile'|translate" sortable="'firstname'" filter="{title:'text'}" align="center"><img ng-src="/img/{{user.profileName}}" class="img-circle" style="height:35px;width:35px;"></td>
+										<td data-title="'First Name'|translate" sortable="'firstname'" filter="{title:'text'}">{{user.firstname}}</td>
+										<td data-title="'Last Name'|translate" sortable="'lastname'" filter="{title:'text'}">{{user.lastname}}</td>
+										<td data-title="'Email'|translate" sortable="'email'" filter="{title:'text'}">{{user.email}}</td>
+										<td data-title="'User Name'|translate" sortable="'username'" filter="{title:'text'}">{{user.username}}</td>
+										<td data-title="'User Type'|translate" sortable="'roleInfo.title'" filter="{title:'text'}">{{user.roleInfo.title}}</td>
+										<td data-title="'Mobile Number'|translate" sortable="'mobileNo'" filter="{title:'text'}">{{user.mobileNo}}</td>
+										<td data-title="'Status'|translate" sortable="'status'" filter="{title:'text'}">
+											<a href="javascript:void(0)" ng-click="enableDisableUser(user._id, 'Inactive')"><img src="/assets/images/enable.png" title="Active" ng-if="user.status == 'Active'" height="17" width="17"></a>
+											<a href="javascript:void(0)" ng-click="enableDisableUser(user._id, 'Active')"><img src="/assets/images/disabled.png" title="Inactive" ng-if="user.status == 'Inactive'" height="14" width="14"></a>
+										</td>
+										<td data-title="'Action'|translate" align='left'>
+											<a href="#/user-edit/{{user._id}}"><i class="fa fa-pencil-square-o fa-1 fa-lg" aria-hidden="true"></i></a> &nbsp;&nbsp;
+											<a href="" ng-click="deleteUser(user._id)"><i class="fa fa-trash-o fa-1 fa-lg" aria-hidden="true"></i></a>
+										</td>
+										</td>
+									</tr>
+									<tr ng-if="tableLoader">
+										<td colspan="7" align="center">
+											<i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+										</td>
+									</tr>
+									<tr ng-if="usersList.length == 0 && !tableLoader">
+										<td colspan="7" align="center" translate="No Record Found"></td>
+									</tr>
+								</table>
+								<!--<div>
+									<dir-pagination-controls direction-links="true" class="pull-right"></dir-pagination-controls>
+								</div>-->
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!--</section>-->

@@ -1,0 +1,143 @@
+<style>
+    .marc{
+        margin-bottom: 10px;
+    }
+    </style><div class="page page-dashboard">
+    <div class="left-menu-top clearfix">
+        <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button"> <span class="sr-only">Toggle navigation</span> </a>
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+                aria-controls="navbar"> <span class="sr-only">Toggle navigation</span> Menu </button>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse pull-left">
+           <ul class="nav navbar-nav">
+                <li ng-if="(permissionsArray.indexOf('familyDoctors') != -1)"><a ui-sref="familyDoctors" ui-sref-active="active" translate="FamilyDoctors"></a></li>
+                <li  ng-if="(permissionsArray.indexOf('survey') != -1)"><a ui-sref="survey" ui-sref-active="active" translate="Survey"></a></li>
+                <li ng-if="(permissionsArray.indexOf('statuses') != -1)"><a ui-sref="statuses" ui-sref-active="active" translate="Statuses"></a></li>
+                <li ng-if="(permissionsArray.indexOf('index') != -1)"><a ui-sref="index" ui-sref-active="active" translate="Indexes"></a></li>
+                <li ng-if="(permissionsArray.indexOf('Diseases') != -1)"><a ui-sref="Diseases" ui-sref-active="active" translate="Main Complaint"></a></li>
+                <li ng-if="(permissionsArray.indexOf('users') != -1)"><a ui-sref="users" ui-sref-active="active" translate="Users"></a></li>
+                <li ng-if="(permissionsArray.indexOf('roles') != -1)"><a ui-sref="roles" ui-sref-active="active" translate="Roles & Permission"></a></li>
+                <li ng-if="(permissionsArray.indexOf('kupatCholim_list') != -1)"><a ui-sref="kupatCholim_list" ui-sref-active="active" translate="Kupat Cholim"></a></li>
+                <li ng-if="(permissionsArray.indexOf('ipSettings') != -1)"><a ui-sref="ipSettings" ui-sref-active="active" translate="Settings"></a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="page-inner" ng-init = "getSettingsData()">
+        <div class="page-title-breadcrumb" id="title-breadcrumb-option-demo">
+            <div class="page-header">
+                <div class="page-title" translate="Settings"></div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="btnTop">
+          <a title="{{'Save'|translate}}"  class="btn btn-xs btn-primary ng-scope" href="" ng-click="addOrUpdateIp()" ng-disabled="form.$invalid" ><i class="fa fa-save"></i>&nbsp;{{'Save'|translate}}</a>
+          <!--<a title="{{'Back'|translate}}" class="btn btn-xs btn-primary ng-scope" ui-sref="roles" ><i class="fa fa-mail-forward" translate="Back"></i></a>-->
+        </div>
+      
+        <div class="page-in-below-head clearfix">
+            <div class="form-container form-deve">
+                <form name="form" novalidate>
+                    <div class="row">
+                        <div class="col-md-10 col-xs-12 pull-left">
+                            <div class="row">
+                            <div class="col-md-6">
+                            <div class="form-group">
+                                <div class="col-md-6"><label translate="EMC IP Address"></label></div>
+                                <div class="col-md-6 marc"><input type="text" class="form-control" ng-model="settings.ip" name="ip" required="" placeholder="{{'IP Address'|translate}}">
+                                <div ng-show="form.$submitted || form.title.$touched">
+                                    <span class="text-danger" ng-show="form.ip.$error.required" translate="IP is required"></span>
+                                </div>
+                                 </div>
+                            </div>
+                            </div>
+                            <div class="col-md-6">
+                            <div class="form-group">
+                                <div class="col-md-6">
+                                <label translate="iCount Client Id"></label></div>
+                                <div class="col-md-6 marc">
+                                <input type="text" class="form-control" ng-model="settings.clientId" name="clientId" required="" placeholder="{{'iCount Client Id'|translate}}">
+                                <div ng-show="form.$submitted || form.title.$touched">
+                                    <span class="text-danger" ng-show="form.clientId.$error.required" translate="iCount Client Id is required"></span>
+                                </div>
+                                </div>
+                            </div>
+                            </div>
+                            </div>
+                            <div class="row">
+                            <div class="col-md-6">
+                            <div class="form-group">
+                                <div class="col-md-6">
+                                <label translate="iCount User Name "></label></div>
+                                <div class="col-md-6 marc">
+                                <input type="text" class="form-control" ng-model="settings.clientUsername" name="clientUsername" required="" placeholder="{{'iCount User Name'|translate}}">
+                                <div ng-show="form.$submitted || form.title.$touched">
+                                    <span class="text-danger" ng-show="form.clientUsername.$error.required" translate="iCount User Name is required"></span>
+                                </div></div>
+                            </div>
+                            </div>
+                   
+                      
+                    
+                            <div class="col-md-6">
+                            <div class="form-group"><div class="col-md-6">
+                                <label translate="iCount Password"></label></div><div class="col-md-6 marc">
+                                <input type="text" class="form-control" ng-model="settings.clientPassword" name="clientPassword" required="" placeholder="{{'iCount Password'|translate}}">
+                                <div ng-show="form.$submitted || form.title.$touched">
+                                    <span class="text-danger" ng-show="form.clientPassword.$error.required" translate="iCount Password is required"></span>
+                                </div></div>
+                            </div>
+                            </div>
+                            </div>
+                                <div class="row">
+                            <div class="col-md-12">
+                            <div class="form-group"><div class="col-md-12">
+                                <label translate="Survey Hebrew Link"></label></div><div class="col-md-12 marc">
+                                    <div class="form-container form-deve">
+									<div class="form-group checkip">
+										<div class="col-sm-11 col-xs-12">
+                                           <label class='ui-checkbox'>
+											<input type="checkbox" ng-model= "settings.isSurveyHwEnabled">
+                                           </label>
+										
+										
+                                    <input type="text" class="form-control" ng-model="settings.surveyHwLink" name="hebrewLink"  placeholder="{{'Survey Hebrew Link'|translate}}">
+									</div>
+								</div>
+                                    </div>
+                                <!--<div ng-show="form.$submitted || form.title.$touched">
+                                    <span class="text-danger" ng-show="form.hebrewLink.$error.required" translate="Hebrew Link is required"></span>
+                                </div>-->
+                                </div>
+                            </div>
+                            </div>
+                            </div>
+                            <div class="col-md-12">
+                            <div class="form-group"><div class="col-md-12">
+                                <label translate="Survey English Link"></label></div><div class=" marc">
+                                    <div class="form-container form-deve">
+									<div class="form-group checkip">
+										
+										<div class="col-sm-11 col-xs-12">
+                                            <label class='ui-checkbox'>
+										    	<input name="checkbox1" type="checkbox" ng-model= "settings.isSurveyEnEnabled">
+                                            </label>
+                                       <input type="text" class="form-control" ng-model="settings.surveyEnLink" name="englishLink" placeholder="{{'Survey English Link'|translate}}">
+                                       </div>
+									</div>
+								</div>
+                               
+                                <!--<div ng-show="form.$submitted || form.title.$touched">
+                                    <span class="text-danger" ng-show="form.englishLink.$error.required" translate="English Link is required"></span>
+                                </div>-->
+                                </div>
+                                
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

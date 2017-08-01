@@ -1,0 +1,129 @@
+<div class="page page-dashboard">
+
+    <!--<div class="page-title-breadcrumb" id="title-breadcrumb-option-demo">
+        <ul class="breadcrumb page-breadcrumb">
+            <li><a href="#">Home</a></li>
+            <span> &nbsp; <i class="fa fa-angle-right"></i> &nbsp;</span>
+            <li class="hidden"><a href="#">Dashboard</a></li>
+            <li class="active"><a href="#">Summary</a></li>
+        </ul>
+    </div>-->
+    <div class="left-menu-top clearfix">
+        <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button"> <span class="sr-only">Toggle navigation</span> </a>
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+                aria-controls="navbar"> <span class="sr-only">Toggle navigation</span> Menu </button>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse pull-left">
+            <!-- <ul class="nav navbar-nav navbar-right"> -->
+            <ul class="nav navbar-nav">
+                <li ng-if="(permissionsArray.indexOf('visitResultHistoryReport') != -1)"><a ui-sref="visitResultHistoryReport"  ui-sref-active="active" translate="History"></a></li>
+                <li ng-if="(permissionsArray.indexOf('visitorsResultReport') != -1)"><a ui-sref="visitorsResultReport"  ui-sref-active="active" translate="Active"></a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="page-inner ">
+           <script type="text/javascript">
+             
+                $(function() {
+                    $('#dateRange').daterangepicker({
+                        "autoApply": true
+                    });
+                });
+                
+        </script>
+        <div class="page-title-breadcrumb" id="title-breadcrumb-option-demo">
+            <div class="page-header">
+                <div class="page-title" translate="Visitors Results Reports"></div>
+            </div>
+
+
+        </div>
+        <div class="clearfix"></div>
+
+        <div class="page-in-below-head clearfix">
+            <div class="row">
+                <form>
+
+                    <!--<div class="col-sm-4">
+                        <div class="form-group">
+                            <label>
+													
+												</label>
+                            <input type="text" class="form-control" value="0213458758">
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label>
+													Date of Birth
+												</label>
+                            <div class="select_dt">
+                                <input type="text" class="form-control" placeholder="DD/MM/YYYY">
+                                <span class="calender-icon"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label>
+													Kupat Cholim
+												</label>
+                            <div class="select_dt">
+                                <select class="form-control">
+														<option>Maccabi</option>
+														
+													</select>
+
+
+                            </div>
+                        </div>
+                    </div>-->
+                 <div class="col-sm-4">
+                     <div style="float: right;">
+                         <label translate="Date range"></label>
+                        <input  class="form-control" placeholder="{{'Date range'|translate}}" ng-model="gameData.dateRange" id="dateRange" type="text" name="dateRange"/>
+                       
+                     </div>
+                 </div>
+                 <!--{{gameData.dateRange}}-->
+                </form>
+            </div>
+            <div class="row">
+                <div class="col-sm-6 col-xs-6">
+					<button class="btn_green pull-right" ng-click = 'generateVisitResultsReport()' translate="Generate Report" ></button>
+				</div>
+            </div>
+            <div class="row" ng-if='showVisitResultsReport'>
+                <div class="btnTop">
+                    <a title="{{'Export'|translate}}" class="btn btn-xs btn-primary ng-scope" ng-click = "exportToExcel('Visit Result')" ng-disabled="list.length == 0"><i class="fa fa-file-excel-o"></i>{{'Export'|translate}}</a>
+                    <a title="{{'Dashboard'|translate}}"  class="btn btn-xs btn-primary ng-scope" href="#/reportDashboard"><i class="fa fa-mail-forward" translate="Back" ></i> </a>
+                </div>
+            </div>
+            <div class="row" ng-if='showVisitResultsReport'>
+                <div class="col-sm-12">
+                        <table class="table table-bordered table-responsive" ng-table="tableParams">
+						 			<tr ng-repeat="visitResult in list track by $index">
+										
+										<td data-title="'Visit Result'|translate"  ng-bind="list[$index].rtype"></td>
+                                        <td data-title="'# of patient'"  align="left"  ng-bind="list[$index].count"></td>
+
+									</tr>
+									<tr ng-if="tableLoader">
+										<td colspan="7" align="center">
+											<i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+										</td>
+									</tr>
+									<tr ng-if="list.length == 0 && !tableLoader">
+										<td colspan="7" align="center" translate="No Record Found"></td>
+									</tr>
+						</table>		   
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row ng-scope">
+
+</div>

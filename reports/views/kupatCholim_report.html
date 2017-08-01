@@ -1,0 +1,108 @@
+<div class="page page-dashboard">
+    <div class="left-menu-top clearfix">
+        <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button"> <span class="sr-only">Toggle navigation</span> </a>
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+                aria-controls="navbar"> <span class="sr-only">Toggle navigation</span> Menu </button>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse pull-left">
+            <!-- <ul class="nav navbar-nav navbar-right"> -->
+            <ul class="nav navbar-nav">
+                <li ng-if="(permissionsArray.indexOf('kupatCholimHistoryReport') != -1)"><a ui-sref="kupatCholimHistoryReport"  ui-sref-active="active">{{'History'|translate}}</a></li>
+                <li ng-if="(permissionsArray.indexOf('kupatCholimReport') != -1)"><a ui-sref="kupatCholimReport"  ui-sref-active="active">{{'Active'|translate}}</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="page-inner ">
+           <script type="text/javascript">
+                // $('#dateRange').daterangepicker().prev().on(function() {
+                //     $(this).next().focus();
+                // });
+                $(function() {
+                    $('#dateRange').daterangepicker({
+                        "autoApply": true
+                    });
+                });
+                // try {
+                //     ace.settings.check('page-inner ', 'fixed')
+                // } catch (e) {
+                // }
+        </script>
+        <div class="page-title-breadcrumb" id="title-breadcrumb-option-demo">
+            <div class="page-header">
+                <div class="page-title">{{'Kupat Cholim Report'|translate}}</div>
+            </div>
+
+
+        </div>
+        <div class="clearfix"></div>
+
+        <div class="page-in-below-head clearfix">
+            <div class="row">
+                <form>
+
+                 <div class="col-sm-4">
+                     <div style="float: right;">
+                        <label>{{'Date range'|translate}}</label>
+                        <input placeholder="{{'Date range'|translate}}" class="form-control" ng-model="gameData.dateRange" id="dateRange" type="text" name="dateRange"/>
+                       
+                     </div>
+                 </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label>
+								{{'Kupat Cholim'|translate}} 
+							</label>
+                            <div class="select_dt" ng-init="getkupatCholim();">
+                                <select class="form-control" ng-model="kupatCholim" >   
+                                    <option value="" translate="Select"></option>
+									<option ng-repeat="kupat in kupatCholimlist" ng-selected="kupatCholim == kupat._id" value="{{kupat._id}}">{{kupat.name}}</option>
+								</select>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="row">
+                <div class="col-sm-6 col-xs-6">
+					<button class="btn_green pull-right" ng-click = 'generateKupatCholimReport()' >{{'Generate Report'|translate}}</button>
+				</div>
+            </div>
+            <div class="row" ng-if='showKupatCholimReport'>
+                <div class="btnTop">
+                    <a title="Export" class="btn btn-xs btn-primary ng-scope" ng-click = "exportToExcel('Kupat Cholim')" ng-disabled="list.length == 0"><i class="fa fa-file-excel-o"></i> {{'Export'|translate}}</a>
+                    <a title="Dashboard" class="btn btn-xs btn-primary ng-scope" href=""><i class="fa fa-mail-forward" ></i> {{'Back'|translate}} </a>
+                </div>
+            </div>
+                 <div class="row" ng-if='showKupatCholimReport'>
+                <div class="col-sm-12">
+                        <table class="table table-bordered table-responsive" ng-table="tableParams">
+						 			<tr ng-repeat="item in list track by $index">
+										
+										<td data-title="'Patient Id'|translate"  ng-bind="list[$index].patientInfo.patientId"></td>
+                                       
+                                        <td data-title="'Patient Name'|translate"  ng-bind="list[$index].patientInfo.firstname"></td>
+                                        <td data-title="'Visit Date'|translate" >{{list[$index].visitStart | date : "HH:mm    dd.MM.yy"}}</td>
+                                        <td data-title="'Visit Result'|translate"  ng-bind="list[$index].treatmentResultType"></td>
+                                        <td data-title="'Payment Paid'|translate"  ng-bind="list[$index].isPaymentDone == 1 ? 'Paid' : 'Not Paid'|translate"></td>
+                                            
+                                        
+									</tr>
+									<tr ng-if="tableLoader">
+										<td colspan="7" align="center">
+											<i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+										</td>
+									</tr>
+									<tr ng-if="list.length == 0 && !tableLoader">
+										<td colspan="7" align="center" translate="No Record Found"></td>
+									</tr>
+						</table>		   
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row ng-scope">
+
+</div>

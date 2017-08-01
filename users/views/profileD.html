@@ -1,0 +1,154 @@
+
+
+ <div class="page page-dashboard" ng-init="getUserByToken();getRolesList()">
+<div class="left-menu-top clearfix"> <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button"> <span class="sr-only">Toggle navigation</span> </a>
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"> <span class="sr-only">Toggle navigation</span> Menu </button>
+      </div>
+      <div id="navbar" class="navbar-collapse collapse pull-left"> 
+       
+       <ul class="nav navbar-nav">
+                <li ng-if="(permissionsArray.indexOf('familyDoctors') != -1)"><a ui-sref="familyDoctors" ui-sref-active="active" translate="FamilyDoctors"></a></li>
+                <li  ng-if="(permissionsArray.indexOf('survey') != -1)"><a ui-sref="survey" ui-sref-active="active" translate="Survey"></a></li>
+                <li ng-if="(permissionsArray.indexOf('statuses') != -1)"><a ui-sref="statuses" ui-sref-active="active" translate="Statuses"></a></li>
+                <li ng-if="(permissionsArray.indexOf('index') != -1)"><a ui-sref="index" ui-sref-active="active" translate="Indexes"></a></li>
+                <li ng-if="(permissionsArray.indexOf('Diseases') != -1)"><a ui-sref="Diseases" ui-sref-active="active" translate="Main Complaint"></a></li>
+                <li ng-if="(permissionsArray.indexOf('users') != -1)"><a ui-sref="users" ui-sref-active="active" translate="Users"></a></li>
+                <li ng-if="(permissionsArray.indexOf('roles') != -1)"><a ui-sref="roles" ui-sref-active="active" translate="Roles & Permission"></a></li>
+                <li ng-if="(permissionsArray.indexOf('kupatCholim_list') != -1)"><a ui-sref="kupatCholim_list" ui-sref-active="active" translate="Kupat Cholim"></a></li>
+				<li ng-if="(permissionsArray.indexOf('ipSettings') != -1)"><a ui-sref-active="active" ui-sref="ipSettings" translate="Settings"></a></li>
+
+            </ul>
+      </div>
+    </div>
+  <div class="page-inner">
+		<div class="page-title-breadcrumb" id="title-breadcrumb-option-demo">
+			<div class="page-header">
+				<div class="page-title" translate="My Profile"></div>
+			</div>
+	
+		</div>
+		<div class="clearfix"></div>
+		<div class="btnTop">
+			
+			<a title="{{'Update'|translate}}"  class="btn btn-xs btn-primary ng-scope" href="" ng-click ="updateProfile(UserProfile)"><i class="fa fa-save"></i>&nbsp;&nbsp;{{'Update'|translate}}  </a>
+			<a title="{{'Change Password'|translate}}"  class="btn btn-xs btn-primary ng-scope" href="" ng-click="openDilogue('resetpassword',UserProfile._id)"><i class="fa fa-lock"></i> {{'Change Password'|translate}} </a>				
+		  </div>
+		<div class="page-in-below-head clearfix">
+			<div class="form-container form-deve">
+				<form name="form">
+					<div class="row">
+						<div class="col-lg-4 col-md-4 col-sm-4 pull-left">
+								<div>   
+					            	<img ng-src="/img/{{UserProfile.profileName}}" class="img-circle" style="height:150px;width:150px;"/>
+									<img ng-src="{{croppedDataUrl}}" ng-model="picFile" class="img-circle" style="height:150px;width:150px;"/>   <br>  
+									<div ng-show ="picFile" ngf-drop  ngf-pattern="'image/*'"class="cropArea">
+									<img-crop image="picFile  | ngfDataUrl" result-image="croppedDataUrl" ng-init="croppedDataUrl=''"></img-crop>
+		                         		</div>
+										 <br>
+									<div class="form-group" ng-class="{ 'has-error' : form.picFile.$invalid && form.picFile.$dirty }">
+						        	<input name="picFile" type="file" class="form-control" ngf-select ng-model="picFile" ngf-accept="'image/*'" ngf-max-size="20MB" ngf-min-height="100" ngf-resize="{width: 200, height: 200}" required>
+									<br>
+									<button class="btn_green" ng-disabled="!picFile " ng-click="uploadImage(croppedDataUrl,picFile.name)"> <i class="fa fa-upload" translate=""></i>&nbsp;&nbsp;{{'Upload'|translate}}</button>
+									</div>
+									<br>
+								</div>
+						</div>
+						</div>
+						<!--<br>-->
+						<div class="col-lg-10 col-md-10 col-sm-9 pull-left">
+							<div class="row">
+								<div class="col-sm-6">
+									<div class="form-group">
+										<label translate="First Name" ></label><br>
+										<input type="text" class="form-control" ng-model="UserProfile.firstname">
+									</div>
+								</div>
+									<div class="col-sm-6">
+									<div class="form-group">
+										<label translate="Last Name"></label><br>
+										<input type="text" class="form-control" ng-model="UserProfile.lastname">
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-6">
+								<div class="form-group" ng-class="{ 'has-error' : form.email.$invalid && form.email.$dirty }">
+									<label translate="Email">
+								</label>
+									<input type="text" name="email" class="form-control" ng-model="UserProfile.email" ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/" maxlength="30" required>
+									<span class="text-danger" ng-show="form.email.$invalid && form.email.$dirty">
+                                        <span ng-show="form.email.$error.required && form.email.$dirty" translate="Email is required."></span>
+										<span ng-show="form.email.$error.pattern" translate="Please enter a valid email address"></span>
+									</span>
+								</div>
+								</div>
+								<div class="col-sm-6">
+									<div class="form-group">
+										<label translate="User Name"></label><br>
+										<input type="text" class="form-control" ng-model="UserProfile.username">
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-6">
+									<div class="form-group" ng-class="{ 'has-error' : form.mobileNo.$invalid && form.mobileNo.$dirty }">
+									<label translate="Mobile Number">
+									
+								</label>
+									<input type="text" name="mobileNo" class="form-control" ng-model="UserProfile.mobileNo" ng-pattern="/^[0-9]*$/" ng-maxlength="10" maxlength="10" required>
+									<span class="text-danger" ng-show="form.mobileNo.$invalid && form.mobileNo.$dirty">
+                                        <span ng-show="form.mobileNo.$error.required && form.mobileNo.$dirty" translate="Mobile Number is required."></span>
+										<span ng-show="form.mobileNo.$error.pattern" translate="Allowed only number for mobile number."></span>
+										<span ng-show="form.mobileNo.$error.maxlength" translate="Too long. Use 10 numbers or less"></span>
+									</span>
+								</div>
+								</div>
+								
+								<div class="col-sm-6">
+									<div class="form-group">
+										<label translate="Address">
+											 
+										</label><br>
+									
+										<input type="text" class="form-control" ng-model="UserProfile.Address">
+									</div>
+								</div>
+							</div>
+							<!--<button class="btn_green" ng-click ="updateProfile(UserProfile)" translate="Update"></button>
+							  <button class="btn_green" ng-click="openDilogue('resetpassword',UserProfile._id)" aria-hidden="true" translate="Change Password"></button>
+							-->
+							</div>
+						
+					
+				</form>
+				</div>					
+					</div>
+
+			</div>
+		</div>
+	 </div>    
+</div>
+<style>
+	.cropArea {
+    background:white;
+    overflow: hidden;
+    width:200px;
+    height:200px;
+}
+form .progress {
+    line-height: 15px;
+}
+.progress {
+    display: inline-block;
+    width: 100px;
+    border: 3px groove #CCC;
+}
+.progress div {
+    font-size: smaller;
+    background: orange;
+    width: 0;
+}
+ 
+
+</style>
